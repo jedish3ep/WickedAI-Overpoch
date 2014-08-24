@@ -90,17 +90,26 @@ true
 ] call spawn_static;
 
 //CREATE MARKER
-_Major1 =	createMarker ["_Major1", _position];
-_Major1 setMarkerText "";
-_Major1 setMarkerColor "ColorRed";
-_Major1 setMarkerShape "ELLIPSE";
-_Major1 setMarkerBrush "Solid";
-_Major1 setMarkerSize [300,300];
+while {missionrunning} do {
+	_Major1 =	createMarker ["_Major1", _position];
+	_Major1 setMarkerText "";
+	_Major1 setMarkerColor "ColorRed";
+	_Major1 setMarkerShape "ELLIPSE";
+	_Major1 setMarkerBrush "Solid";
+	_Major1 setMarkerSize [300,300];
 
-_Major2 =	createMarker ["_Major2", _position];
-_Major2 setMarkerColor "ColorBlack";
-_Major2 setMarkerType "mil_dot";
-_Major2 setMarkerText _missionName;
+	_Major2 =	createMarker ["_Major2", _position];
+	_Major2 setMarkerColor "ColorBlack";
+	_Major2 setMarkerType "mil_dot";
+	_Major2 setMarkerText _missionName;
+	sleep 30;
+	deleteMarker _Major1;
+	deleteMarker _Major2;
+};
+if (_Major1 == "Mission") then {
+	deleteMarker _Major1;
+	deleteMarker _Major2;
+};
 
 _hint = parseText format ["<t align='center' color='#FF0000' shadow='2' size='1.75'>Priority Transmission</t><br/><t align='center' color='#FF0000'>------------------------------</t><br/><t align='center' color='#FFFFFF' size='1.25'>Main Mission</t><br/><t align='center'><img size='5' image='%1'/></t><br/><t align='center' color='#FFFFFF'>A bandit %2 is taking off with a crate of snipers! Save the cargo and keep the guns for yourself</t>", _picture, _vehname];
 [nil,nil,rHINT,_hint] call RE;

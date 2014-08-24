@@ -61,17 +61,26 @@ true					  // mission true
 ] call spawn_group;
 
 //CREATE MARKER
-_Minor1 =	createMarker ["_Minor1", _position];
-_Minor1 setMarkerText "";
-_Minor1 setMarkerColor "ColorRed";
-_Minor1 setMarkerShape "ELLIPSE";
-_Minor1 setMarkerBrush "Solid";
-_Minor1 setMarkerSize [200,200];
+while {minor_missionrunning} do {
+	_Minor1 =	createMarker ["_Minor1", _position];
+	_Minor1 setMarkerText "";
+	_Minor1 setMarkerColor "ColorRed";
+	_Minor1 setMarkerShape "ELLIPSE";
+	_Minor1 setMarkerBrush "Solid";
+	_Minor1 setMarkerSize [200,200];
 
-_Minor2 =	createMarker ["_Minor2", _position];
-_Minor2 setMarkerColor "ColorBlack";
-_Minor2 setMarkerType "mil_dot";
-_Minor2 setMarkerText _missionName;
+	_Minor2 =	createMarker ["_Minor2", _position];
+	_Minor2 setMarkerColor "ColorBlack";
+	_Minor2 setMarkerType "mil_dot";
+	_Minor2 setMarkerText _missionName;
+	sleep 30;
+	deleteMarker _Minor1;
+	deleteMarker _Minor2;
+};
+if (_Minor1 == "Mission") then {
+	deleteMarker _Minor1;
+	deleteMarker _Minor2;
+};
 
 
 [nil,nil,rTitleText,"A Group of well-armed Survivors have just bought a new Vehicle\nTake their lives and their vehicle", "PLAIN",10] call RE;

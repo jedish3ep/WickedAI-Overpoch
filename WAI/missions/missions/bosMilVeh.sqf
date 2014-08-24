@@ -93,17 +93,26 @@ true
 ] call spawn_static;
 
 //CREATE MARKER
-_Major1 =	createMarker ["_Major1", _position];
-_Major1 setMarkerText "";
-_Major1 setMarkerColor "ColorRed";
-_Major1 setMarkerShape "ELLIPSE";
-_Major1 setMarkerBrush "Solid";
-_Major1 setMarkerSize [300,300];
+while {missionrunning} do {
+	_Major1 =	createMarker ["_Major1", _position];
+	_Major1 setMarkerText "";
+	_Major1 setMarkerColor "ColorRed";
+	_Major1 setMarkerShape "ELLIPSE";
+	_Major1 setMarkerBrush "Solid";
+	_Major1 setMarkerSize [300,300];
 
-_Major2 =	createMarker ["_Major2", _position];
-_Major2 setMarkerColor "ColorBlack";
-_Major2 setMarkerType "mil_dot";
-_Major2 setMarkerText _missionName;
+	_Major2 =	createMarker ["_Major2", _position];
+	_Major2 setMarkerColor "ColorBlack";
+	_Major2 setMarkerType "mil_dot";
+	_Major2 setMarkerText _missionName;
+	sleep 30;
+	deleteMarker _Major1;
+	deleteMarker _Major2;
+};
+if (_Major1 == "Mission") then {
+	deleteMarker _Major1;
+	deleteMarker _Major2;
+};
 
 [nil,nil,rTitleText,"The Brotherhood of Steel have stolen an armed vehicle\nKill Them and steal it back", "PLAIN",10] call RE;
 
