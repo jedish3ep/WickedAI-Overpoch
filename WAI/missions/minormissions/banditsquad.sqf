@@ -19,26 +19,7 @@ true
 ] call spawn_group;
 
 //CREATE MARKER
-while {minor_missionrunning} do {
-	_Minor1 =	createMarker ["_Minor1", _position];
-	_Minor1 setMarkerText "";
-	_Minor1 setMarkerColor "ColorRed";
-	_Minor1 setMarkerShape "ELLIPSE";
-	_Minor1 setMarkerBrush "Solid";
-	_Minor1 setMarkerSize [200,200];
-
-	_Minor2 =	createMarker ["_Minor2", _position];
-	_Minor2 setMarkerColor "ColorBlack";
-	_Minor2 setMarkerType "mil_dot";
-	_Minor2 setMarkerText _missionName;
-	sleep 30;
-	deleteMarker _Minor1;
-	deleteMarker _Minor2;
-};
-if (_Minor1 == "Mission") then {
-	deleteMarker _Minor1;
-	deleteMarker _Minor2;
-};
+[_position,_missionName] execVM wai_minor_marker;
 
 [nil,nil,rTitleText,"A Bandit Squad has been spotted!\nStop them from completing their patrol!", "PLAIN",10] call RE;
 
@@ -66,8 +47,6 @@ if (_playerPresent) then {
 	};
 	diag_log format["WAI: Mission bandSquad Ended At %1",_position];
 	[nil,nil,rTitleText,"All bandits bagged and tagged, Nice Work!", "PLAIN",10] call RE;
-	deleteMarker "_Minor1";
-	deleteMarker "_Minor2";
 } else {
 	clean_running_minor_mission = True;
 	{_cleanunits = _x getVariable "missionclean";
@@ -85,7 +64,5 @@ if (_playerPresent) then {
 	
 	diag_log format["WAI: Mission bandSquad Timed Out At %1",_position];
 	[nil,nil,rTitleText,"The Bandit Squad have completed their patrol - Mission Failed", "PLAIN",10] call RE;
-	deleteMarker "_Minor1";
-	deleteMarker "_Minor2";
 };
 minor_missionrunning = false;

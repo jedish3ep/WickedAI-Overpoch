@@ -85,26 +85,7 @@ true
 
 
 //CREATE MARKER
-while {minor_missionrunning} do {
-	_Minor1 =	createMarker ["_Minor1", _position];
-	_Minor1 setMarkerText "";
-	_Minor1 setMarkerColor "ColorRed";
-	_Minor1 setMarkerShape "ELLIPSE";
-	_Minor1 setMarkerBrush "Solid";
-	_Minor1 setMarkerSize [200,200];
-
-	_Minor2 =	createMarker ["_Minor2", _position];
-	_Minor2 setMarkerColor "ColorBlack";
-	_Minor2 setMarkerType "mil_dot";
-	_Minor2 setMarkerText _missionName;
-	sleep 30;
-	deleteMarker _Minor1;
-	deleteMarker _Minor2;
-};
-if (_Minor1 == "Mission") then {
-	deleteMarker _Minor1;
-	deleteMarker _Minor2;
-};
+[_position,_missionName] execVM wai_minor_marker;
 
 [nil,nil,rTitleText,"A Truck carrying vehicle ammo has been spotted, Kill the militia and claim the ammo", "PLAIN",10] call RE;
 
@@ -133,8 +114,6 @@ if (_playerPresent) then {
 	};
 	diag_log format["WAI: Mission vehAmmo Ended At %1",_position];
 	[nil,nil,rTitleText,"Mission Complete - Job well done boys!", "PLAIN",10] call RE;
-	deleteMarker "_Minor1";
-	deleteMarker "_Minor2";
 } else {
 	clean_running_minor_mission = True;
 	deleteVehicle _veh;
@@ -154,7 +133,5 @@ if (_playerPresent) then {
 	
 	diag_log format["WAI: Mission vehAmmo Timed Out At %1",_position];
 	[nil,nil,rTitleText,"The militia escaped! Mission Failed", "PLAIN",10] call RE;
-	deleteMarker "_Minor1";
-	deleteMarker "_Minor2";
 };
 minor_missionrunning = false;

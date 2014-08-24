@@ -93,27 +93,7 @@ true						// mission true
 true
 ] call spawn_static;
 
-//CREATE MARKER
-while {missionrunning} do {
-	_Major1 =	createMarker ["_Major1", _position];
-	_Major1 setMarkerText "";
-	_Major1 setMarkerColor "ColorRed";
-	_Major1 setMarkerShape "ELLIPSE";
-	_Major1 setMarkerBrush "Solid";
-	_Major1 setMarkerSize [300,300];
-
-	_Major2 =	createMarker ["_Major2", _position];
-	_Major2 setMarkerColor "ColorBlack";
-	_Major2 setMarkerType "mil_dot";
-	_Major2 setMarkerText _missionName;
-	sleep 30;
-	deleteMarker _Major1;
-	deleteMarker _Major2;
-};
-if (_Major1 == "Mission") then {
-	deleteMarker _Major1;
-	deleteMarker _Major2;
-};
+[_position,_missionName] execVM wai_marker;
 
 [nil,nil,rTitleText,"The Russian Military has been spotted with a Vodnik BPPU\nKill Them and claim it for yourself", "PLAIN",10] call RE;
 
@@ -142,8 +122,6 @@ if (_playerPresent) then {
 	};
 	diag_log format["WAI: Mission milVeh Ended At %1",_position];
 	[nil,nil,rTitleText,"The Russians have been wiped out, and the Vodnik has been taken", "PLAIN",10] call RE;
-	deleteMarker "_Major1";
-	deleteMarker "_Major2";
 } else {
 	clean_running_mission = True;
 	deleteVehicle _veh;
@@ -163,7 +141,5 @@ if (_playerPresent) then {
 	
 	diag_log format["WAI: Mission milVeh Timed Out At %1",_position];
 	[nil,nil,rTitleText,"The Russian Military have fled", "PLAIN",10] call RE;
-	deleteMarker "_Major1";
-	deleteMarker "_Major2";
 };
 missionrunning = false;

@@ -89,26 +89,7 @@ true
 ] call spawn_static;
 
 //CREATE MARKER
-while {missionrunning} do {
-	_Major1 =	createMarker ["_Major1", _position];
-	_Major1 setMarkerText "";
-	_Major1 setMarkerColor "ColorRed";
-	_Major1 setMarkerShape "ELLIPSE";
-	_Major1 setMarkerBrush "Solid";
-	_Major1 setMarkerSize [300,300];
-
-	_Major2 =	createMarker ["_Major2", _position];
-	_Major2 setMarkerColor "ColorBlack";
-	_Major2 setMarkerType "mil_dot";
-	_Major2 setMarkerText _missionName;
-	sleep 30;
-	deleteMarker _Major1;
-	deleteMarker _Major2;
-};
-if (_Major1 == "Mission") then {
-	deleteMarker _Major1;
-	deleteMarker _Major2;
-};
+[_position,_missionName] execVM wai_marker;
 
 _hint = parseText format ["<t align='center' color='#FF0000' shadow='2' size='1.75'>Priority Transmission</t><br/><t align='center' color='#FF0000'>------------------------------</t><br/><t align='center' color='#FFFFFF' size='1.25'>Main Mission</t><br/><t align='center'><img size='5' image='%1'/></t><br/><t align='center' color='#FFFFFF'>A group of bandits have pulled off a jewel heist!</t><br/><t align='center' color='#FFFFFF'>They have been spotted in the woods. Kill them all and secure the jewels for yourself!</t>", _picture];
 [nil,nil,rHINT,_hint] call RE;
@@ -137,8 +118,6 @@ if (_playerPresent) then {
 	};
 	diag_log format["WAI: Mission Jewel Heist Ended At %1",_position];
 	[nil,nil,rTitleText,"Survivors have killed the bandits and taken the jewels,\nWell Done!", "PLAIN",10] call RE;
-	deleteMarker "_Major1";
-	deleteMarker "_Major2";
 } else {
 	clean_running_mission = True;
 	deleteVehicle _veh;
@@ -158,7 +137,5 @@ if (_playerPresent) then {
 	
 	diag_log format["WAI: Mission Jewel Heist Timed Out At %1",_position];
 	[nil,nil,rTitleText,"The bandits got away with the jewels!", "PLAIN",10] call RE;
-	deleteMarker "_Major1";
-	deleteMarker "_Major2";
 };
 missionrunning = false;

@@ -94,26 +94,7 @@ true						// mission true
 [[(_position select 0),(_position select 1),0],[0,0,0],400,"BAF_Merlin_HC3_D",10,1,"Random",4,"","USMC_LHD_Crew_Blue","Random",False] spawn heli_para;
 
 //CREATE MARKER
-while {missionrunning} do {
-	_Major1 =	createMarker ["_Major1", _position];
-	_Major1 setMarkerText "";
-	_Major1 setMarkerColor "ColorRed";
-	_Major1 setMarkerShape "ELLIPSE";
-	_Major1 setMarkerBrush "Solid";
-	_Major1 setMarkerSize [300,300];
-
-	_Major2 =	createMarker ["_Major2", _position];
-	_Major2 setMarkerColor "ColorBlack";
-	_Major2 setMarkerType "mil_dot";
-	_Major2 setMarkerText _missionName;
-	sleep 30;
-	deleteMarker _Major1;
-	deleteMarker _Major2;
-};
-if (_Major1 == "Mission") then {
-	deleteMarker _Major1;
-	deleteMarker _Major2;
-};
+[_position,_missionName] execVM wai_marker;
 
 _hint = parseText format ["<t align='center' color='#FF0000' shadow='2' size='1.75'>Priority Transmission</t><br/><t align='center' color='#FF0000'>------------------------------</t><br/><t align='center' color='#FFFFFF' size='1.25'>Main Mission</t><br/><t align='center'><img size='5' image='%1'/></t><br/><t align='center' color='#FFFFFF'>%2 : An Ikea delivery has been hijacked by Bandits, Take over the convoy and the building supplies are all yours!</t>", _picture, _missionName];
 [nil,nil,rHINT,_hint] call RE;
@@ -144,8 +125,6 @@ if (_playerPresent) then {
 	};
 	diag_log format["WAI: Mission Convoy Ended At %1",_position];
 	[nil,nil,rTitleText,"Survivors have secured the building supplies!", "PLAIN",10] call RE;
-	deleteMarker "_Major1";
-	deleteMarker "_Major2";
 } else {
 	clean_running_mission = True;
 	deleteVehicle _veh;
@@ -167,7 +146,5 @@ if (_playerPresent) then {
 	
 	diag_log format["WAI: Mission Convoy timed out At %1",_position];
 	[nil,nil,rTitleText,"Survivors did not secure the convoy in time!", "PLAIN",10] call RE;
-	deleteMarker "_Major1";
-	deleteMarker "_Major2";
 };
 missionrunning = false;

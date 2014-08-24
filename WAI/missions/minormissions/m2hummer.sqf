@@ -76,26 +76,7 @@ true					  // mission true
 
 
 //CREATE MARKER
-while {minor_missionrunning} do {
-	_Minor1 =	createMarker ["_Minor1", _position];
-	_Minor1 setMarkerText "";
-	_Minor1 setMarkerColor "ColorRed";
-	_Minor1 setMarkerShape "ELLIPSE";
-	_Minor1 setMarkerBrush "Solid";
-	_Minor1 setMarkerSize [200,200];
-
-	_Minor2 =	createMarker ["_Minor2", _position];
-	_Minor2 setMarkerColor "ColorBlack";
-	_Minor2 setMarkerType "mil_dot";
-	_Minor2 setMarkerText _missionName;
-	sleep 30;
-	deleteMarker _Minor1;
-	deleteMarker _Minor2;
-};
-if (_Minor1 == "Mission") then {
-	deleteMarker _Minor1;
-	deleteMarker _Minor2;
-};
+[_position,_missionName] execVM wai_minor_marker;
 
 [nil,nil,rTitleText,"US Forces have been spotted with a GPK M2 Hummer\nKill the soldiers and make the vehicle your own!", "PLAIN",10] call RE;
 
@@ -124,8 +105,6 @@ if (_playerPresent) then {
 	};
 	diag_log format["WAI: Mission m2hummer Ended At %1",_position];
 	[nil,nil,rTitleText,"US Forces have been wiped out, Good Work!", "PLAIN",10] call RE;
-	deleteMarker "_Minor1";
-	deleteMarker "_Minor2";
 } else {
 	clean_running_minor_mission = True;
 	deleteVehicle _veh;
@@ -145,7 +124,5 @@ if (_playerPresent) then {
 	
 	diag_log format["WAI: Mission m2hummer Timed Out At %1",_position];
 	[nil,nil,rTitleText,"The US Forces have left the Area - Mission Failed", "PLAIN",10] call RE;
-	deleteMarker "_Minor1";
-	deleteMarker "_Minor2";
 };
 minor_missionrunning = false;

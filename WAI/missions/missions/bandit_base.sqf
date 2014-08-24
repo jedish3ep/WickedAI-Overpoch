@@ -62,26 +62,7 @@ _rndnum = round (random 3) + 4;
 [[(_position select 0), (_position select 1), 0],[7743.41, 7040.93, 0],400,"Mi17_TK_EP1",10,1,"Random",4,"","Ins_Soldier_GL_DZ","Random",True] spawn heli_para;
 
 //CREATE MARKER
-while {missionrunning} do {
-	_Major1 =	createMarker ["_Major1", _position];
-	_Major1 setMarkerText "";
-	_Major1 setMarkerColor "ColorRed";
-	_Major1 setMarkerShape "ELLIPSE";
-	_Major1 setMarkerBrush "Solid";
-	_Major1 setMarkerSize [300,300];
-
-	_Major2 =	createMarker ["_Major2", _position];
-	_Major2 setMarkerColor "ColorBlack";
-	_Major2 setMarkerType "mil_dot";
-	_Major2 setMarkerText _missionName;
-	sleep 30;
-	deleteMarker _Major1;
-	deleteMarker _Major2;
-};
-if (_Major1 == "Mission") then {
-	deleteMarker _Major1;
-	deleteMarker _Major2;
-};
+[_position,_missionName] execVM wai_marker;
 
 _hint = parseText format ["<t align='center' color='#FF0000' shadow='2' size='1.75'>Priority Transmission</t><br/><t align='center' color='#FF0000'>------------------------------</t><br/><t align='center' color='#FFFFFF' size='1.25'>Main Mission</t><br/><t align='center' color='#FFFFFF'>%1 : A Jungle task force have set up a temporary encampment! Go and ambush it to make it yours!</t>",_missionName];
 [nil,nil,rHINT,_hint] call RE;
@@ -108,8 +89,6 @@ if (_playerPresent) then {
 	};
 	diag_log format["WAI: Mission BaseBandit Ended At %1",_position];
 	[nil,nil,rTitleText,"Survivors captured the base, HOOAH!!", "PLAIN",10] call RE;
-	deleteMarker "_Major1";
-	deleteMarker "_Major2";
 } else {
 	clean_running_mission = True;
 	deleteVehicle _box;
@@ -128,8 +107,6 @@ if (_playerPresent) then {
  
 	diag_log format["WAI: Mission Base Bandit At %1",_position];
 	[nil,nil,rTitleText,"The survivors were unable to capture the base time is up!", "PLAIN",10] call RE;
-	deleteMarker "_Major1";
-	deleteMarker "_Major2";
 };
  
 missionrunning = false;
