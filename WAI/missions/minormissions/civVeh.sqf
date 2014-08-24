@@ -110,4 +110,4 @@ if (_playerPresent) then {
 	diag_log format["WAI: Mission civVeh Timed Out At %1",_position];
 	[nil,nil,rTitleText,"The survivors have made off with the Vehicle - Mission Failed", "PLAIN",10] call RE;
 };
-missionrunning = false;
+minor_missionrunning = false;
