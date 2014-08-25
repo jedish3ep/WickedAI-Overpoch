@@ -6,17 +6,17 @@ if(isServer) then {
 
 	_Minor1 	= "";
 	_Minor2 		= "";
-	markerready = false;
+	minor_markerready = false;
 
-	while {missionrunning} do {
+	while {minor_missionrunning} do {
 
-		_Minor1 		= createMarker ["Mission", _position];
+		_Minor1 		= createMarker ["MinorMission", _position];
 		_Minor1 		setMarkerColor "ColorRed";
 		_Minor1 		setMarkerShape "ELLIPSE";
 		_Minor1 		setMarkerBrush "Solid";
 		_Minor1 		setMarkerSize [200,200];
 		_Minor1 		setMarkerText _name;
-		_Minor2 			= createMarker ["dot", _position];
+		_Minor2 			= createMarker ["Minordot", _position];
 		_Minor2 			setMarkerColor "ColorBlack";
 		_Minor2 			setMarkerType "mil_dot";
 		_Minor2 			setMarkerText _name;
@@ -28,12 +28,12 @@ if(isServer) then {
 
 	};
 
-	if (_Minor1 == "Mission") then {
+	if (_Minor1 == "MinorMission") then {
 
 		deleteMarker 	_Minor1;
 		deleteMarker 	_Minor2;
 
 	};
 
-	markerready = true;
+	minor_markerready = true;
 };
