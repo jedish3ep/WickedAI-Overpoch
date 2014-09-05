@@ -1,8 +1,13 @@
-private ["_position","_box","_missiontimeout","_cleanmission","_playerPresent","_starttime","_currenttime","_cleanunits","_rndnum","_box2","_missionName","_vehclass","_hint"];
+private ["_position","_box","_missiontimeout","_cleanmission","_playerPresent","_starttime","_currenttime","_cleanunits","_rndnum","_box2","_missionName","_vehclass","_hint","_tanktraps"];
 _vehclass = armed_vehicle call BIS_fnc_selectRandom;
 _missionName = "Military Camp";
  
 _position = [getMarkerPos "center",0,5500,10,0,2000,0] call BIS_fnc_findSafePos;
+
+// deploy roadkill defense (or not)
+if(wai_enable_tank_traps) then {
+_tanktraps = [_position] call tank_traps;
+};
 
 //Extra Large Gun Box
  _box = createVehicle ["RUVehicleBox",[(_position select 0) -15,(_position select 1),0], [], 0, "CAN_COLLIDE"];

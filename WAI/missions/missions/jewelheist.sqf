@@ -1,6 +1,6 @@
 // Jewel Heist by JakeHekesFists
 
-private ["_playerPresent","_cleanmission","_currenttime","_starttime","_missiontimeout","_vehname","_veh","_position","_vehclass","_vehdir","_objPosition","_missionName","_hint","_picture"];
+private ["_playerPresent","_cleanmission","_currenttime","_starttime","_missiontimeout","_vehname","_veh","_position","_vehclass","_vehdir","_objPosition","_missionName","_hint","_picture","_tanktraps"];
 
 _vehclass = armed_vehicle call BIS_fnc_selectRandom;
 
@@ -14,6 +14,11 @@ _position = _positionarray call BIS_fnc_selectRandom;
 // Crate full of jewels
 _box = createVehicle ["BAF_VehicleBox",[(_position select 0),(_position select 1) + 5,0], [], 0, "CAN_COLLIDE"];
 [_box] call Jewel_Heist_Box;
+
+// deploy roadkill defense (or not)
+if(wai_enable_tank_traps) then {
+_tanktraps = [_position] call tank_traps;
+};
 
 
 // Armed Vehicle

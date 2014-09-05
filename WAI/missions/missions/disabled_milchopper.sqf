@@ -1,6 +1,6 @@
 //Military Chopper
 
-private ["_playerPresent","_cleanmission","_currenttime","_starttime","_missiontimeout","_vehname","_veh","_position","_vehclass","_vehdir","_objPosition","_missionName","_hint","_picture"];
+private ["_playerPresent","_cleanmission","_currenttime","_starttime","_missiontimeout","_vehname","_veh","_position","_vehclass","_vehdir","_objPosition","_missionName","_hint","_picture","_tanktraps"];
 
 _vehclass = armed_chopper call BIS_fnc_selectRandom;
 
@@ -11,6 +11,12 @@ _missionName = _vehname;
 
 _position = [getMarkerPos "center",0,5500,10,0,2000,0] call BIS_fnc_findSafePos;
 diag_log format["WAI: Mission Armed Chopper Started At %1",_position];
+
+// deploy roadkill defense (or not)
+if(wai_enable_tank_traps) then {
+_tanktraps = [_position] call tank_traps;
+};
+
 
 //Sniper Gun Box
 _box = createVehicle ["BAF_VehicleBox",[(_position select 0),(_position select 1) + 5,0], [], 0, "CAN_COLLIDE"];

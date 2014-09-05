@@ -1,7 +1,7 @@
 //Bandit Base
 //Credits to Korbi Dallas for the information on setDir for the placement of nests
  
-private ["_position","_box","_missiontimeout","_cleanmission","_playerPresent","_starttime","_currenttime","_cleanunits","_rndnum","_box2","_missionName","_hint"];
+private ["_position","_box","_missiontimeout","_cleanmission","_playerPresent","_starttime","_currenttime","_cleanunits","_rndnum","_box2","_missionName","_hint","_tanktraps"];
  
 _position = [getMarkerPos "center",0,5500,10,0,2000,0] call BIS_fnc_findSafePos;
 _missionName = "Bandit Base";
@@ -15,6 +15,11 @@ _box2 = createVehicle ["BAF_VehicleBox",[(_position select 0) +3,(_position sele
 [_box2] call Construction_Supply_Box;
  
 diag_log format["WAI: Mission Band Base Started At %1",_position];
+
+// deploy roadkill defense (or not)
+if(wai_enable_tank_traps) then {
+_tanktraps = [_position] call tank_traps;
+};
 
 
 //Buildings 
