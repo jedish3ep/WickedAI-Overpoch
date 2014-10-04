@@ -3,6 +3,12 @@ WickedAI-Overpoch
 
 A modified version of Wicked AI customised for our servers
 
+** PLEASE NOTE ** 
+THESE FILES ARE NOT READY / INTENDED FOR PUBLIC RELEASE
+FEEL FREE TO USE AND MODIFY THEM AS YOU SEE FIT, BUT BE ADVISED THAT THERE ARE MANY BUGS
+AND MANY OF THE FEATURES ARE REALLY DESIGNED ONLY FOR TESTING/USE WITH OUR SERVERS
+
+
 I have created a lot of new Missions for Wicked AI 
 Currently ALL missions add to humanity for bandit kills, 
 But many AI are skinned like Military or Survivors depending on the mission type
