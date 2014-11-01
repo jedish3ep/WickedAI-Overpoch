@@ -2,6 +2,9 @@ private ["_unit","_player","_humanity","_banditkills"];
 _unit = _this select 0;
 _player = _this select 1;
 _type = _this select 2;
+_unit removeWeapon "RPG7V";
+_unit removeMagazine "PG7VR";
+_unit removeMagazine "PG7VR";
 
 switch (_type) do {
 	case "ground" : {ai_ground_units = (ai_ground_units -1);};
@@ -16,7 +19,11 @@ if (isPlayer _player) then {
 	_humanity = _player getVariable["humanity",0];
 	_banditkills = _player getVariable["banditKills",0];
 	if (ai_humanity_gain) then {
-		_player setVariable ["humanity",(_humanity + ai_add_humanity),true];
+		if (_humanity > 0) then {
+			_player setVariable ["humanity",(_humanity + ai_add_humanity),true];
+		} else {
+			_player setVariable ["humanity",(_humanity - ai_add_humanity),true];
+		};
 	};
 	if (ai_banditkills_gain) then {
 		_player setVariable ["banditKills",(_banditkills + 1),true];

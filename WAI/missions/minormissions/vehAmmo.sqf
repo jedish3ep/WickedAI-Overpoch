@@ -46,7 +46,7 @@ _rndnum,				  //Number Of units
 "",						  //Backpack "" for random or classname here.
 "TK_Soldier_B_EP1",						  //Skin "" for random or classname here.
 "Random",				  //Gearset number. "Random" for random gear set.
-true
+"minor"
 ] call spawn_group;
 
 [[_position select 0, _position select 1, 0],                  //position
@@ -57,7 +57,7 @@ true
 "",						  //Backpack "" for random or classname here.
 "TK_Aziz_EP1",						  //Skin "" for random or classname here.
 "Random",				  //Gearset number. "Random" for random gear set.
-true
+"minor"
 ] call spawn_group;
 
 [[_position select 0, _position select 1, 0],                  //position
@@ -68,7 +68,7 @@ true
 "",						  //Backpack "" for random or classname here.
 "TK_Commander_EP1",	  //Skin "" for random or classname here.
 "Random",				  //Gearset number. "Random" for random gear set.
-true					  // mission true
+"minor"					  // mission true
 ] call spawn_group;
 
 //Turrets
@@ -80,7 +80,7 @@ true					  // mission true
 2,						  //Number of magazines. (not needed if ai_static_useweapon = False)
 "",						  //Backpack "" for random or classname here. (not needed if ai_static_useweapon = False)
 "Random",				  //Gearset number. "Random" for random gear set. (not needed if ai_static_useweapon = False)
-true
+"minor"
 ] call spawn_static;
 
 
@@ -118,7 +118,7 @@ if (_playerPresent) then {
 	clean_running_minor_mission = True;
 	deleteVehicle _veh;
 	deleteVehicle _box;
-	{_cleanunits = _x getVariable "missionclean";
+	{_cleanunits = _x getVariable "minorclean";
 	if (!isNil "_cleanunits") then {
 		switch (_cleanunits) do {
 			case "ground" :  {ai_ground_units = (ai_ground_units -1);};

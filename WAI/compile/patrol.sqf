@@ -1,19 +1,10 @@
 private ["_wpnumber","_radius","_mission","_unitGroup","_postition","_newPos","_center","_wp"];
 _unitGroup = _this select 0;
 _postition = _this select 1;
-if (count _this > 2) then {
-	_mission = _this select 2;
-} else {
-	_mission = False;
-};
-
+_mission = _this select 2;
 _radius = ai_patrol_radius;
 _wpnumber = ai_patrol_radius_wp;
 
-if (_mission) then {
-	_radius = 1;
-	_wpnumber = 2;
-};
 _newPos = [(_postition select 0),(_postition select 1),0];
 _center = [(_postition select 0),(_postition select 1),0];
 for "_x" from 1 to _wpnumber do {

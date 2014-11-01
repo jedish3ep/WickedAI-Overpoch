@@ -12,12 +12,8 @@ _backpack = _this select 8;
 _skin = _this select 9;
 _gear = _this select 10;
 _helipatrol = _this select 11;
-if (count _this > 12) then {
-	_mission = _this select 12;
-} else {
-	_mission = False;
-};
-//_delay = _this select 12;
+_mission = _this select 12;
+
 _aiweapon = [];
 _aigear = [];
 _aiskin = "";
@@ -149,6 +145,14 @@ while {(alive _helicopter) AND (_drop)} do {
 				{_para setSkill [_x,_skill]} forEach _skillarray;
 			};
 			ai_ground_units = (ai_ground_units + 1);
+
+			switch (_mission) do {
+				case "major" : {_para setVariable ["majorclean", "ground"];};
+				case "minor" : {_para setVariable ["minorclean", "ground"];};
+				case "compound" : {_para setVariable ["compoundclean", "ground"];};
+				case default {};
+			};
+			
 			_para addEventHandler ["Killed",{[_this select 0, _this select 1, "ground"] call on_kill;}];
 			_chute = createVehicle ["ParachuteEast", [(_helipos select 0), (_helipos select 1), (_helipos select 2)], [], 0, "NONE"];
 			_para moveInDriver _chute;
@@ -189,7 +193,3 @@ if (_helipatrol) then {
 		};
 	};
 };
-
-
-	
-	

@@ -44,7 +44,7 @@ _rndnum,				  //Number Of units
 "",						  //Backpack "" for random or classname here.
 "gsc_military_helmet_wdl",						  //Skin "" for random or classname here.
 "Random",				  //Gearset number. "Random" for random gear set.
-true
+"major"
 ] call spawn_group;
 
 [[_position select 0, _position select 1, 0],                  //position
@@ -55,7 +55,7 @@ _rndnum,						  //Number Of units
 "",						  //Backpack "" for random or classname here.
 "gsc_military_helmet_wdlSNP",						  //Skin "" for random or classname here.
 "Random",				  //Gearset number. "Random" for random gear set.
-true
+"major"
 ] call spawn_group;
 
 [[_position select 0, _position select 1, 0],                  //position
@@ -66,7 +66,7 @@ true
 "",						  //Backpack "" for random or classname here.
 "gsc_military_head_wdl_AT",	  //Skin "" for random or classname here.
 "Random",				  //Gearset number. "Random" for random gear set.
-true					  // mission true
+"major"					  // mission true
 ] call spawn_group;
 
 [[_position select 0, _position select 1, 0],                  //position
@@ -77,7 +77,7 @@ true					  // mission true
 "",						  //Backpack "" for random or classname here.
 "gsc_military_helmet_wdlSNP",						  //Skin "" for random or classname here.
 "Random",				  //Gearset number. "Random" for random gear set.
-true						// mission true
+"major"						// mission true
 ] call spawn_group;
 
 //Turrets
@@ -89,7 +89,7 @@ true						// mission true
 2,						  //Number of magazines. (not needed if ai_static_useweapon = False)
 "",						  //Backpack "" for random or classname here. (not needed if ai_static_useweapon = False)
 "Random",				  //Gearset number. "Random" for random gear set. (not needed if ai_static_useweapon = False)
-true
+"major"
 ] call spawn_static;
 
 [_position,_missionName] execVM wai_marker;
@@ -125,7 +125,7 @@ if (_playerPresent) then {
 	clean_running_mission = True;
 	deleteVehicle _veh;
 	deleteVehicle _box;
-	{_cleanunits = _x getVariable "missionclean";
+	{_cleanunits = _x getVariable "majorclean";
 	if (!isNil "_cleanunits") then {
 		switch (_cleanunits) do {
 			case "ground" :  {ai_ground_units = (ai_ground_units -1);};

@@ -51,10 +51,10 @@ _objPosition3 = getPosATL _veh3;
 
 //Troops
 _rndnum = round (random 3) + 5;
-[[_position select 0, _position select 1, 0],_rndnum,1,"Random",4,"","USMC_LHD_Crew_Yellow","Random",true] call spawn_group;
-[[_position select 0, _position select 1, 0],5,1,"Random",4,"","USMC_LHD_Crew_Blue","Random",true] call spawn_group;
-[[_position select 0, _position select 1, 0],5,1,"Random",4,"","USMC_LHD_Crew_Blue","Random",true] call spawn_group;
-[[_position select 0, _position select 1, 0],5,1,"Random",4,"","USMC_LHD_Crew_Blue","Random",true] call spawn_group;
+[[_position select 0, _position select 1, 0],_rndnum,1,"Random",4,"","USMC_LHD_Crew_Yellow","Random","major"] call spawn_group;
+[[_position select 0, _position select 1, 0],5,1,"Random",4,"","USMC_LHD_Crew_Blue","Random","major"] call spawn_group;
+[[_position select 0, _position select 1, 0],5,1,"Random",4,"","USMC_LHD_Crew_Blue","Random","major"] call spawn_group;
+[[_position select 0, _position select 1, 0],5,1,"Random",4,"","USMC_LHD_Crew_Blue","Random","major"] call spawn_group;
 
 //Turrets
 [[[(_position select 0) + 5, (_position select 1) + 10, 0]], //position(s) (can be multiple).
@@ -65,7 +65,7 @@ _rndnum = round (random 3) + 5;
 2,						  //Number of magazines. (not needed if ai_static_useweapon = False)
 "",						  //Backpack "" for random or classname here. (not needed if ai_static_useweapon = False)
 "Random",				  //Gearset number. "Random" for random gear set. (not needed if ai_static_useweapon = False)
-true						// mission true
+"major"						// mission true
 ] call spawn_static;
 
 [[[(_position select 0) - 5, (_position select 1) - 10, 0]], //position(s) (can be multiple).
@@ -76,7 +76,7 @@ true						// mission true
 2,						  //Number of magazines. (not needed if ai_static_useweapon = False)
 "",						  //Backpack "" for random or classname here. (not needed if ai_static_useweapon = False)
 "Random",				  //Gearset number. "Random" for random gear set. (not needed if ai_static_useweapon = False)
-true						// mission true
+"major"						// mission true
 ] call spawn_static;
 
 [[[(_position select 0) + 10, (_position select 1) -15, 0]], //position(s) (can be multiple).
@@ -87,11 +87,11 @@ true						// mission true
 2,						  //Number of magazines. (not needed if ai_static_useweapon = False)
 "",						  //Backpack "" for random or classname here. (not needed if ai_static_useweapon = False)
 "Random",				  //Gearset number. "Random" for random gear set. (not needed if ai_static_useweapon = False)
-true						// mission true
+"major"						// mission true
 ] call spawn_static;
 
 //Heli Para Drop
-[[(_position select 0),(_position select 1),0],[0,0,0],400,"BAF_Merlin_HC3_D",10,1,"Random",4,"","USMC_LHD_Crew_Blue","Random",False] spawn heli_para;
+[[(_position select 0),(_position select 1),0],[0,0,0],400,"BAF_Merlin_HC3_D",10,1,"Random",4,"","USMC_LHD_Crew_Blue","Random","major"] spawn heli_para;
 
 //CREATE MARKER
 [_position,_missionName] execVM wai_marker;
@@ -131,7 +131,7 @@ if (_playerPresent) then {
 	deleteVehicle _veh2;
 	deleteVehicle _veh3;
 	deleteVehicle _box;
-	{_cleanunits = _x getVariable "missionclean";
+	{_cleanunits = _x getVariable "majorclean";
 	if (!isNil "_cleanunits") then {
 		switch (_cleanunits) do {
 			case "ground" :  {ai_ground_units = (ai_ground_units -1);};

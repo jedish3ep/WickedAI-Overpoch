@@ -14,16 +14,16 @@ diag_log format["WAI: Mission Osamas Compound Started At %1",_position];
 _baserunover = createVehicle ["Land_A_Villa_EP1",[(_position select 0), (_position select 1),0],[], 0, "CAN_COLLIDE"];
 
 _rndnum = round (random 3) + 4;
-[[_position select 0, _position select 1, 0],4,1,"Random",4,"","TK_INS_Soldier_EP1_DZ","Random",true] call spawn_group;
-[[_position select 0, _position select 1, 0],4,1,"Random",4,"","TK_GUE_Soldier_Sniper_EP1","Random",true] call spawn_group;
-[[_position select 0, _position select 1, 0],4,1,"Random",4,"","TK_GUE_Warlord_EP1","Random",true] call spawn_group;
-[[_position select 0, _position select 1, 0],4,1,"Random",4,"","TK_GUE_Soldier_HAT_EP1","Random",true] call spawn_group;
+[[_position select 0, _position select 1, 0],4,1,"Random",4,"","TK_INS_Soldier_EP1_DZ","Random","major"] call spawn_group;
+[[_position select 0, _position select 1, 0],4,1,"Random",4,"","TK_GUE_Soldier_Sniper_EP1","Random","major"] call spawn_group;
+[[_position select 0, _position select 1, 0],4,1,"Random",4,"","TK_GUE_Warlord_EP1","Random","major"] call spawn_group;
+[[_position select 0, _position select 1, 0],4,1,"Random",4,"","TK_GUE_Soldier_HAT_EP1","Random","major"] call spawn_group;
 
 //The HVT Himself
-[[_position select 0, _position select 1, 0],1,1,"Random",4,"","TK_GUE_Soldier_TL_EP1","Random",true] call spawn_group;
+[[_position select 0, _position select 1, 0],1,1,"Random",4,"","TK_GUE_Soldier_TL_EP1","Random","major"] call spawn_group;
  
-[[[(_position select 0) - 15, (_position select 1) + 15, 8]],"KORD_high_TK_EP1",0.8,"TK_INS_Soldier_AT_EP1",1,2,"","Random",true] call spawn_static;
-[[[(_position select 0) + 15, (_position select 1) - 15, 8]],"KORD_high_UN_EP1",0.8,"TK_Special_Forces_EP1",1,2,"","Random",true] call spawn_static;
+[[[(_position select 0) - 15, (_position select 1) + 15, 8]],"KORD_high_TK_EP1",0.8,"TK_INS_Soldier_AT_EP1",1,2,"","Random","major"] call spawn_static;
+[[[(_position select 0) + 15, (_position select 1) - 15, 8]],"KORD_high_UN_EP1",0.8,"TK_Special_Forces_EP1",1,2,"","Random","major"] call spawn_static;
  
 //CREATE MARKER
 [_position,_missionName] execVM wai_marker;
@@ -56,7 +56,7 @@ if (_playerPresent) then {
 } else {
 	clean_running_mission = True;
 	deleteVehicle _box;
-	{_cleanunits = _x getVariable "missionclean";
+	{_cleanunits = _x getVariable "majorclean";
 	if (!isNil "_cleanunits") then {
 		switch (_cleanunits) do {
 			case "ground" :  {ai_ground_units = (ai_ground_units -1);};

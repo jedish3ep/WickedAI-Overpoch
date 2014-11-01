@@ -46,7 +46,7 @@ _rndnum,				  //Number Of units
 "",						  //Backpack "" for random or classname here.
 "",						  //Skin "" for random or classname here.
 "Random",				  //Gearset number. "Random" for random gear set.
-true
+"minor"
 ] call spawn_group;
 
 [[_position select 0, _position select 1, 0],                  //position
@@ -57,7 +57,7 @@ true
 "",						  //Backpack "" for random or classname here.
 "",						  //Skin "" for random or classname here.
 "Random",				  //Gearset number. "Random" for random gear set.
-true
+"minor"
 ] call spawn_group;
 
 
@@ -96,7 +96,7 @@ if (_playerPresent) then {
 	clean_running_minor_mission = True;
 	deleteVehicle _veh;
 	deleteVehicle _box;
-	{_cleanunits = _x getVariable "missionclean";
+	{_cleanunits = _x getVariable "minorclean";
 	if (!isNil "_cleanunits") then {
 		switch (_cleanunits) do {
 			case "ground" :  {ai_ground_units = (ai_ground_units -1);};

@@ -1,4 +1,4 @@
-private ["_mission","_aipack","_aicskill","_position","_unitnumber","_skill","_gun","_mags","_backpack","_skin","_gear","_aiweapon","_aigear","_aiskin","_skillarray","_unitGroup","_weapon","_magazine","_weaponandmag","_gearmagazines","_geartools","_unit"];
+private ["_RPG","_mission","_aipack","_aicskill","_position","_unitnumber","_skill","_gun","_mags","_backpack","_skin","_gear","_aiweapon","_aigear","_aiskin","_skillarray","_unitGroup","_weapon","_magazine","_weaponandmag","_gearmagazines","_geartools","_unit"];
 _position = _this select 0;
 _unitnumber = _this select 1;
 _skill = _this select 2;
@@ -7,11 +7,17 @@ _mags = _this select 4;
 _backpack = _this select 5;
 _skin = _this select 6;
 _gear = _this select 7;
+_mission = _this select 8;
+
+/*
 if (count _this > 8) then {
 	_mission = _this select 8;
 } else {
 	_mission = False;
 };
+*/
+
+_RPG = 1;
 
 _aiweapon = [];
 _aigear = [];
@@ -68,7 +74,13 @@ for "_x" from 1 to _unitnumber do {
 	removeAllItems _unit;
 	_unit addweapon _weapon;
 	for "_i" from 1 to _mags do {_unit addMagazine _magazine;};
-	_unit addBackpack _aipack;
+	if ((_x == 1) && (_RPG > 0)) then {
+	  _unit addweapon "RPG7V"; 
+	  _unit addmagazine "PG7VR"; 
+	  _unit addmagazine "PG7VR";
+	} else {
+	  _unit addBackpack _aipack;	
+	};
 	{_unit addMagazine _x} forEach _gearmagazines;
 	{_unit addweapon _x} forEach _geartools;
 	if (ai_custom_skills) then {
@@ -84,11 +96,33 @@ for "_x" from 1 to _unitnumber do {
 	};
 	ai_ground_units = (ai_ground_units + 1);
 	_unit addEventHandler ["Killed",{[_this select 0, _this select 1, "ground"] call on_kill;}];
-	if (_mission) then {
-		_unit setVariable ["missionclean", "ground"];
-	};
+	
+	switch (_mission) do 
+		{
+			case "major":
+				{
+					_unit setVariable ["majorclean", "ground"];
+				};
+			case "minor":
+				{
+					_unit setVariable ["minorclean", "ground"];
+				};
+			case "compound":
+				{
+					_unit setVariable ["compoundclean", "ground"];
+				};
+			case default {};
+		};
+
+
+			/*
+				if (_mission) then {
+					_unit setVariable ["missionclean", "ground"];
+				};
+			*/
+
 };
 _unitGroup selectLeader ((units _unitGroup) select 0);
 [_unitGroup, _position, _mission] call group_waypoints;
 
-diag_log format ["WAI: Spawned a group of %1 Bandits at %2",_unitnumber,_position];
+diag_log format ["WAI: Spawned a group of %1 Bandits at %2 - Type: %3",_unitnumber,_position,_mission];

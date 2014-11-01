@@ -15,7 +15,7 @@ _rndnum,				  //Number Of units
 "",						  //Backpack "" for random or classname here.
 "",						  //Skin "" for random or classname here.
 "Random",				  //Gearset number. "Random" for random gear set.
-true
+"minor"					  //mission type
 ] call spawn_group;
 
 //CREATE MARKER
@@ -49,7 +49,7 @@ if (_playerPresent) then {
 	[nil,nil,rTitleText,"All bandits bagged and tagged, Nice Work!", "PLAIN",10] call RE;
 } else {
 	clean_running_minor_mission = True;
-	{_cleanunits = _x getVariable "missionclean";
+	{_cleanunits = _x getVariable "minorclean";
 	if (!isNil "_cleanunits") then {
 		switch (_cleanunits) do {
 			case "ground" :  {ai_ground_units = (ai_ground_units -1);};
@@ -62,7 +62,7 @@ if (_playerPresent) then {
 	};	
 	} forEach allUnits;
 	
-	diag_log format["WAI: Mission bandSquad Timed Out At %1",_position];
+	diag_log format["WAI: Minor Mission bandSquad Timed Out At %1",_position];
 	[nil,nil,rTitleText,"The Bandit Squad have completed their patrol - Mission Failed", "PLAIN",10] call RE;
 };
 minor_missionrunning = false;

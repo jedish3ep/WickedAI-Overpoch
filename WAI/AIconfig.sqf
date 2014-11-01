@@ -10,10 +10,10 @@ ai_clear_body = False;
 ai_clean_dead = True;
 
 /// Time (in seconds) after which a dead body will be cleaned up
-cleanup_time = 900;
+cleanup_time = 600;
 ///////////////////////////////////////////////////////
 /// Sets radius for AI patrols (call spawn_group)
-ai_patrol_radius = 300;
+ai_patrol_radius = 250;
 
 /// Sets number of waypoints to add in patrol area (call spawn_group)
 ai_patrol_radius_wp = 10;
@@ -27,7 +27,7 @@ ai_behaviour = "SAFE";
 ai_ahare_info = True;
 
 /// Distance AI will let other enemies know of your position (currently only on kill) 
-ai_share_distance = 300;
+ai_share_distance = 250;
 
 ///////////////////////////////////////////////////////
 /// Gain humanity for killing an AI unit (True: is on. False: is off.) 

@@ -53,20 +53,20 @@ _baserunover7 setVectorUp surfaceNormal position _baserunover7;
 
 //Group Spawning
 _rndnum = round (random 3) + 4;
-[[_position select 0, _position select 1, 0],_rndnum,1,"Random",4,"","UKSF_wdl_demo_l","Random",true] call spawn_group;
-[[_position select 0, _position select 1, 0],4,1,"Random",4,"","Graves_Light_DZ","Random",true] call spawn_group;
-[[_position select 0, _position select 1, 0],4,1,"Random",4,"","UKSF_wdl_mrk_l","Random",true] call spawn_group;
-[[_position select 0, _position select 1, 0],4,1,"Random",4,"","UKSF_wdl_tl_l","Random",true] call spawn_group;
-[[_position select 0, _position select 1, 0],4,1,"Random",4,"","Sniper1_DZ","Random",true] call spawn_group;
+[[_position select 0, _position select 1, 0],_rndnum,1,"Random",4,"","UKSF_wdl_demo_l","Random","major"] call spawn_group;
+[[_position select 0, _position select 1, 0],4,1,"Random",4,"","Graves_Light_DZ","Random","major"] call spawn_group;
+[[_position select 0, _position select 1, 0],4,1,"Random",4,"","UKSF_wdl_mrk_l","Random","major"] call spawn_group;
+[[_position select 0, _position select 1, 0],4,1,"Random",4,"","UKSF_wdl_tl_l","Random","major"] call spawn_group;
+[[_position select 0, _position select 1, 0],4,1,"Random",4,"","Sniper1_DZ","Random","major"] call spawn_group;
  
 //Turrets
-[[[(_position select 0) - 10, (_position select 1) + 10, 0]],"KORD_high",0.8,"UKSF_wdl_demo_l",1,2,"","Random",true] call spawn_static;
-[[[(_position select 0) + 10, (_position select 1) - 10, 0]],"M2StaticMG",0.8,"Soldier_Sniper_PMC_DZ",1,2,"","Random",true] call spawn_static;
-[[[(_position select 0) - 10, (_position select 1) - 10, 0]],"DSHKM_Gue",0.8,"UKSF_wdl_tl_l",1,2,"","Random",true] call spawn_static;
-[[[(_position select 0) - 15, (_position select 1) - 15, 0]],"SPG9_TK_GUE_EP1",0.8,"Soldier_Sniper_PMC_DZ",1,2,"","Random",true] call spawn_static;
+[[[(_position select 0) - 10, (_position select 1) + 10, 0]],"KORD_high",0.8,"UKSF_wdl_demo_l",1,2,"","Random","major"] call spawn_static;
+[[[(_position select 0) + 10, (_position select 1) - 10, 0]],"M2StaticMG",0.8,"Soldier_Sniper_PMC_DZ",1,2,"","Random","major"] call spawn_static;
+[[[(_position select 0) - 10, (_position select 1) - 10, 0]],"DSHKM_Gue",0.8,"UKSF_wdl_tl_l",1,2,"","Random","major"] call spawn_static;
+[[[(_position select 0) - 15, (_position select 1) - 15, 0]],"SPG9_TK_GUE_EP1",0.8,"Soldier_Sniper_PMC_DZ",1,2,"","Random","major"] call spawn_static;
 
 //Heli Paradrop
-[[(_position select 0), (_position select 1), 0],[7743.41, 7040.93, 0],400,"BAF_Merlin_DZE",10,1,"Random",4,"","UKSF_wdl_tl_l","Random",True] spawn heli_para;
+[[(_position select 0), (_position select 1), 0],[7743.41, 7040.93, 0],400,"BAF_Merlin_DZE",10,1,"Random",4,"","UKSF_wdl_tl_l","Random","major"] spawn heli_para;
  
 [_position,_missionName] execVM wai_marker;
 
@@ -98,7 +98,7 @@ if (_playerPresent) then {
 } else {
 	clean_running_mission = True;
 	deleteVehicle _box;
-	{_cleanunits = _x getVariable "missionclean";
+	{_cleanunits = _x getVariable "majorclean";
 	if (!isNil "_cleanunits") then {
 		switch (_cleanunits) do {
 			case "ground" :  {ai_ground_units = (ai_ground_units -1);};
