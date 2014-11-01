@@ -10,7 +10,11 @@ AND MANY OF THE FEATURES ARE REALLY DESIGNED ONLY FOR TESTING/USE WITH OUR SERVE
 
 
 I have created a lot of new Missions for Wicked AI 
-Currently ALL missions add to humanity for bandit kills, 
+The humanity system has been altered, so players with positive humanity will gain humanity from killing AI
+and players with negative humanity will lose humanity for killing AI 
+
+(on 21DMD servers all items at hero and bandit traders are the exact same price. we do not penalise players for being bandits! and this allows players to choose to be bandits and still complete ai missions)
+
 But many AI are skinned like Military or Survivors depending on the mission type
 
 WARNING: These missions are designed for DayZ overpoch and the AI and crates contain a lot of overwatch weapons. 
