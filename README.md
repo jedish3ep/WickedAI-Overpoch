@@ -10,6 +10,7 @@ AND MANY OF THE FEATURES ARE REALLY DESIGNED ONLY FOR TESTING/USE WITH OUR SERVE
 
 
 I have created a lot of new Missions for Wicked AI 
+
 The humanity system has been altered, so players with positive humanity will gain humanity from killing AI
 and players with negative humanity will lose humanity for killing AI 
 
