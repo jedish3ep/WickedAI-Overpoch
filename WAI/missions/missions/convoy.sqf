@@ -1,10 +1,11 @@
 //Construction Supply
 
-private ["_objPosition3","_objPosition2","_vehclass3","_vehclass2","_veh3","_veh2","_playerPresent","_cleanmission","_currenttime","_starttime","_missiontimeout","_vehname","_veh","_position","_vehclass","_vehdir","_objPosition","_missionName","_hint","_picture"];
+private ["_objPosition3","_objPosition2","_vehclass3","_vehclass2","_veh3","_veh2","_playerPresent","_cleanmission","_currenttime","_starttime","_missiontimeout","_vehname","_veh","_position","_vehclass","_vehdir","_objPosition","_missionName","_hint","_picture","_difficulty"];
 
 _vehclass = cargo_trucks call BIS_fnc_selectRandom;
 _vehclass2 = refuel_trucks call BIS_fnc_selectRandom;
 _vehclass3 = military_unarmed call BIS_fnc_selectRandom;
+_difficulty = "extreme";
 
 _vehname	= getText (configFile >> "CfgVehicles" >> _vehclass >> "displayName");
 _picture = getText (configFile >> "cfgVehicles" >> _vehclass >> "picture");
@@ -51,10 +52,10 @@ _objPosition3 = getPosATL _veh3;
 
 //Troops
 _rndnum = round (random 3) + 5;
-[[_position select 0, _position select 1, 0],_rndnum,1,"Random",4,"","USMC_LHD_Crew_Yellow","Random","major"] call spawn_group;
-[[_position select 0, _position select 1, 0],5,1,"Random",4,"","USMC_LHD_Crew_Blue","Random","major"] call spawn_group;
-[[_position select 0, _position select 1, 0],5,1,"Random",4,"","USMC_LHD_Crew_Blue","Random","major"] call spawn_group;
-[[_position select 0, _position select 1, 0],5,1,"Random",4,"","USMC_LHD_Crew_Blue","Random","major"] call spawn_group;
+[[_position select 0, _position select 1, 0],_rndnum,"extreme","Random",4,"","USMC_LHD_Crew_Yellow","Random","major"] call spawn_group;
+[[_position select 0, _position select 1, 0],5,"extreme","Random",4,"","USMC_LHD_Crew_Blue","Random","major"] call spawn_group;
+[[_position select 0, _position select 1, 0],5,"extreme","Random",4,"","USMC_LHD_Crew_Blue","Random","major"] call spawn_group;
+[[_position select 0, _position select 1, 0],5,"extreme","Random",4,"","USMC_LHD_Crew_Blue","Random","major"] call spawn_group;
 
 //Turrets
 [[[(_position select 0) + 5, (_position select 1) + 10, 0]], //position(s) (can be multiple).
@@ -91,12 +92,21 @@ _rndnum = round (random 3) + 5;
 ] call spawn_static;
 
 //Heli Para Drop
-[[(_position select 0),(_position select 1),0],[0,0,0],400,"BAF_Merlin_HC3_D",10,1,"Random",4,"","USMC_LHD_Crew_Blue","Random","major"] spawn heli_para;
+[[(_position select 0),(_position select 1),0],[0,0,0],400,"BAF_Merlin_HC3_D",10,"extreme","Random",4,"","USMC_LHD_Crew_Blue","Random","major"] spawn heli_para;
 
 //CREATE MARKER
-[_position,_missionName] execVM wai_marker;
+[_position,_missionName,_difficulty] execVM wai_marker;
 
-_hint = parseText format ["<t align='center' color='#FF0000' shadow='2' size='1.75'>Priority Transmission</t><br/><t align='center' color='#FF0000'>------------------------------</t><br/><t align='center' color='#FFFFFF' size='1.25'>Main Mission</t><br/><t align='center'><img size='5' image='%1'/></t><br/><t align='center' color='#FFFFFF'>%2 : An Ikea delivery has been hijacked by Bandits, Take over the convoy and the building supplies are all yours!</t>", _picture, _missionName];
+_hint = parseText format ["
+	<t align='center' color='#1E90FF' shadow='2' size='1.75'>Priority Transmission</t><br/>
+	<t align='center' color='#FFFFFF'>------------------------------</t><br/>
+	<t align='center' color='#1E90FF' size='1.25'>Main Mission</t><br/>
+	<t align='center' color='#FFFFFF' size='1.15'>Difficulty: <t color='#1E90FF'> EXTREME</t><br/>
+	<t align='center'><img size='5' image='%1'/></t><br/>
+	<t align='center' color='#FFFFFF'>%2 : An Ikea delivery has been hijacked by Bandits, Take over the convoy and the building supplies are all yours!</t>", 
+	_picture, 
+	_missionName
+	];
 [nil,nil,rHINT,_hint] call RE;
 
 [nil,nil,rTitleText,"An Ikea delivery has been hijacked by bandits, take over the convoy and the building supplies are yours!", "PLAIN",10] call RE;

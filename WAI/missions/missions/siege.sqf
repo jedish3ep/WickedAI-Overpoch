@@ -1,10 +1,11 @@
 //City Under Siege - by jakehekesfists
  
-private ["_position","_box","_missiontimeout","_cleanmission","_playerPresent","_starttime","_currenttime","_cleanunits","_rndnum","_box2","_hint","_missionName"];
+private ["_position","_box","_missiontimeout","_cleanmission","_playerPresent","_starttime","_currenttime","_cleanunits","_rndnum","_box2","_hint","_missionName","_difficulty"];
  
 _positionarray = [[7546.7695,5144.9907,0],[5981.9287,10345.304,0],[12045.273,9092.3789,0],[11200.665,6572.3813,0],[4485.8018,6414.3247,0]];
 _position = _positionarray call BIS_fnc_selectRandom;
 _missionName = "City Under Siege";
+_difficulty = "hard";
 
 //Extra Large Gun Box
 _box = createVehicle ["RUVehicleBox",[(_position select 0) + 5,(_position select 1),0], [], 0, "CAN_COLLIDE"];
@@ -23,21 +24,28 @@ _baserunover1 setDir 270;
 
 //Group Spawning
 _rndnum = round (random 3) + 4;
-[[_position select 0, _position select 1, 0],_rndnum,1,"Random",4,"","FR_OHara_DZ","Random","major"] call spawn_group;
-[[_position select 0, _position select 1, 0],4,1,"Random",4,"","GUE_Soldier_Sniper_DZ","Random","major"] call spawn_group;
-[[_position select 0, _position select 1, 0],4,1,"Random",4,"","GUE_Soldier_MG_DZ","Random","major"] call spawn_group;
-[[_position select 0, _position select 1, 0],4,1,"Random",4,"","GUE_Soldier_Crew_DZ","Random","major"] call spawn_group;
-[[_position select 0, _position select 1, 0],4,1,"Random",4,"","GUE_Soldier_MG_DZ","Random","major"] call spawn_group;
-[[_position select 0, _position select 1, 0],4,1,"Random",4,"","Ins_Soldier_GL_DZ","Random","major"] call spawn_group;
+[[_position select 0, _position select 1, 0],_rndnum,"hard","Random",4,"","FR_OHara_DZ","Random","major"] call spawn_group;
+[[_position select 0, _position select 1, 0],4,"hard","Random",4,"","GUE_Soldier_Sniper_DZ","Random","major"] call spawn_group;
+[[_position select 0, _position select 1, 0],4,"hard","Random",4,"","GUE_Soldier_MG_DZ","Random","major"] call spawn_group;
+[[_position select 0, _position select 1, 0],4,"hard","Random",4,"","GUE_Soldier_Crew_DZ","Random","major"] call spawn_group;
+[[_position select 0, _position select 1, 0],4,"hard","Random",4,"","GUE_Soldier_MG_DZ","Random","major"] call spawn_group;
+[[_position select 0, _position select 1, 0],4,"hard","Random",4,"","Ins_Soldier_GL_DZ","Random","major"] call spawn_group;
  
 //Turrets
 [[[(_position select 0) - 5, (_position select 1) + 30, 0]],"KORD_high",0.8,"Ins_Soldier_GL_DZ",1,2,"","Random","major"] call spawn_static;
 [[[(_position select 0) - 5, (_position select 1) - 5, 0]],"DSHKM_Gue",0.8,"GUE_Soldier_MG_DZ",1,2,"","Random","major"] call spawn_static;
 
 //CREATE MARKER
-[_position,_missionName] execVM wai_marker;
+[_position,_missionName,_difficulty] execVM wai_marker;
 
-_hint = parseText format ["<t align='center' color='#FF0000' shadow='2' size='1.75'>Priority Transmission</t><br/><t align='center' color='#FF0000'>------------------------------</t><br/><t align='center' color='#FFFFFF' size='1.25'>Main Mission</t><br/><t align='center' color='#FFFFFF'>%1 : Heavily armed insurgents have taken over the City, clear them out</t>", _missionName];
+_hint = parseText format ["
+	<t align='center' color='#1E90FF' shadow='2' size='1.75'>Priority Transmission</t><br/>
+	<t align='center' color='#FFFFFF'>------------------------------</t><br/>
+	<t align='center' color='#1E90FF' size='1.25'>Main Mission</t><br/>
+	<t align='center' color='#FFFFFF' size='1.15'>Difficulty: <t color='#1E90FF'> HARD</t><br/>
+	<t align='center' color='#FFFFFF'>%1 : Heavily armed insurgents have taken over the City, clear them out</t>",
+	_missionName
+	];
 [nil,nil,rHINT,_hint] call RE;
 
 [nil,nil,rTitleText,"Insurgents have taken over the city, clear them out!", "PLAIN",10] call RE;

@@ -1,6 +1,7 @@
-private ["_position","_box","_missiontimeout","_cleanmission","_playerPresent","_starttime","_currenttime","_cleanunits","_rndnum","_box2","_missionName","_vehclass","_hint","_tanktraps"];
+private ["_position","_box","_missiontimeout","_cleanmission","_playerPresent","_starttime","_currenttime","_cleanunits","_rndnum","_box2","_missionName","_vehclass","_hint","_tanktraps","_difficulty"];
 _vehclass = armed_vehicle call BIS_fnc_selectRandom;
 _missionName = "Military Camp";
+_difficulty = "extreme";
  
 _position = [getMarkerPos "center",0,5500,10,0,2000,0] call BIS_fnc_findSafePos;
 
@@ -53,11 +54,11 @@ _baserunover7 setVectorUp surfaceNormal position _baserunover7;
 
 //Group Spawning
 _rndnum = round (random 3) + 4;
-[[_position select 0, _position select 1, 0],_rndnum,1,"Random",4,"","UKSF_wdl_demo_l","Random","major"] call spawn_group;
-[[_position select 0, _position select 1, 0],4,1,"Random",4,"","Graves_Light_DZ","Random","major"] call spawn_group;
-[[_position select 0, _position select 1, 0],4,1,"Random",4,"","UKSF_wdl_mrk_l","Random","major"] call spawn_group;
-[[_position select 0, _position select 1, 0],4,1,"Random",4,"","UKSF_wdl_tl_l","Random","major"] call spawn_group;
-[[_position select 0, _position select 1, 0],4,1,"Random",4,"","Sniper1_DZ","Random","major"] call spawn_group;
+[[_position select 0, _position select 1, 0],_rndnum,"extreme","Random",4,"","UKSF_wdl_demo_l","Random","major"] call spawn_group;
+[[_position select 0, _position select 1, 0],4,"extreme","Random",4,"","Graves_Light_DZ","Random","major"] call spawn_group;
+[[_position select 0, _position select 1, 0],4,"extreme","Random",4,"","UKSF_wdl_mrk_l","Random","major"] call spawn_group;
+[[_position select 0, _position select 1, 0],4,"extreme","Random",4,"","UKSF_wdl_tl_l","Random","major"] call spawn_group;
+[[_position select 0, _position select 1, 0],4,"extreme","Random",4,"","Sniper1_DZ","Random","major"] call spawn_group;
  
 //Turrets
 [[[(_position select 0) - 10, (_position select 1) + 10, 0]],"KORD_high",0.8,"UKSF_wdl_demo_l",1,2,"","Random","major"] call spawn_static;
@@ -66,11 +67,18 @@ _rndnum = round (random 3) + 4;
 [[[(_position select 0) - 15, (_position select 1) - 15, 0]],"SPG9_TK_GUE_EP1",0.8,"Soldier_Sniper_PMC_DZ",1,2,"","Random","major"] call spawn_static;
 
 //Heli Paradrop
-[[(_position select 0), (_position select 1), 0],[7743.41, 7040.93, 0],400,"BAF_Merlin_DZE",10,1,"Random",4,"","UKSF_wdl_tl_l","Random","major"] spawn heli_para;
+[[(_position select 0), (_position select 1), 0],[7743.41, 7040.93, 0],400,"BAF_Merlin_DZE",10,"hard","Random",4,"","UKSF_wdl_tl_l","Random","major"] spawn heli_para;
  
-[_position,_missionName] execVM wai_marker;
+[_position,_missionName,_difficulty] execVM wai_marker;
 
-_hint = parseText format ["<t align='center' color='#FF0000' shadow='2' size='1.75'>Priority Transmission</t><br/><t align='center' color='#FF0000'>------------------------------</t><br/><t align='center' color='#FFFFFF' size='1.25'>Main Mission</t><br/><t align='center' color='#FFFFFF'>The Military are setting up a camp, they have a %2, Kill them and take their supplies</t>",_vehname];
+_hint = parseText format ["
+	<t align='center' color='#1E90FF' shadow='2' size='1.75'>Priority Transmission</t><br/>
+	<t align='center' color='#FFFFFF'>------------------------------</t><br/>
+	<t align='center' color='#1E90FF' size='1.25'>Main Mission</t><br/>
+	<t align='center' color='#FFFFFF' size='1.15'>Difficulty: <t color='#1E90FF'> EXTREME</t><br/>
+	<t align='center' color='#FFFFFF'>The Military are setting up a camp, they have a %2, Kill them and take their supplies</t>",
+	_vehname
+	];
 [nil,nil,rHINT,_hint] call RE;
 
 [nil,nil,rTitleText,"The Military have been spotting building a base. Go kill them and steal their supplies!", "PLAIN",10] call RE;

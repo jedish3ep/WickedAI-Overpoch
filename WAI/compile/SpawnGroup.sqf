@@ -83,17 +83,19 @@ for "_x" from 1 to _unitnumber do {
 	};
 	{_unit addMagazine _x} forEach _gearmagazines;
 	{_unit addweapon _x} forEach _geartools;
-	if (ai_custom_skills) then {
-		switch (_skill) do {
-		case 0 : {_aicskill = ai_custom_array1;};
-		case 1 : {_aicskill = ai_custom_array2;};
-		case 2 : {_aicskill= ai_custom_array3;};
-		case "Random" : {_aicskill = ai_skill_random call BIS_fnc_selectRandom;};
+
+	call {
+		if(_skill == "normal") exitWith { _aicskill = ai_skill_normal; };
+		if(_skill == "hard") exitWith { _aicskill = ai_skill_hard; };
+		if(_skill == "extreme") exitWith { _aicskill = ai_skill_extreme; };
+		if(_skill == "random") exitWith { _aicskill = ai_skill_random call BIS_fnc_selectRandom; };
+		_aicskill = ai_skill_random call BIS_fnc_selectRandom;
 	};
-		{_unit setSkill [(_x select 0),(_x select 1)]} forEach _aicskill;
-	} else {
-		{_unit setSkill [_x,_skill]} forEach _skillarray;
-	};
+		
+	{
+		_unit setSkill [(_x select 0),(_x select 1)]
+	} count _aicskill;
+
 	ai_ground_units = (ai_ground_units + 1);
 	_unit addEventHandler ["Killed",{[_this select 0, _this select 1, "ground"] call on_kill;}];
 	

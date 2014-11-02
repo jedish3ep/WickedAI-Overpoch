@@ -39,54 +39,50 @@ ai_add_humanity = 50;
 /// Adds bandit kill when killing an AI (True: on. False: off.)
 ai_banditkills_gain = True;
 
-///////////////////////////////////////////////////////
-/// Allows you to set a custom skill array for units. (True: will use these arrays. False: will use number in spawn array)
-ai_custom_skills = True;
-
-/// Custom skill array. Use 0 to use this with ai_custom_skills = True 
-ai_custom_array1 = [
-["aimingAccuracy",0.85],
-["aimingShake",0.70],
-["aimingSpeed",0.95],
-["endurance",0.95],
-["spotDistance",0.90],
-["spotTime",0.75],
-["courage",0.90],
-["reloadSpeed",1.00],
-["commanding",1.00],
-["general",0.85]
-];
-
-/// Custom skill array. Use 1 to use this with ai_custom_skills = True 
-ai_custom_array2 = [
-["aimingAccuracy",0.79],
+// AI DIFFICULTY ARRAY
+// Extreme
+ai_skill_extreme = [
+["aimingAccuracy",0.90],
 ["aimingShake",0.90],
-["aimingSpeed",1.00],
-["endurance",0.90],
-["spotDistance",0.85],
-["spotTime",1.00],
-["courage",0.70],
-["reloadSpeed",0.80],
-["commanding",0.90],
-["general",0.80]
-];
-
-/// Custom skill array. Use 2 to use this with ai_custom_skills = True 
-ai_custom_array3 = [
-["aimingAccuracy",0.85],
-["aimingShake",0.90],
-["aimingSpeed",0.85],
+["aimingSpeed",0.90],
 ["endurance",1.00],
 ["spotDistance",1.00],
 ["spotTime",1.00],
 ["courage",1.00],
-["reloadSpeed",0.75],
-["commanding",0.60],
-["general",0.75]
-];
+["reloadSpeed",1.00],
+["commanding",1.00],
+["general",1.00]
+]; 	
 
-/// Arrays used in "Random" custom skill 
-ai_skill_random = [ai_custom_array1,ai_custom_array2,ai_custom_array3];
+// Hard
+ai_skill_hard = [
+["aimingAccuracy",0.80],
+["aimingShake",0.80],
+["aimingSpeed",0.80],
+["endurance",1.00],
+["spotDistance",0.80],
+["spotTime",0.80],
+["courage",1.00],
+["reloadSpeed",1.00],
+["commanding",1.00],
+["general",1.00]
+]; 	
+
+// Normal
+ai_skill_normal	= [
+["aimingAccuracy",0.60],
+["aimingShake",0.60],
+["aimingSpeed",0.60],
+["endurance",1.00],
+["spotDistance",0.60],
+["spotTime",0.60],
+["courage",1.00],
+["reloadSpeed",1.00],
+["commanding",1.00],
+["general",1.00]
+];	
+
+ai_skill_random	= [ai_skill_extreme,ai_skill_hard,ai_skill_hard,ai_skill_hard,ai_skill_hard,ai_skill_normal,ai_skill_normal,ai_skill_normal,ai_skill_normal];
 
 ///////////////////////////////////////////////////////
 /// Allows AI on static guns to have a loadout 

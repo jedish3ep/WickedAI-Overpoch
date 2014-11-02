@@ -1,6 +1,6 @@
 //Military Chopper
 
-private ["_playerPresent","_cleanmission","_currenttime","_starttime","_missiontimeout","_vehname","_veh","_position","_vehclass","_vehdir","_objPosition","_missionName","_hint","_picture","_tanktraps"];
+private ["_playerPresent","_cleanmission","_currenttime","_starttime","_missiontimeout","_vehname","_veh","_position","_vehclass","_vehdir","_objPosition","_missionName","_hint","_picture","_tanktraps","_difficulty"];
 
 _vehclass = armed_chopper call BIS_fnc_selectRandom;
 
@@ -8,6 +8,7 @@ _vehname	= getText (configFile >> "CfgVehicles" >> _vehclass >> "displayName");
 _picture = getText (configFile >> "cfgVehicles" >> _vehclass >> "picture");
 
 _missionName = _vehname;
+_difficulty = "hard";
 
 _position = [getMarkerPos "center",0,5500,10,0,2000,0] call BIS_fnc_findSafePos;
 diag_log format["WAI: Mission Armed Chopper Started At %1",_position];
@@ -41,7 +42,7 @@ _objPosition = getPosATL _veh;
 _rndnum = round (random 3) + 3;
 [[_position select 0, _position select 1, 0],                  //position
 _rndnum,						  //Number Of units
-1,					      //Skill level 0-1. Has no effect if using custom skills
+"hard",					      //Skill level 0-1. Has no effect if using custom skills
 "Random",			      //Primary gun set number. "Random" for random weapon set.
 4,						  //Number of magazines
 "",						  //Backpack "" for random or classname here.
@@ -52,7 +53,7 @@ _rndnum,						  //Number Of units
 
 [[_position select 0, _position select 1, 0],                  //position
 4,						  //Number Of units
-1,					      //Skill level 0-1. Has no effect if using custom skills
+"hard",					      //Skill level 0-1. Has no effect if using custom skills
 "Random",			      //Primary gun set number. "Random" for random weapon set.
 4,						  //Number of magazines
 "",						  //Backpack "" for random or classname here.
@@ -63,7 +64,7 @@ _rndnum,						  //Number Of units
 
 [[_position select 0, _position select 1, 0],                  //position
 4,						  //Number Of units
-1,					      //Skill level 0-1. Has no effect if using custom skills
+"hard",					      //Skill level 0-1. Has no effect if using custom skills
 "Random",			      //Primary gun set number. "Random" for random weapon set.
 4,						  //Number of magazines
 "",						  //Backpack "" for random or classname here.
@@ -74,7 +75,7 @@ _rndnum,						  //Number Of units
 
 [[_position select 0, _position select 1, 0],                  //position
 4,						  //Number Of units
-1,					      //Skill level 0-1. Has no effect if using custom skills
+"hard",					      //Skill level 0-1. Has no effect if using custom skills
 "Random",			      //Primary gun set number. "Random" for random weapon set.
 4,						  //Number of magazines
 "",						  //Backpack "" for random or classname here.
@@ -86,7 +87,7 @@ _rndnum,						  //Number Of units
 //Turrets
 [[[(_position select 0), (_position select 1) + 10, 0]], //position(s) (can be multiple).
 "M2StaticMG",             //Classname of turret
-0.5,					  //Skill level 0-1. Has no effect if using custom skills
+0.8,					  //Skill level 0-1. Has no effect if using custom skills
 "",				          //Skin "" for random or classname here.
 1,						  //Primary gun set number. "Random" for random weapon set. (not needed if ai_static_useweapon = False)
 2,						  //Number of magazines. (not needed if ai_static_useweapon = False)
@@ -96,9 +97,18 @@ _rndnum,						  //Number Of units
 ] call spawn_static;
 
 //CREATE MARKER
-[_position,_missionName] execVM wai_marker;
+[_position,_missionName,_difficulty] execVM wai_marker;
 
-_hint = parseText format ["<t align='center' color='#FF0000' shadow='2' size='1.75'>Priority Transmission</t><br/><t align='center' color='#FF0000'>------------------------------</t><br/><t align='center' color='#FFFFFF' size='1.25'>Main Mission</t><br/><t align='center'><img size='5' image='%1'/></t><br/><t align='center' color='#FFFFFF'>A bandit %2 is taking off with a crate of snipers! Save the cargo and keep the guns for yourself</t>", _picture, _vehname];
+_hint = parseText format ["
+	<t align='center' color='#1E90FF' shadow='2' size='1.75'>Priority Transmission</t><br/>
+	<t align='center' color='#FFFFFF'>------------------------------</t><br/>
+	<t align='center' color='#1E90FF' size='1.25'>Main Mission</t><br/>
+	<t align='center' color='#FFFFFF' size='1.15'>Difficulty: <t color='#1E90FF'> HARD</t><br/>
+	<t align='center'><img size='5' image='%1'/></t><br/>
+	<t align='center' color='#FFFFFF'>A bandit %2 is taking off with a crate of snipers! Save the cargo and keep the guns for yourself</t>", 
+	_picture, 
+	_vehname
+	];
 [nil,nil,rHINT,_hint] call RE;
 
 [nil,nil,rTitleText,"A bandit helicopter is taking off with a crate of snipers! Save the cargo and keep the guns for yourself.", "PLAIN",10] call RE;

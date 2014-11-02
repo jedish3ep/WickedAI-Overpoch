@@ -1,10 +1,11 @@
-private ["_playerPresent","_cleanmission","_currenttime","_starttime","_missiontimeout","_vehname","_veh","_position","_vehclass","_vehdir","_objPosition","_picture","_hint","_smokeColours","_smokey","_missionName"];
+private ["_playerPresent","_cleanmission","_currenttime","_starttime","_missiontimeout","_vehname","_veh","_position","_vehclass","_vehdir","_objPosition","_picture","_hint","_smokeColours","_smokey","_missionName","_difficulty"];
 _vehclass = "BRDM2_HQ_Gue";
 
 wai_smoke = true;
 
 _vehname	= getText (configFile >> "CfgVehicles" >> _vehclass >> "displayName");
 _missionName = "Russian Outpost";
+_difficulty = "extreme";
 
 _position = [getMarkerPos "center",0,5500,10,0,2000,0] call BIS_fnc_findSafePos;
 diag_log format["WAI: Mission rusBase Started At %1",_position];
@@ -70,7 +71,7 @@ _objPosition = getPosATL _veh;
 _rndnum = round (random 3) + 4;
 [[(_position select 0) - 23,(_position select 1) - 1.32, 0],                  //position
 _rndnum,				  //Number Of units
-1,					      //Skill level 0-1. Has no effect if using custom skills
+"extreme",					      //Skill level 0-1. Has no effect if using custom skills
 "Random",			      //Primary gun set number. "Random" for random weapon set.
 4,						  //Number of magazines
 "",						  //Backpack "" for random or classname here.
@@ -81,7 +82,7 @@ _rndnum,				  //Number Of units
 
 [[(_position select 0) + 28,(_position select 1) + 1, 0],                  //position
 4,						  //Number Of units
-1,					      //Skill level 0-1. Has no effect if using custom skills
+"extreme",					      //Skill level 0-1. Has no effect if using custom skills
 "Random",			      //Primary gun set number. "Random" for random weapon set.
 4,						  //Number of magazines
 "",						  //Backpack "" for random or classname here.
@@ -92,7 +93,7 @@ _rndnum,				  //Number Of units
 
 [[(_position select 0) + 3.75,(_position select 1) - 11, 0],                  //position
 4,						  //Number Of units
-1,					      //Skill level 0-1. Has no effect if using custom skills
+"extreme",					      //Skill level 0-1. Has no effect if using custom skills
 "Random",			      //Primary gun set number. "Random" for random weapon set.
 4,						  //Number of magazines
 "",						  //Backpack "" for random or classname here.
@@ -103,7 +104,7 @@ _rndnum,				  //Number Of units
 
 [[(_position select 0) + 11.1,(_position select 1) + 12.1, 0],                  //position
 4,						  //Number Of units
-1,					      //Skill level 0-1. Has no effect if using custom skills
+"extreme",					      //Skill level 0-1. Has no effect if using custom skills
 "Random",			      //Primary gun set number. "Random" for random weapon set.
 4,						  //Number of magazines
 "",						  //Backpack "" for random or classname here.
@@ -125,9 +126,18 @@ _rndnum,				  //Number Of units
 ] call spawn_static;
 
 //CREATE MARKER
-[_position,_missionName] execVM wai_marker;
+[_position,_missionName,_difficulty] execVM wai_marker;
 
-_hint = parseText format ["<t align='center' color='#FF0000' shadow='2' size='1.75'>Priority Transmission</t><br/><t align='center' color='#FF0000'>------------------------------</t><br/><t align='center' color='#FFFFFF' size='1.25'>Main Mission</t><br/><t align='center'><img size='5' image='%1'/></t><br/><t align='center' color='#FFFFFF'>The Russian Military is setting up an outpost, They have building supplies, weapons and a %2</t>", _picture, _vehname];
+_hint = parseText format ["
+	<t align='center' color='#1E90FF' shadow='2' size='1.75'>Priority Transmission</t><br/>
+	<t align='center' color='#FFFFFF'>------------------------------</t><br/>
+	<t align='center' color='#1E90FF' size='1.25'>Main Mission</t><br/>
+	<t align='center' color='#FFFFFF' size='1.15'>Difficulty: <t color='#1E90FF'> EXTREME</t><br/>
+	<t align='center'><img size='5' image='%1'/></t><br/>
+	<t align='center' color='#FFFFFF'>The Russian Military is setting up an outpost, They have building supplies, weapons and a <t color='#1E90FF'>%2</t>", 
+	_picture, 
+	_vehname
+	];
 [nil,nil,rHINT,_hint] call RE;
 
 [nil,nil,rTitleText,"Russian Troops have been spotted building an outpost", "PLAIN",10] call RE;

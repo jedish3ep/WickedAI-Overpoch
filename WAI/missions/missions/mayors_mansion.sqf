@@ -1,8 +1,9 @@
-private ["_position","_box","_missiontimeout","_cleanmission","_playerPresent","_starttime","_currenttime","_cleanunits","_rndnum","_missionName","_hint"];
+private ["_position","_box","_missiontimeout","_cleanmission","_playerPresent","_starttime","_currenttime","_cleanunits","_rndnum","_missionName","_hint","_difficulty"];
 vehclass = military_unarmed call BIS_fnc_selectRandom;
  
 _position = [getMarkerPos "center",0,5500,10,0,2000,0] call BIS_fnc_findSafePos;
 _missionName = "Osama's Compound";
+_difficulty = "hard";
 
 //Large Gun Box
 _box = createVehicle ["BAF_VehicleBox",[(_position select 0),(_position select 1), .5], [], 0, "CAN_COLLIDE"];
@@ -14,21 +15,28 @@ diag_log format["WAI: Mission Osamas Compound Started At %1",_position];
 _baserunover = createVehicle ["Land_A_Villa_EP1",[(_position select 0), (_position select 1),0],[], 0, "CAN_COLLIDE"];
 
 _rndnum = round (random 3) + 4;
-[[_position select 0, _position select 1, 0],4,1,"Random",4,"","TK_INS_Soldier_EP1_DZ","Random","major"] call spawn_group;
-[[_position select 0, _position select 1, 0],4,1,"Random",4,"","TK_GUE_Soldier_Sniper_EP1","Random","major"] call spawn_group;
-[[_position select 0, _position select 1, 0],4,1,"Random",4,"","TK_GUE_Warlord_EP1","Random","major"] call spawn_group;
-[[_position select 0, _position select 1, 0],4,1,"Random",4,"","TK_GUE_Soldier_HAT_EP1","Random","major"] call spawn_group;
+[[_position select 0, _position select 1, 0],4,"hard","Random",4,"","TK_INS_Soldier_EP1_DZ","Random","major"] call spawn_group;
+[[_position select 0, _position select 1, 0],4,"hard","Random",4,"","TK_GUE_Soldier_Sniper_EP1","Random","major"] call spawn_group;
+[[_position select 0, _position select 1, 0],4,"hard","Random",4,"","TK_GUE_Warlord_EP1","Random","major"] call spawn_group;
+[[_position select 0, _position select 1, 0],4,"hard","Random",4,"","TK_GUE_Soldier_HAT_EP1","Random","major"] call spawn_group;
 
 //The HVT Himself
-[[_position select 0, _position select 1, 0],1,1,"Random",4,"","TK_GUE_Soldier_TL_EP1","Random","major"] call spawn_group;
+[[_position select 0, _position select 1, 0],1,"extreme","Random",4,"","TK_GUE_Soldier_TL_EP1","Random","major"] call spawn_group;
  
 [[[(_position select 0) - 15, (_position select 1) + 15, 8]],"KORD_high_TK_EP1",0.8,"TK_INS_Soldier_AT_EP1",1,2,"","Random","major"] call spawn_static;
 [[[(_position select 0) + 15, (_position select 1) - 15, 8]],"KORD_high_UN_EP1",0.8,"TK_Special_Forces_EP1",1,2,"","Random","major"] call spawn_static;
  
 //CREATE MARKER
-[_position,_missionName] execVM wai_marker;
+[_position,_missionName,_difficulty] execVM wai_marker;
 
-_hint = parseText format ["<t align='center' color='#FF0000' shadow='2' size='1.75'>Priority Transmission</t><br/><t align='center' color='#FF0000'>------------------------------</t><br/><t align='center' color='#FFFFFF' size='1.25'>Main Mission</t><br/><t align='center' color='#FFFFFF'>%1 : Osama Bin Laden has been spotted in the Region, Kill the HVT and secure the stolen loot</t>", _missionName];
+_hint = parseText format ["
+	<t align='center' color='#1E90FF' shadow='2' size='1.75'>Priority Transmission</t><br/>
+	<t align='center' color='#FFFFFF'>------------------------------</t><br/>
+	<t align='center' color='#1E90FF' size='1.25'>Main Mission</t><br/>
+	<t align='center' color='#FFFFFF' size='1.15'>Difficulty: <t color='#1E90FF'> HARD</t><br/>
+	<t align='center' color='#FFFFFF'>%1 : Osama Bin Laden has been spotted in the Region, Kill the HVT and secure the stolen loot</t>", 
+	_missionName
+	];
 [nil,nil,rHINT,_hint] call RE;
  
 [nil,nil,rTitleText,"Operation Neptune Spear - Kill the HVT and Secure the loot", "PLAIN",10] call RE;

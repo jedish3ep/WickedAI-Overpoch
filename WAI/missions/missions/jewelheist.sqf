@@ -1,12 +1,13 @@
 // Jewel Heist by JakeHekesFists
 
-private ["_playerPresent","_cleanmission","_currenttime","_starttime","_missiontimeout","_vehname","_veh","_position","_vehclass","_vehdir","_objPosition","_missionName","_hint","_picture","_tanktraps"];
+private ["_playerPresent","_cleanmission","_currenttime","_starttime","_missiontimeout","_vehname","_veh","_position","_vehclass","_vehdir","_objPosition","_missionName","_hint","_picture","_tanktraps","_difficulty"];
 
 _vehclass = armed_vehicle call BIS_fnc_selectRandom;
 
 _vehname	= getText (configFile >> "CfgVehicles" >> _vehclass >> "displayName");
 _missionName = "Jewel Heist";
 _picture = getText (configFile >> "CfgMagazines" >> "ItemRuby" >> "picture");
+_difficulty = "extreme";
 
 _positionarray = [[7352.2676,4199.4844,0],[10100.15,4907.896,0],[11468.288, 8656.8252,0],[12853.731,13510.467,0],[11628.281,13562.116,0],[10249.764,12872.967,0],[5314.1094,13544.473,0],[2354.7388,12587.786,0],[1485.0314,8441.3887,0]];
 _position = _positionarray call BIS_fnc_selectRandom;
@@ -39,7 +40,7 @@ _objPosition = getPosATL _veh;
 _rndnum = round (random 3) + 3;
 [[_position select 0, _position select 1, 0],                  //position
 _rndnum,						  //Number Of units
-1,					      //Skill level 0-1. Has no effect if using custom skills
+"extreme",					      //Skill level 0-1. Has no effect if using custom skills
 "Random",			      //Primary gun set number. "Random" for random weapon set.
 4,						  //Number of magazines
 "",						  //Backpack "" for random or classname here.
@@ -50,7 +51,7 @@ _rndnum,						  //Number Of units
 
 [[_position select 0, _position select 1, 0],                  //position
 4,						  //Number Of units
-1,					      //Skill level 0-1. Has no effect if using custom skills
+"extreme",					      //Skill level 0-1. Has no effect if using custom skills
 "Random",			      //Primary gun set number. "Random" for random weapon set.
 4,						  //Number of magazines
 "",						  //Backpack "" for random or classname here.
@@ -61,7 +62,7 @@ _rndnum,						  //Number Of units
 
 [[_position select 0, _position select 1, 0],                  //position
 4,						  //Number Of units
-1,					      //Skill level 0-1. Has no effect if using custom skills
+"extreme",					      //Skill level 0-1. Has no effect if using custom skills
 "Random",			      //Primary gun set number. "Random" for random weapon set.
 4,						  //Number of magazines
 "",						  //Backpack "" for random or classname here.
@@ -72,7 +73,7 @@ _rndnum,						  //Number Of units
 
 [[_position select 0, _position select 1, 0],                  //position
 4,						  //Number Of units
-1,					      //Skill level 0-1. Has no effect if using custom skills
+"extreme",					      //Skill level 0-1. Has no effect if using custom skills
 "Random",			      //Primary gun set number. "Random" for random weapon set.
 4,						  //Number of magazines
 "",						  //Backpack "" for random or classname here.
@@ -94,9 +95,18 @@ _rndnum,						  //Number Of units
 ] call spawn_static;
 
 //CREATE MARKER
-[_position,_missionName] execVM wai_marker;
+[_position,_missionName,_difficulty] execVM wai_marker;
 
-_hint = parseText format ["<t align='center' color='#FF0000' shadow='2' size='1.75'>Priority Transmission</t><br/><t align='center' color='#FF0000'>------------------------------</t><br/><t align='center' color='#FFFFFF' size='1.25'>Main Mission</t><br/><t align='center'><img size='5' image='%1'/></t><br/><t align='center' color='#FFFFFF'>A group of bandits have pulled off a jewel heist!</t><br/><t align='center' color='#FFFFFF'>They have been spotted in the woods. Kill them all and secure the jewels for yourself!</t>", _picture];
+_hint = parseText format ["
+	<t align='center' color='#1E90FF' shadow='2' size='1.75'>Priority Transmission</t><br/>
+	<t align='center' color='#FFFFFF'>------------------------------</t><br/>
+	<t align='center' color='#1E90FF' size='1.25'>Main Mission</t><br/>
+	<t align='center' color='#FFFFFF' size='1.15'>Difficulty: <t color='#1E90FF'> EXTREME</t><br/>
+	<t align='center'><img size='5' image='%1'/></t><br/>
+	<t align='center' color='#FFFFFF'>A group of bandits have pulled off a jewel heist!</t><br/>
+	<t align='center' color='#FFFFFF'>They have been spotted in the woods. Kill them all and secure the jewels for yourself!</t>", 
+	_picture
+	];
 [nil,nil,rHINT,_hint] call RE;
 
 [nil,nil,rTitleText,"A group of Bandits have just pulled off a Jewel Heist\nThey have been spotted in the woods. kill them all and secure the jewels for yourself", "PLAIN",10] call RE;

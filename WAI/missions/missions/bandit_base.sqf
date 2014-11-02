@@ -1,11 +1,11 @@
 //Bandit Base
 //Credits to Korbi Dallas for the information on setDir for the placement of nests
  
-private ["_position","_box","_missiontimeout","_cleanmission","_playerPresent","_starttime","_currenttime","_cleanunits","_rndnum","_box2","_missionName","_hint","_tanktraps"];
+private ["_position","_box","_missiontimeout","_cleanmission","_playerPresent","_starttime","_currenttime","_cleanunits","_rndnum","_box2","_missionName","_hint","_tanktraps","_difficulty"];
  
 _position = [getMarkerPos "center",0,5500,10,0,2000,0] call BIS_fnc_findSafePos;
 _missionName = "Bandit Base";
-
+_difficulty = "extreme";
 //Extra Large Gun Box
  _box = createVehicle ["RUVehicleBox",[(_position select 0) -3,(_position select 1),0], [], 0, "CAN_COLLIDE"];
 [_box] call Extra_Large_Gun_Box1;
@@ -50,11 +50,11 @@ _baserunover7 setVectorUp surfaceNormal position _baserunover7;
 
 //Group Spawning
 _rndnum = round (random 3) + 4;
-[[_position select 0, _position select 1, 0],_rndnum,1,"Random",4,"","FR_OHara_DZ","Random","major"] call spawn_group;
-[[_position select 0, _position select 1, 0],4,1,"Random",4,"","GUE_Soldier_Sniper_DZ","Random","major"] call spawn_group;
-[[_position select 0, _position select 1, 0],4,1,"Random",4,"","GUE_Soldier_MG_DZ","Random","major"] call spawn_group;
-[[_position select 0, _position select 1, 0],4,1,"Random",4,"","GUE_Soldier_Crew_DZ","Random","major"] call spawn_group;
-[[_position select 0, _position select 1, 0],4,1,"Random",4,"","Ins_Soldier_GL_DZ","Random","major"] call spawn_group;
+[[_position select 0, _position select 1, 0],_rndnum,"hard","Random",4,"","FR_OHara_DZ","Random","major"] call spawn_group;
+[[_position select 0, _position select 1, 0],4,"extreme","Random",4,"","GUE_Soldier_Sniper_DZ","Random","major"] call spawn_group;
+[[_position select 0, _position select 1, 0],4,"hard","Random",4,"","GUE_Soldier_MG_DZ","Random","major"] call spawn_group;
+[[_position select 0, _position select 1, 0],4,"extreme","Random",4,"","GUE_Soldier_Crew_DZ","Random","major"] call spawn_group;
+[[_position select 0, _position select 1, 0],4,"extreme","Random",4,"","Ins_Soldier_GL_DZ","Random","major"] call spawn_group;
  
 //Turrets
 [[[(_position select 0) - 10, (_position select 1) + 10, 0]],"KORD_high",0.8,"Ins_Soldier_GL_DZ",1,2,"","Random","major"] call spawn_static;
@@ -64,12 +64,19 @@ _rndnum = round (random 3) + 4;
 [[[(_position select 0) - 15, (_position select 1) - 15, 0]],"SPG9_TK_GUE_EP1",0.8,"FR_OHara_DZ",1,2,"","Random","major"] call spawn_static;
 
 //Heli Paradrop
-[[(_position select 0), (_position select 1), 0],[7743.41, 7040.93, 0],400,"Mi17_TK_EP1",10,1,"Random",4,"","Ins_Soldier_GL_DZ","Random","major"] spawn heli_para;
+[[(_position select 0), (_position select 1), 0],[7743.41, 7040.93, 0],400,"Mi17_TK_EP1",10,"extreme","Random",4,"","Ins_Soldier_GL_DZ","Random","major"] spawn heli_para;
 
 //CREATE MARKER
-[_position,_missionName] execVM wai_marker;
+[_position,_missionName,_difficulty] execVM wai_marker;
 
-_hint = parseText format ["<t align='center' color='#FF0000' shadow='2' size='1.75'>Priority Transmission</t><br/><t align='center' color='#FF0000'>------------------------------</t><br/><t align='center' color='#FFFFFF' size='1.25'>Main Mission</t><br/><t align='center' color='#FFFFFF'>%1 : A Jungle task force have set up a temporary encampment! Go and ambush it to make it yours!</t>",_missionName];
+_hint = parseText format ["
+	<t align='center' color='#1E90FF' shadow='2' size='1.75'>Priority Transmission</t><br/>
+	<t align='center' color='#FFFFFF'>------------------------------</t><br/>
+	<t align='center' color='#1E90FF' size='1.25'>Main Mission</t><br/>
+	<t align='center' color='#FFFFFF' size='1.15'>Difficulty: <t color='#1E90FF'> EXTREME</t><br/>
+	<t align='center' color='#FFFFFF'>%1 : A Jungle task force have set up a temporary encampment! Go and ambush it to make it yours!</t>",
+	_missionName
+	];
 [nil,nil,rHINT,_hint] call RE;
 
 [nil,nil,rTitleText,"A jungle task force have set up a temporary encampment! Go and ambush it to make it yours!!", "PLAIN",10] call RE;

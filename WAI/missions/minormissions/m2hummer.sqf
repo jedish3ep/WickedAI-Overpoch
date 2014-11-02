@@ -1,6 +1,7 @@
-private ["_playerPresent","_cleanmission","_currenttime","_starttime","_missiontimeout","_vehname","_veh","_position","_vehclass","_vehdir","_objPosition","_picture","_hint","_missionName"];
+private ["_playerPresent","_cleanmission","_currenttime","_starttime","_missiontimeout","_vehname","_veh","_position","_vehclass","_vehdir","_objPosition","_picture","_hint","_missionName","_difficulty"];
 
 _vehclass = "HMMWV_M1151_M2_DES_EP1";
+_difficulty = "normal";
 
 _vehname	= getText (configFile >> "CfgVehicles" >> _vehclass >> "displayName");
 
@@ -43,7 +44,7 @@ _objPosition = getPosATL _veh;
 _rndnum = round (random 3) + 4;
 [[_position select 0, _position select 1, 0],                  //position
 _rndnum,				  //Number Of units
-1,					      //Skill level 0-1. Has no effect if using custom skills
+"normal",					      //Skill level 0-1. Has no effect if using custom skills
 "Random",			      //Primary gun set number. "Random" for random weapon set.
 4,						  //Number of magazines
 "",						  //Backpack "" for random or classname here.
@@ -54,7 +55,7 @@ _rndnum,				  //Number Of units
 
 [[_position select 0, _position select 1, 0],                  //position
 4,						  //Number Of units
-1,					      //Skill level 0-1. Has no effect if using custom skills
+"normal",					      //Skill level 0-1. Has no effect if using custom skills
 "Random",			      //Primary gun set number. "Random" for random weapon set.
 4,						  //Number of magazines
 "",						  //Backpack "" for random or classname here.
@@ -65,7 +66,7 @@ _rndnum,				  //Number Of units
 
 [[_position select 0, _position select 1, 0],                  //position
 4,						  //Number Of units
-1,					      //Skill level 0-1. Has no effect if using custom skills
+"normal",					      //Skill level 0-1. Has no effect if using custom skills
 "Random",			      //Primary gun set number. "Random" for random weapon set.
 4,						  //Number of magazines
 "",						  //Backpack "" for random or classname here.
@@ -76,11 +77,20 @@ _rndnum,				  //Number Of units
 
 
 //CREATE MARKER
-[_position,_missionName] execVM wai_minor_marker;
+[_position,_missionName,_difficulty] execVM wai_minor_marker;
 
 [nil,nil,rTitleText,"US Forces have been spotted with a GPK M2 Hummer\nKill the soldiers and make the vehicle your own!", "PLAIN",10] call RE;
 
-_hint = parseText format ["<t align='center' color='#FF0000' shadow='2' size='1.75'>Priority Transmission</t><br/><t align='center' color='#FF0000'>------------------------------</t><br/><t align='center' color='#FFFFFF' size='1.25'>Side Mission</t><br/><t align='center'><img size='5' image='%1'/></t><br/><t align='center' color='#FFFFFF'>The US Military have a<t color='#FF0000'> %2</t>Eliminate the soldiers and make it yours!</t>", _picture, _vehname];
+_hint = parseText format ["
+	<t align='center' color='#1E90FF' shadow='2' size='1.75'>Priority Transmission</t><br/>
+	<t align='center' color='#FFFFFF'>------------------------------</t><br/>
+	<t align='center' color='#1E90FF' size='1.25'>Side Mission</t><br/>
+	<t align='center' color='#FFFFFF' size='1.15'>Difficulty: <t color='#1E90FF'> NORMAL</t><br/>
+	<t align='center'><img size='5' image='%1'/></t><br/>
+	<t align='center' color='#FFFFFF'>The US Military have a<t color='#1E90FF'> %2</t>Eliminate the soldiers and make it yours!</t>",
+	 _picture,
+	 _vehname
+	 ];
 [nil,nil,rHINT,_hint] call RE;
 
 _missiontimeout = true;

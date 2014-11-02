@@ -1,12 +1,13 @@
 //Medical Supply
 
-private ["_playerPresent","_cleanmission","_currenttime","_starttime","_missiontimeout","_vehname","_veh","_position","_vehclass","_vehdir","_objPosition","_missionName","_hint","_picture"];
+private ["_playerPresent","_cleanmission","_currenttime","_starttime","_missiontimeout","_vehname","_veh","_position","_vehclass","_vehdir","_objPosition","_missionName","_hint","_picture","_difficulty"];
 _vehclass = "MV22_DZ";
 
 _vehname	= getText (configFile >> "CfgVehicles" >> _vehclass >> "displayName");
 _picture = getText (configFile >> "cfgVehicles" >> _vehclass >> "picture");
 
 _missionName = _vehname;
+_difficulty = "extreme";
 
 _position = [getMarkerPos "center",0,5500,10,0,2000,0] call BIS_fnc_findSafePos;
 diag_log format["WAI: Mission MV22 Started At %1",_position];
@@ -35,7 +36,7 @@ _objPosition = getPosATL _veh;
 _rndnum = round (random 3) + 4;
 [[_position select 0, _position select 1, 0],                  //position
 _rndnum,				  //Number Of units
-1,					      //Skill level 0-1. Has no effect if using custom skills
+"extreme",					      //Skill level
 "Random",			      //Primary gun set number. "Random" for random weapon set.
 4,						  //Number of magazines
 "",						  //Backpack "" for random or classname here.
@@ -46,7 +47,7 @@ _rndnum,				  //Number Of units
 
 [[_position select 0, _position select 1, 0],                  //position
 4,						  //Number Of units
-1,					      //Skill level 0-1. Has no effect if using custom skills
+"extreme",					      //Skill level
 "Random",			      //Primary gun set number. "Random" for random weapon set.
 4,						  //Number of magazines
 "",						  //Backpack "" for random or classname here.
@@ -57,7 +58,7 @@ _rndnum,				  //Number Of units
 
 [[_position select 0, _position select 1, 0],                  //position
 4,						  //Number Of units
-1,					      //Skill level 0-1. Has no effect if using custom skills
+"extreme",					      //Skill level
 "Random",			      //Primary gun set number. "Random" for random weapon set.
 4,						  //Number of magazines
 "",						  //Backpack "" for random or classname here.
@@ -68,7 +69,7 @@ _rndnum,				  //Number Of units
 
 [[_position select 0, _position select 1, 0],                  //position
 4,						  //Number Of units
-1,					      //Skill level 0-1. Has no effect if using custom skills
+"extreme",					      //Skill level
 "Random",			      //Primary gun set number. "Random" for random weapon set.
 4,						  //Number of magazines
 "",						  //Backpack "" for random or classname here.
@@ -90,9 +91,18 @@ _rndnum,				  //Number Of units
 ] call spawn_static;
 
 //CREATE MARKER
-[_position,_missionName] execVM wai_marker;
+[_position,_missionName,_difficulty] execVM wai_marker;
 
-_hint = parseText format ["<t align='center' color='#FF0000' shadow='2' size='1.75'>Priority Transmission</t><br/><t align='center' color='#FF0000'>------------------------------</t><br/><t align='center' color='#FFFFFF' size='1.25'>Main Mission</t><br/><t align='center'><img size='5' image='%1'/></t><br/><t align='center' color='#FFFFFF'>Bandits have captured a Red Cross %2, Our informant has advised there is medical supplies. Your map has been updated with the location!</t>", _picture, _vehname];
+_hint = parseText format ["
+	<t align='center' color='#1E90FF' shadow='2' size='1.75'>Priority Transmission</t><br/>
+	<t align='center' color='#FFFFFF'>------------------------------</t><br/>
+	<t align='center' color='#1E90FF' size='1.25'>Main Mission</t><br/>
+	<t align='center' color='#FFFFFF' size='1.15'>Difficulty: <t color='#1E90FF'> EXTREME</t><br/>
+	<t align='center'><img size='5' image='%1'/></t><br/>
+	<t align='center' color='#FFFFFF'>Bandits have captured a Red Cross %2, Our informant has advised there is medical supplies. Your map has been updated with the location!</t>", 
+	_picture, 
+	_vehname
+	];
 [nil,nil,rHINT,_hint] call RE;
 
 [nil,nil,rTitleText,"Bandits have captured a Red Cross MV-22! An informant has advised there is medical supplies, he has updated the map for the location!", "PLAIN",10] call RE;
