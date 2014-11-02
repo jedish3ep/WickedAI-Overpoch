@@ -37,15 +37,6 @@ _baserunover4 setVectorUp surfaceNormal position _baserunover4;
 _baserunover5 = createVehicle ["FlagCarrierRU",[(_position select 0) - 0.7871, (_position select 1) + 9.979],[], 0, "CAN_COLLIDE"];
 _baserunover5 setVectorUp surfaceNormal position _baserunover5;
 
-// SMOKE EFFECTS
-if(wai_smoke) then {
-	_smoke1 = createVehicle [_smokey,[(_position select 0) - 9.6377,(_position select 1) - 11.9394,0], [], 0, "CAN_COLLIDE"];
-	_smoke2 = createVehicle [_smokey,[(_position select 0) + 13.1592,(_position select 1) - 1.2251,0], [], 0, "CAN_COLLIDE"];
-	_smoke3 = createVehicle [_smokey,[(_position select 0),(_position select 1) + 8,0], [], 0, "CAN_COLLIDE"];
-	_smoke4 = createVehicle [_smokey,[(_position select 0) - 13,(_position select 1) - 2,0], [], 0, "CAN_COLLIDE"];
-	sleep 25; 
-};
-
 // Building Supplies
 _box = createVehicle ["USVehicleBox",[(_position select 0) + 6.6914,(_position select 1) + 1.1939,0], [], 0, "CAN_COLLIDE"];
 [_box] call Construction_Supply_Box;
@@ -161,6 +152,13 @@ if (_playerPresent) then {
 		_playerPresent = false;
 		{if((isPlayer _x) AND (_x distance _position <= 30)) then {_playerPresent = true};}forEach playableUnits;
 		(_playerPresent)
+	};
+	// SMOKE EFFECTS
+	if(wai_smoke) then {
+		_smoke1 = createVehicle [_smokey,[(_position select 0) - 9.6377,(_position select 1) - 11.9394,0], [], 0, "CAN_COLLIDE"];
+		_smoke2 = createVehicle [_smokey,[(_position select 0) + 13.1592,(_position select 1) - 1.2251,0], [], 0, "CAN_COLLIDE"];
+		_smoke3 = createVehicle [_smokey,[(_position select 0),(_position select 1) + 8,0], [], 0, "CAN_COLLIDE"];
+		_smoke4 = createVehicle [_smokey,[(_position select 0) - 13,(_position select 1) - 2,0], [], 0, "CAN_COLLIDE"];
 	};
 	diag_log format["WAI: Mission rusBase Ended At %1",_position];
 	[nil,nil,rTitleText,"The RU Forces have been killed, Great Job!", "PLAIN",10] call RE;
