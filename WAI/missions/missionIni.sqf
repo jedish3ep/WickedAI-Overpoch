@@ -14,6 +14,7 @@ Large_Gun_Box = compile preprocessFileLineNumbers "\z\addons\dayz_server\WAI\mis
 Medium_Gun_Box = compile preprocessFileLineNumbers "\z\addons\dayz_server\WAI\missions\compile\MediumGunBox.sqf";
 Small_Gun_Box = compile preprocessFileLineNumbers "\z\addons\dayz_server\WAI\missions\compile\SmallGunBox.sqf";
 Jewel_Heist_Box = compile preprocessFileLineNumbers "\z\addons\dayz_server\WAI\missions\compile\JewelHeistBox.sqf";
+priest_gold_box = compile preprocessFileLineNumbers "\z\addons\dayz_server\WAI\missions\compile\priestBox.sqf";
 
 tank_traps						= compile preprocessFileLineNumbers "\z\addons\dayz_server\WAI\compile\tank_traps.sqf";
 

@@ -29,7 +29,8 @@
 		"vehAmmo",
 		"m2hummer",
 		"banditsquad",
-		"stashHouse"
+		"stashHouse",
+		"pervertPriest"
 	];
 
 
