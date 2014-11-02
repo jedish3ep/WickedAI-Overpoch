@@ -33,5 +33,3 @@ BoxRandomizer=floor(random 3);
 		_box addMagazineCargoGlobal ["ItemSilverBar", 10];
 		_box addMagazineCargoGlobal ["ItemSilverBar10oz", 10];
 		};
-
-

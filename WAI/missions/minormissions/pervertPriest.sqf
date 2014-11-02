@@ -6,7 +6,6 @@ _difficulty = "normal";
 _position = [getMarkerPos "center",0,5500,10,0,2000,0] call BIS_fnc_findSafePos;
 diag_log format["WAI: Mission pervertPriest Started At %1",_position];
 
-
 // CHURCH
 _base = createVehicle ["Land_Church_03",_position, [], 0, "CAN_COLLIDE"];
 _box = createVehicle ["RUOrdnanceBox",[(_position select 0) + 6.0991, (_position select 1) + 4.1523, 0.55672312], [], 0, "CAN_COLLIDE"];
@@ -67,7 +66,6 @@ while {_missiontimeout} do {
 	if ((_playerPresent) OR (_cleanmission)) then {_missiontimeout = false;};
 };
 if (_playerPresent) then {
-	[_veh,[_vehdir,_objPosition],_vehclass,true,"0"] call custom_publish;
 	waitUntil
 	{
 		sleep 5;
