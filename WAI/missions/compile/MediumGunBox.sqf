@@ -11,7 +11,6 @@ clearMagazineCargoGlobal _box;
 // RIFLES
 _box addWeaponCargoGlobal ["G36C", 1];
 _box addWeaponCargoGlobal ["M4A1_AIM_CAMO", 1];
-_box addWeaponCargoGlobal ["BAF_L85A2_RIS_CWS", 1];
 _box addWeaponCargoGlobal ["AK_47_M", 1];
 _box addWeaponCargoGlobal ["RPK_74", 1];
 _box addWeaponCargoGlobal ["M4A1_AIM_SD_camo", 1];
@@ -24,7 +23,7 @@ _box addWeaponCargoGlobal ["UZI_EP1", 1];
 
 // AMMUNITION
 _box addMagazineCargoGlobal ["30Rnd_556x45_G36", 8];
-_box addMagazineCargoGlobal ["30Rnd_556x45_Stanag", 12];
+_box addMagazineCargoGlobal ["30Rnd_556x45_Stanag", 8];
 _box addMagazineCargoGlobal ["30Rnd_762x39_AK47", 8];
 _box addMagazineCargoGlobal ["30Rnd_556x45_Stanag", 8];
 _box addMagazineCargoGlobal ["75Rnd_545x39_RPK", 4];
