@@ -12,6 +12,7 @@ clearMagazineCargoGlobal _box;
 _box addWeaponCargoGlobal ["DMR_DZ", 1];
 _box addWeaponCargoGlobal ["BAF_LRR_scoped_W", 1];
 _box addWeaponCargoGlobal ["M4A3_RCO_GL_EP1", 1];
+_box addWeaponCargoGlobal ["BAF_L85A2_RIS_CWS", 2];
 _box addWeaponCargoGlobal ["M110_NVG_EP1", 1];
 _box addWeaponCargoGlobal ["Mk_48_DES_EP1", 1];
 _box addWeaponCargoGlobal ["M14_EP1", 1];
@@ -35,7 +36,7 @@ _box addWeaponCargoGlobal ["bizon_silenced", 1];
 // AMMUNITION
 _box addMagazineCargoGlobal ["20Rnd_762x51_DMR", 5];
 _box addMagazineCargoGlobal ["5Rnd_86x70_L115A1", 5];
-_box addMagazineCargoGlobal ["30Rnd_556x45_Stanag", 10];
+_box addMagazineCargoGlobal ["30Rnd_556x45_Stanag", 15];
 _box addMagazineCargoGlobal ["20Rnd_762x51_B_SCAR", 10];
 _box addMagazineCargoGlobal ["100Rnd_762x51_M240", 4];
 _box addMagazineCargoGlobal ["20Rnd_762x51_DMR", 5];
