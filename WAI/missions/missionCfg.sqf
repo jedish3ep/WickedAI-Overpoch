@@ -32,7 +32,8 @@
 		"stashHouse",
 		"pervertPriest",
 		"humveeCrash",
-		"wepsTruck"
+		"wepsTruck",
+		"strandedAPC"
 	];
 
 

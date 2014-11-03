@@ -25,5 +25,5 @@ _veh setVariable ["ObjectID", _objectID, true];
 _veh setVariable ["ObjectUID", _objectID, true];
 _veh setVariable ["permaLoot",true]; // not sure if needed. keep anyways
 
-_veh addEventHandler ["GetIn",{_nil = [nil,(_this select 2),"loc",rTITLETEXT,"Warning: This Vehicle will despawn on Server Restart. Sell it Before Restart!","PLAIN DOWN",5] call RE;}];
+_veh addEventHandler ["GetIn",{_nil = [nil,(_this select 2),"loc",rTITLETEXT,"Warning: This Vehicle will despawn on Server Restart. Either sell it or go fuck shit up!","PLAIN DOWN",5] call RE;}];
 PVDZE_serverObjectMonitor set [count PVDZE_serverObjectMonitor,_veh];
