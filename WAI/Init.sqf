@@ -10,6 +10,7 @@ on_kill = compile preprocessFileLineNumbers "\z\addons\dayz_server\WAI\compile\a
 ai_monitor = compile preprocessFileLineNumbers "\z\addons\dayz_server\WAI\compile\AImonitor.sqf";
 veh_monitor = compile preprocessFileLineNumbers "\z\addons\dayz_server\WAI\compile\vehicle_monitor.sqf";
 missionComplete = compile preprocessFileLineNumbers "\z\addons\dayz_server\WAI\compile\fn_missionComplete.sqf";
+spawnTempVehicle = compile preprocessFileLineNumbers "\z\addons\dayz_server\WAI\compile\fn_tempVeh.sqf";
 
 createCenter east;
 WEST setFriend [EAST,0];

@@ -15,7 +15,8 @@ Medium_Gun_Box = compile preprocessFileLineNumbers "\z\addons\dayz_server\WAI\mi
 Small_Gun_Box = compile preprocessFileLineNumbers "\z\addons\dayz_server\WAI\missions\compile\SmallGunBox.sqf";
 Jewel_Heist_Box = compile preprocessFileLineNumbers "\z\addons\dayz_server\WAI\missions\compile\JewelHeistBox.sqf";
 priest_gold_box = compile preprocessFileLineNumbers "\z\addons\dayz_server\WAI\missions\compile\priestBox.sqf";
-
+vehicle_wreck_box = compile preprocessFileLineNumbers "\z\addons\dayz_server\WAI\missions\compile\vehicleWreckBox.sqf";
+// TANK TRAPS
 tank_traps						= compile preprocessFileLineNumbers "\z\addons\dayz_server\WAI\compile\tank_traps.sqf";
 
 clean_running_mission = False;

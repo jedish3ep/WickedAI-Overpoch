@@ -29,26 +29,15 @@ PVDZE_serverObjectMonitor set [count PVDZE_serverObjectMonitor,_veh];
 diag_log format["WAI: Mission Convoy spawned a %1",_vehclass];
 
 _objPosition = getPosATL _veh;
+// CARGO TRUCK WILL SAVE! 
 
 _veh2 = createVehicle [_vehclass2,[(_position select 0) + 15,(_position select 1),0], [], 0, "CAN_COLLIDE"];
-_veh2 setDir _vehdir;
-clearWeaponCargoGlobal _veh2;
-clearMagazineCargoGlobal _veh2;
-_veh2 setVariable ["ObjectID","1",true];
-PVDZE_serverObjectMonitor set [count PVDZE_serverObjectMonitor,_veh2];
-diag_log format["WAI: Mission Convoy spawned a %1",_vehclass2];
-
-_objPosition2 = getPosATL _veh2;
+[_veh2,0,0.75] call spawnTempVehicle;
+//[_veh,damage,fuel] call spawnTempVehicle;
 
 _veh3 = createVehicle [_vehclass3,[(_position select 0) + 30,(_position select 1),0], [], 0, "CAN_COLLIDE"];
-_veh3 setDir _vehdir;
-clearWeaponCargoGlobal _veh3;
-clearMagazineCargoGlobal _veh3;
-_veh3 setVariable ["ObjectID","1",true];
-PVDZE_serverObjectMonitor set [count PVDZE_serverObjectMonitor,_veh3];
-diag_log format["WAI: Mission Convoy spawned a %1",_vehclass3];
-
-_objPosition3 = getPosATL _veh3;
+[_veh3,0,0.67] call spawnTempVehicle;
+//[_veh,damage,fuel] call spawnTempVehicle;
 
 //Troops
 _rndnum = round (random 3) + 5;
@@ -124,8 +113,6 @@ while {_missiontimeout} do {
 };
 if (_playerPresent) then {
 	[_veh,[_vehdir,_objPosition],_vehclass,true,"0"] call custom_publish;
-	[_veh2,[_vehdir,_objPosition2],_vehclass2,true,"0"] call custom_publish;
-	[_veh3,[_vehdir,_objPosition3],_vehclass3,true,"0"] call custom_publish;
 	[_position,"WAImajorArray"] call missionComplete;
 	diag_log format["WAI: Mission Convoy Ended At %1",_position];
 	[nil,nil,rTitleText,"Survivors have secured the building supplies!", "PLAIN",10] call RE;

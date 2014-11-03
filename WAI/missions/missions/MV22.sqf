@@ -1,6 +1,6 @@
 //Medical Supply
 
-private ["_playerPresent","_cleanmission","_currenttime","_starttime","_missiontimeout","_vehname","_veh","_position","_vehclass","_vehdir","_objPosition","_missionName","_hint","_picture","_difficulty"];
+private ["_playerPresent","_cleanmission","_currenttime","_starttime","_missiontimeout","_vehname","_veh","_position","_vehclass","_vehdir","_missionName","_hint","_picture","_difficulty"];
 _vehclass = "MV22_DZ";
 
 _vehname	= getText (configFile >> "CfgVehicles" >> _vehclass >> "displayName");
@@ -21,16 +21,8 @@ _tent = createVehicle ["USMC_WarfareBFieldHospital",[(_position select 0) - 20,(
 
 //MV22
 _veh = createVehicle [_vehclass,_position, [], 0, "CAN_COLLIDE"];
-_vehdir = round(random 360);
-_veh setDir _vehdir;
-clearWeaponCargoGlobal _veh;
-clearMagazineCargoGlobal _veh;
-_veh setVariable ["ObjectID","1",true];
-PVDZE_serverObjectMonitor set [count PVDZE_serverObjectMonitor,_veh];
-diag_log format["WAI: Mission MV22 spawned a %1",_vehname];
-
-_objPosition = getPosATL _veh;
-//[_veh,[_vehdir,_objPosition],_vehclass,true,"0"] call custom_publish;
+[_veh,0,0.75] call spawnTempVehicle;
+//[_veh,damage,fuel] call spawnTempVehicle;
 
 //Troops
 _rndnum = round (random 3) + 4;
@@ -123,7 +115,6 @@ while {_missiontimeout} do {
 	if ((_playerPresent) OR (_cleanmission)) then {_missiontimeout = false;};
 };
 if (_playerPresent) then {
-	[_veh,[_vehdir,_objPosition],_vehclass,true,"0"] call custom_publish;
 	[_position,"WAImajorArray"] call missionComplete;
 	diag_log format["WAI: Mission MV-22 Ended At %1",_position];
 	[nil,nil,rTitleText,"Survivors have secured the MV-22!", "PLAIN",10] call RE;

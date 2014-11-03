@@ -30,7 +30,9 @@
 		"m2hummer",
 		"banditsquad",
 		"stashHouse",
-		"pervertPriest"
+		"pervertPriest",
+		"humveeCrash",
+		"wepsTruck"
 	];
 
 

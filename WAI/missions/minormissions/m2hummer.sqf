@@ -1,4 +1,4 @@
-private ["_playerPresent","_cleanmission","_currenttime","_starttime","_missiontimeout","_vehname","_veh","_position","_vehclass","_vehdir","_objPosition","_picture","_hint","_missionName","_difficulty"];
+private ["_playerPresent","_cleanmission","_currenttime","_starttime","_missiontimeout","_vehname","_veh","_position","_vehclass","_vehdir","_picture","_hint","_missionName","_difficulty"];
 
 _vehclass = "HMMWV_M1151_M2_DES_EP1";
 _difficulty = "normal";
@@ -29,16 +29,11 @@ _tent2 setDir 270;
 
 //Hummer
 _veh = createVehicle [_vehclass,_position, [], 0, "CAN_COLLIDE"];
-_vehdir = round(random 360);
-_veh setDir _vehdir;
-clearWeaponCargoGlobal _veh;
-clearMagazineCargoGlobal _veh;
-_veh setVariable ["ObjectID","1",true];
-PVDZE_serverObjectMonitor set [count PVDZE_serverObjectMonitor,_veh];
+[_veh,0,0.75] call spawnTempVehicle; 
+//[_veh,damage,fuel] call spawnTempVehicle;
+
 diag_log format["WAI: Mission m2hummer spawned a %1",_vehname];
 
-_objPosition = getPosATL _veh;
-//[_veh,[_vehdir,_objPosition],_vehclass,true,"0"] call custom_publish;
 
 //Troops
 _rndnum = round (random 3) + 4;
@@ -108,7 +103,6 @@ while {_missiontimeout} do {
 	if ((_playerPresent) OR (_cleanmission)) then {_missiontimeout = false;};
 };
 if (_playerPresent) then {
-	[_veh,[_vehdir,_objPosition],_vehclass,true,"0"] call custom_publish;
 	[_position,"WAIminorArray"] call missionComplete;
 	diag_log format["WAI: Mission m2hummer Ended At %1",_position];
 	[nil,nil,rTitleText,"US Forces have been wiped out, Good Work!", "PLAIN",10] call RE;

@@ -4,7 +4,6 @@
 // https://github.com/SMVampire/DZMS-DayZMissionSystem/blob/master/DZMS/DZMSFunctions.sqf
 // credits to Vampire
 
-
 private["_position","_unitArray","_numSpawned","_numKillReq"];
 
 _position = _this select 0;
