@@ -42,7 +42,8 @@ _rndnum,				  //Number Of units
 "",						  //Backpack "" for random or classname here.
 "",						  //Skin "" for random or classname here.
 "Random",				  //Gearset number. "Random" for random gear set.
-"major"
+"major",
+"WAImajorArray"
 ] call spawn_group;
 
 [[_position select 0, _position select 1, 0],                  //position
@@ -53,7 +54,8 @@ _rndnum,				  //Number Of units
 "",						  //Backpack "" for random or classname here.
 "",						  //Skin "" for random or classname here.
 "Random",				  //Gearset number. "Random" for random gear set.
-"major"
+"major",
+"WAImajorArray"
 ] call spawn_group;
 
 [[_position select 0, _position select 1, 0],                  //position
@@ -64,7 +66,8 @@ _rndnum,				  //Number Of units
 "",						  //Backpack "" for random or classname here.
 "",						  //Skin "" for random or classname here.
 "Random",				  //Gearset number. "Random" for random gear set.
-"major"						// mission true
+"major",
+"WAImajorArray"
 ] call spawn_group;
 
 [[_position select 0, _position select 1, 0],                  //position
@@ -75,7 +78,8 @@ _rndnum,				  //Number Of units
 "",						  //Backpack "" for random or classname here.
 "",						  //Skin "" for random or classname here.
 "Random",				  //Gearset number. "Random" for random gear set.
-"major"						// mission true
+"major",
+"WAImajorArray"
 ] call spawn_group;
 
 //Turrets
@@ -120,13 +124,7 @@ while {_missiontimeout} do {
 };
 if (_playerPresent) then {
 	[_veh,[_vehdir,_objPosition],_vehclass,true,"0"] call custom_publish;
-	waitUntil
-	{
-		sleep 5;
-		_playerPresent = false;
-		{if((isPlayer _x) AND (_x distance _position <= 30)) then {_playerPresent = true};}forEach playableUnits;
-		(_playerPresent)
-	};
+	[_position,"WAImajorArray"] call missionComplete;
 	diag_log format["WAI: Mission MV-22 Ended At %1",_position];
 	[nil,nil,rTitleText,"Survivors have secured the MV-22!", "PLAIN",10] call RE;
 } else {

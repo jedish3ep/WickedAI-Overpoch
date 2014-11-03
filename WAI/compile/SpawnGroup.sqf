@@ -1,4 +1,4 @@
-private ["_RPG","_mission","_aipack","_aicskill","_position","_unitnumber","_skill","_gun","_mags","_backpack","_skin","_gear","_aiweapon","_aigear","_aiskin","_skillarray","_unitGroup","_weapon","_magazine","_weaponandmag","_gearmagazines","_geartools","_unit"];
+private ["_RPG","_mission","_aipack","_aicskill","_position","_unitnumber","_skill","_gun","_mags","_backpack","_skin","_gear","_aiweapon","_aigear","_aiskin","_skillarray","_unitGroup","_weapon","_magazine","_weaponandmag","_gearmagazines","_geartools","_unit","_unitArray"];
 _position = _this select 0;
 _unitnumber = _this select 1;
 _skill = _this select 2;
@@ -8,14 +8,8 @@ _backpack = _this select 5;
 _skin = _this select 6;
 _gear = _this select 7;
 _mission = _this select 8;
+_unitArray = _this select 9; 
 
-/*
-if (count _this > 8) then {
-	_mission = _this select 8;
-} else {
-	_mission = False;
-};
-*/
 
 _RPG = 1;
 
@@ -116,15 +110,12 @@ for "_x" from 1 to _unitnumber do {
 			case default {};
 		};
 
-
-			/*
-				if (_mission) then {
-					_unit setVariable ["missionclean", "ground"];
-				};
-			*/
-
 };
+
+// load the unit groups into a passed array name so they can be cleaned up later
+call compile format["%1 = %1 + (units _unitGroup);",_unitArray];
+
 _unitGroup selectLeader ((units _unitGroup) select 0);
 [_unitGroup, _position, _mission] call group_waypoints;
 
-diag_log format ["WAI: Spawned a group of %1 Bandits at %2 - Type: %3",_unitnumber,_position,_mission];
+diag_log format ["WAI: Spawned a group of %1 Bandits at %2 - AI Type: %3",_unitnumber,_position,_mission];

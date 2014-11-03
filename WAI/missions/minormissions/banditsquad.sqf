@@ -16,7 +16,8 @@ _rndnum,				  //Number Of units
 "",						  //Backpack "" for random or classname here.
 "",						  //Skin "" for random or classname here.
 "Random",				  //Gearset number. "Random" for random gear set.
-"minor"					  //mission type
+"minor",					  //mission type
+"WAIminorArray"
 ] call spawn_group;
 
 //CREATE MARKER
@@ -47,13 +48,7 @@ while {_missiontimeout} do {
 	if ((_playerPresent) OR (_cleanmission)) then {_missiontimeout = false;};
 };
 if (_playerPresent) then {
-	waitUntil
-	{
-		sleep 5;
-		_playerPresent = false;
-		{if((isPlayer _x) AND (_x distance _position <= 30)) then {_playerPresent = true};}forEach playableUnits;
-		(_playerPresent)
-	};
+	[_position,"WAIminorArray"] call missionComplete;
 	diag_log format["WAI: Mission bandSquad Ended At %1",_position];
 	[nil,nil,rTitleText,"All bandits bagged and tagged, Nice Work!", "PLAIN",10] call RE;
 } else {

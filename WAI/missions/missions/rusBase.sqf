@@ -62,46 +62,50 @@ _objPosition = getPosATL _veh;
 _rndnum = round (random 3) + 4;
 [[(_position select 0) - 23,(_position select 1) - 1.32, 0],                  //position
 _rndnum,				  //Number Of units
-"extreme",					      //Skill level 0-1. Has no effect if using custom skills
+"extreme",					      //Skill level
 "Random",			      //Primary gun set number. "Random" for random weapon set.
 4,						  //Number of magazines
 "",						  //Backpack "" for random or classname here.
 "RU_Commander",						  //Skin "" for random or classname here.
 "Random",				  //Gearset number. "Random" for random gear set.
-"major"
+"major",
+"WAImajorArray"
 ] call spawn_group;
 
 [[(_position select 0) + 28,(_position select 1) + 1, 0],                  //position
 4,						  //Number Of units
-"extreme",					      //Skill level 0-1. Has no effect if using custom skills
+"extreme",					      //Skill level
 "Random",			      //Primary gun set number. "Random" for random weapon set.
 4,						  //Number of magazines
 "",						  //Backpack "" for random or classname here.
 "RU_Soldier_HAT",						  //Skin "" for random or classname here.
 "Random",				  //Gearset number. "Random" for random gear set.
-"major"
+"major",
+"WAImajorArray"
 ] call spawn_group;
 
 [[(_position select 0) + 3.75,(_position select 1) - 11, 0],                  //position
 4,						  //Number Of units
-"extreme",					      //Skill level 0-1. Has no effect if using custom skills
+"extreme",					      //Skill level
 "Random",			      //Primary gun set number. "Random" for random weapon set.
 4,						  //Number of magazines
 "",						  //Backpack "" for random or classname here.
 "MVD_Soldier_Marksman",	  //Skin "" for random or classname here.
 "Random",				  //Gearset number. "Random" for random gear set.
-"major"					  // mission true
+"major",
+"WAImajorArray"
 ] call spawn_group;
 
 [[(_position select 0) + 11.1,(_position select 1) + 12.1, 0],                  //position
 4,						  //Number Of units
-"extreme",					      //Skill level 0-1. Has no effect if using custom skills
+"extreme",					      //Skill level
 "Random",			      //Primary gun set number. "Random" for random weapon set.
 4,						  //Number of magazines
 "",						  //Backpack "" for random or classname here.
 "RUS_Soldier3",						  //Skin "" for random or classname here.
 "Random",				  //Gearset number. "Random" for random gear set.
-"major"						// mission true
+"major",
+"WAImajorArray"
 ] call spawn_group;
 
 //Turrets
@@ -146,13 +150,7 @@ while {_missiontimeout} do {
 };
 if (_playerPresent) then {
 	[_veh,[_vehdir,_objPosition],_vehclass,true,"0"] call custom_publish;
-	waitUntil
-	{
-		sleep 5;
-		_playerPresent = false;
-		{if((isPlayer _x) AND (_x distance _position <= 30)) then {_playerPresent = true};}forEach playableUnits;
-		(_playerPresent)
-	};
+	[_position,"WAImajorArray"] call missionComplete;
 	// SMOKE EFFECTS
 	if(wai_smoke) then {
 		_smoke1 = createVehicle [_smokey,[(_position select 0) - 9.6377,(_position select 1) - 11.9394,0], [], 0, "CAN_COLLIDE"];

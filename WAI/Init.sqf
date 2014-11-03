@@ -9,6 +9,7 @@ on_kill = compile preprocessFileLineNumbers "\z\addons\dayz_server\WAI\compile\a
 
 ai_monitor = compile preprocessFileLineNumbers "\z\addons\dayz_server\WAI\compile\AImonitor.sqf";
 veh_monitor = compile preprocessFileLineNumbers "\z\addons\dayz_server\WAI\compile\vehicle_monitor.sqf";
+missionComplete = compile preprocessFileLineNumbers "\z\addons\dayz_server\WAI\compile\fn_missionComplete.sqf";
 
 createCenter east;
 WEST setFriend [EAST,0];
@@ -20,6 +21,11 @@ ai_ground_units = 0;
 ai_emplacement_units = 0;
 ai_air_units = 0;
 ai_vehicle_units = 0;
+
+// create empty arrays for units!
+WAIminorArray = [];
+WAImajorArray = [];
+WAIcompoundArray = [];
 
 //Load config
 [] ExecVM "\z\addons\dayz_server\WAI\AIconfig.sqf";

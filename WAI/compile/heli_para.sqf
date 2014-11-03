@@ -1,5 +1,5 @@
 if (!isServer)exitWith{};
-private ["_cleanheli","_drop","_helipos","_gunner2","_gunner","_playerPresent","_skillarray","_aicskill","_aiskin","_aigear","_helipatrol","_gear","_skin","_backpack","_mags","_gun","_triggerdis","_startingpos","_aiweapon","_mission","_heli_class","_startPos","_helicopter","_unitGroup","_pilot","_skill","_paranumber","_position","_wp1"];
+private ["_cleanheli","_drop","_helipos","_gunner2","_gunner","_playerPresent","_skillarray","_aicskill","_aiskin","_aigear","_helipatrol","_gear","_skin","_backpack","_mags","_gun","_triggerdis","_startingpos","_aiweapon","_mission","_heli_class","_startPos","_helicopter","_unitGroup","_pilot","_skill","_paranumber","_position","_wp1","_unitArray"];
 _position = _this select 0;
 _startingpos = _this select 1;
 _triggerdis = _this select 2;
@@ -13,6 +13,7 @@ _skin = _this select 9;
 _gear = _this select 10;
 _helipatrol = _this select 11;
 _mission = _this select 12;
+_unitArray = _this select 13;
 
 _aiweapon = [];
 _aigear = [];
@@ -161,6 +162,7 @@ while {(alive _helicopter) AND (_drop)} do {
 			sleep 1.5;
 		};
 		_drop = false;
+		call compile format["%1 = %1 + (units _pgroup);",_unitArray];
 		_pgroup selectLeader ((units _pgroup) select 0);
 		diag_log format ["WAI: Spawned in %1 ai units for paradrop",_paranumber];
 		[_pgroup, _position,_mission] call group_waypoints;

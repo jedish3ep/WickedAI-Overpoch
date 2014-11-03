@@ -39,49 +39,53 @@ _objPosition = getPosATL _veh;
 _rndnum = round (random 3) + 4;
 [[_position select 0, _position select 1, 0],                  //position
 _rndnum,				  //Number Of units
-"hard",					      //Skill level 0-1. Has no effect if using custom skills
+"hard",					  //Skill level
 "Random",			      //Primary gun set number. "Random" for random weapon set.
 4,						  //Number of magazines
 "",						  //Backpack "" for random or classname here.
 "gsc_military_helmet_wdl",						  //Skin "" for random or classname here.
 "Random",				  //Gearset number. "Random" for random gear set.
-"major"
+"major",
+"WAImajorArray"
 ] call spawn_group;
 
 [[_position select 0, _position select 1, 0],                  //position
-_rndnum,						  //Number Of units
-"hard",					      //Skill level 0-1. Has no effect if using custom skills
-"Random",			      //Primary gun set number. "Random" for random weapon set.
-4,						  //Number of magazines
-"",						  //Backpack "" for random or classname here.
-"gsc_military_helmet_wdlSNP",						  //Skin "" for random or classname here.
+_rndnum,					//Number Of units
+"hard",					    //Skill level
+"Random",					//Primary gun set number. "Random" for random weapon set.
+4,							//Number of magazines
+"",							//Backpack "" for random or classname here.
+"gsc_military_helmet_wdlSNP",  //Skin "" for random or classname here.
 "Random",				  //Gearset number. "Random" for random gear set.
-"major"
+"major",
+"WAImajorArray"
 ] call spawn_group;
 
 [[_position select 0, _position select 1, 0],                  //position
 4,						  //Number Of units
-"hard",					      //Skill level 0-1. Has no effect if using custom skills
+"hard",					  //Skill level
 "Random",			      //Primary gun set number. "Random" for random weapon set.
 4,						  //Number of magazines
 "",						  //Backpack "" for random or classname here.
 "gsc_military_head_wdl_AT",	  //Skin "" for random or classname here.
 "Random",				  //Gearset number. "Random" for random gear set.
-"major"					  // mission true
+"major",
+"WAImajorArray"
 ] call spawn_group;
 
 [[_position select 0, _position select 1, 0],                  //position
 4,						  //Number Of units
-"hard",					      //Skill level 0-1. Has no effect if using custom skills
+"hard",					  //Skill level
 "Random",			      //Primary gun set number. "Random" for random weapon set.
 4,						  //Number of magazines
 "",						  //Backpack "" for random or classname here.
 "gsc_military_helmet_wdlSNP",						  //Skin "" for random or classname here.
 "Random",				  //Gearset number. "Random" for random gear set.
-"major"						// mission true
+"major",
+"WAImajorArray"
 ] call spawn_group;
 
-//Turrets
+// STATIC WEAPONS
 [[[(_position select 0) + 10, (_position select 1) + 10, 0]], //position(s) (can be multiple).
 "M2StaticMG",             //Classname of turret
 0.8,					  //Skill level 0-1. Has no effect if using custom skills
@@ -122,13 +126,7 @@ while {_missiontimeout} do {
 };
 if (_playerPresent) then {
 	[_veh,[_vehdir,_objPosition],_vehclass,true,"0"] call custom_publish;
-	waitUntil
-	{
-		sleep 5;
-		_playerPresent = false;
-		{if((isPlayer _x) AND (_x distance _position <= 30)) then {_playerPresent = true};}forEach playableUnits;
-		(_playerPresent)
-	};
+	[_position,"WAImajorArray"] call missionComplete;
 	diag_log format["WAI: Mission bosMilVeh Ended At %1",_position];
 	[nil,nil,rTitleText,"The Brotherhood have been beaten into submission, and the armed vehicle has been taken", "PLAIN",10] call RE;
 } else {

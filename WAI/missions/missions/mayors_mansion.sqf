@@ -15,10 +15,10 @@ diag_log format["WAI: Mission Osamas Compound Started At %1",_position];
 _baserunover = createVehicle ["Land_A_Villa_EP1",[(_position select 0), (_position select 1),0],[], 0, "CAN_COLLIDE"];
 
 _rndnum = round (random 3) + 4;
-[[_position select 0, _position select 1, 0],4,"hard","Random",4,"","TK_INS_Soldier_EP1_DZ","Random","major"] call spawn_group;
-[[_position select 0, _position select 1, 0],4,"hard","Random",4,"","TK_GUE_Soldier_Sniper_EP1","Random","major"] call spawn_group;
-[[_position select 0, _position select 1, 0],4,"hard","Random",4,"","TK_GUE_Warlord_EP1","Random","major"] call spawn_group;
-[[_position select 0, _position select 1, 0],4,"hard","Random",4,"","TK_GUE_Soldier_HAT_EP1","Random","major"] call spawn_group;
+[[_position select 0, _position select 1, 0],4,"hard","Random",4,"","TK_INS_Soldier_EP1_DZ","Random","major","WAImajorArray"] call spawn_group;
+[[_position select 0, _position select 1, 0],4,"hard","Random",4,"","TK_GUE_Soldier_Sniper_EP1","Random","major","WAImajorArray"] call spawn_group;
+[[_position select 0, _position select 1, 0],4,"hard","Random",4,"","TK_GUE_Warlord_EP1","Random","major","WAImajorArray"] call spawn_group;
+[[_position select 0, _position select 1, 0],4,"hard","Random",4,"","TK_GUE_Soldier_HAT_EP1","Random","major","WAImajorArray"] call spawn_group;
 
 //The HVT Himself
 [[_position select 0, _position select 1, 0],1,"extreme","Random",4,"","TK_GUE_Soldier_TL_EP1","Random","major"] call spawn_group;
@@ -52,13 +52,7 @@ while {_missiontimeout} do {
 	if ((_playerPresent) OR (_cleanmission)) then {_missiontimeout = false;};
 };
 if (_playerPresent) then {
-	waitUntil
-	{
-		sleep 5;
-		_playerPresent = false;
-		{if((isPlayer _x) AND (_x distance _position <= 30)) then {_playerPresent = true};}forEach playableUnits;
-		(_playerPresent)
-	};
+	[_position,"WAImajorArray"] call missionComplete;
 	diag_log format["WAI: Mission Osamas Compound Ended At %1",_position];
 	[nil,nil,rTitleText,"The HVT is Down. Secure the loot and RTB", "PLAIN",10] call RE;
 } else {

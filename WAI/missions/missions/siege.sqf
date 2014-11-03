@@ -24,12 +24,12 @@ _baserunover1 setDir 270;
 
 //Group Spawning
 _rndnum = round (random 3) + 4;
-[[_position select 0, _position select 1, 0],_rndnum,"hard","Random",4,"","FR_OHara_DZ","Random","major"] call spawn_group;
-[[_position select 0, _position select 1, 0],4,"hard","Random",4,"","GUE_Soldier_Sniper_DZ","Random","major"] call spawn_group;
-[[_position select 0, _position select 1, 0],4,"hard","Random",4,"","GUE_Soldier_MG_DZ","Random","major"] call spawn_group;
-[[_position select 0, _position select 1, 0],4,"hard","Random",4,"","GUE_Soldier_Crew_DZ","Random","major"] call spawn_group;
-[[_position select 0, _position select 1, 0],4,"hard","Random",4,"","GUE_Soldier_MG_DZ","Random","major"] call spawn_group;
-[[_position select 0, _position select 1, 0],4,"hard","Random",4,"","Ins_Soldier_GL_DZ","Random","major"] call spawn_group;
+[[_position select 0, _position select 1, 0],_rndnum,"hard","Random",4,"","FR_OHara_DZ","Random","major","WAImajorArray"] call spawn_group;
+[[_position select 0, _position select 1, 0],4,"hard","Random",4,"","GUE_Soldier_Sniper_DZ","Random","major","WAImajorArray"] call spawn_group;
+[[_position select 0, _position select 1, 0],4,"hard","Random",4,"","GUE_Soldier_MG_DZ","Random","major","WAImajorArray"] call spawn_group;
+[[_position select 0, _position select 1, 0],4,"hard","Random",4,"","GUE_Soldier_Crew_DZ","Random","major","WAImajorArray"] call spawn_group;
+[[_position select 0, _position select 1, 0],4,"hard","Random",4,"","GUE_Soldier_MG_DZ","Random","major","WAImajorArray"] call spawn_group;
+[[_position select 0, _position select 1, 0],4,"hard","Random",4,"","Ins_Soldier_GL_DZ","Random","major","WAImajorArray"] call spawn_group;
  
 //Turrets
 [[[(_position select 0) - 5, (_position select 1) + 30, 0]],"KORD_high",0.8,"Ins_Soldier_GL_DZ",1,2,"","Random","major"] call spawn_static;
@@ -61,13 +61,7 @@ while {_missiontimeout} do {
 	if ((_playerPresent) OR (_cleanmission)) then {_missiontimeout = false;};
 };
 if (_playerPresent) then {
-	waitUntil
-	{
-		sleep 5;
-		_playerPresent = false;
-		{if((isPlayer _x) AND (_x distance _position <= 30)) then {_playerPresent = true};}forEach playableUnits;
-		(_playerPresent)
-	};
+	[_position,"WAImajorArray"] call missionComplete;
 	diag_log format["WAI: Mission City Siege Ended At %1",_position];
 	[nil,nil,rTitleText,"The insurgents have been killed, the City is at peace", "PLAIN",10] call RE;
 } else {

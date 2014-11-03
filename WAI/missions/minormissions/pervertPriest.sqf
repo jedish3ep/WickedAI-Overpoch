@@ -8,13 +8,13 @@ diag_log format["WAI: Mission pervertPriest Started At %1",_position];
 
 // CHURCH
 _base = createVehicle ["Land_Church_03",_position, [], 0, "CAN_COLLIDE"];
-_box = createVehicle ["RUOrdnanceBox",[(_position select 0) + 6.0991, (_position select 1) + 4.1523, 0.55672312], [], 0, "CAN_COLLIDE"];
+_box = createVehicle ["RUOrdnanceBox",[(_position select 0) + 6.0991, (_position select 1) + 4.1523, 1], [], 0, "CAN_COLLIDE"];
 [_box] call priest_gold_box;
 
 //Troops
 //priest
 _rndnum = round (random 3) + 4;
-[[(_position select 0) + 3.8232, (_position select 1) + 0.0303, 0],                  //position
+[[(_position select 0) - 26.6187, (_position select 1) - 1.0669, 0],                  //position
 1,						  //Number Of units
 "hard",			    	  //Skill level
 "Random",			      //Primary gun set number. "Random" for random weapon set.
@@ -22,7 +22,8 @@ _rndnum = round (random 3) + 4;
 "",						  //Backpack "" for random or classname here.
 "Priest_DZ",			  //Skin "" for random or classname here.
 "Random",				  //Gearset number. "Random" for random gear set.
-"minor"
+"minor",
+"WAIminorArray"
 ] call spawn_group;
 
 //parishioners
@@ -34,7 +35,8 @@ _rndnum,				  //Number Of units
 "",						  //Backpack "" for random or classname here.
 "Functionary1_EP1_DZ",	  //Skin "" for random or classname here.
 "Random",				  //Gearset number. "Random" for random gear set.
-"minor"
+"minor",
+"WAIminorArray"
 ] call spawn_group;
 
 
@@ -66,13 +68,7 @@ while {_missiontimeout} do {
 	if ((_playerPresent) OR (_cleanmission)) then {_missiontimeout = false;};
 };
 if (_playerPresent) then {
-	waitUntil
-	{
-		sleep 5;
-		_playerPresent = false;
-		{if((isPlayer _x) AND (_x distance _position <= 30)) then {_playerPresent = true};}forEach playableUnits;
-		(_playerPresent)
-	};
+	[_position,"WAIminorArray"] call missionComplete;
 	diag_log format["WAI: Mission pervertPriest Ended At %1",_position];
 	[nil,nil,rTitleText,"Reverend Cross has been killed, Children of Chernarus Rejoice!", "PLAIN",10] call RE;
 } else {

@@ -34,6 +34,8 @@ _result = 0;
 						sleep 0.05;
 					};	
 				} forEach allUnits;
+				// empty the existing array
+				WAIminorArray = [];
 
 				clean_running_minor_mission = False;
 				_minormission = wai_minor_missions call BIS_fnc_selectRandom;

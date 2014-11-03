@@ -50,7 +50,8 @@ _rndnum,				  //Number Of units
 "",						  //Backpack "" for random or classname here.
 "USMC_Soldier_LAT",						  //Skin "" for random or classname here.
 "Random",				  //Gearset number. "Random" for random gear set.
-"minor"
+"minor",
+"WAIminorArray"
 ] call spawn_group;
 
 [[_position select 0, _position select 1, 0],                  //position
@@ -61,7 +62,8 @@ _rndnum,				  //Number Of units
 "",						  //Backpack "" for random or classname here.
 "USMC_Soldier_SL",						  //Skin "" for random or classname here.
 "Random",				  //Gearset number. "Random" for random gear set.
-"minor"
+"minor",
+"WAIminorArray"
 ] call spawn_group;
 
 [[_position select 0, _position select 1, 0],                  //position
@@ -72,7 +74,8 @@ _rndnum,				  //Number Of units
 "",						  //Backpack "" for random or classname here.
 "USMC_SoldierM_Marksman",	  //Skin "" for random or classname here.
 "Random",				  //Gearset number. "Random" for random gear set.
-"minor"					  // mission true
+"minor",
+"WAIminorArray"
 ] call spawn_group;
 
 
@@ -106,13 +109,7 @@ while {_missiontimeout} do {
 };
 if (_playerPresent) then {
 	[_veh,[_vehdir,_objPosition],_vehclass,true,"0"] call custom_publish;
-	waitUntil
-	{
-		sleep 5;
-		_playerPresent = false;
-		{if((isPlayer _x) AND (_x distance _position <= 30)) then {_playerPresent = true};}forEach playableUnits;
-		(_playerPresent)
-	};
+	[_position,"WAIminorArray"] call missionComplete;
 	diag_log format["WAI: Mission m2hummer Ended At %1",_position];
 	[nil,nil,rTitleText,"US Forces have been wiped out, Good Work!", "PLAIN",10] call RE;
 } else {

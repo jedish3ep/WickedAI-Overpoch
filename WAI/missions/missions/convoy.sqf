@@ -52,10 +52,10 @@ _objPosition3 = getPosATL _veh3;
 
 //Troops
 _rndnum = round (random 3) + 5;
-[[_position select 0, _position select 1, 0],_rndnum,"extreme","Random",4,"","USMC_LHD_Crew_Yellow","Random","major"] call spawn_group;
-[[_position select 0, _position select 1, 0],5,"extreme","Random",4,"","USMC_LHD_Crew_Blue","Random","major"] call spawn_group;
-[[_position select 0, _position select 1, 0],5,"extreme","Random",4,"","USMC_LHD_Crew_Blue","Random","major"] call spawn_group;
-[[_position select 0, _position select 1, 0],5,"extreme","Random",4,"","USMC_LHD_Crew_Blue","Random","major"] call spawn_group;
+[[_position select 0, _position select 1, 0],_rndnum,"extreme","Random",4,"","USMC_LHD_Crew_Yellow","Random","major","WAImajorArray"] call spawn_group;
+[[_position select 0, _position select 1, 0],5,"extreme","Random",4,"","USMC_LHD_Crew_Blue","Random","major","WAImajorArray"] call spawn_group;
+[[_position select 0, _position select 1, 0],5,"extreme","Random",4,"","USMC_LHD_Crew_Blue","Random","major","WAImajorArray"] call spawn_group;
+[[_position select 0, _position select 1, 0],5,"extreme","Random",4,"","USMC_LHD_Crew_Blue","Random","major","WAImajorArray"] call spawn_group;
 
 //Turrets
 [[[(_position select 0) + 5, (_position select 1) + 10, 0]], //position(s) (can be multiple).
@@ -92,7 +92,7 @@ _rndnum = round (random 3) + 5;
 ] call spawn_static;
 
 //Heli Para Drop
-[[(_position select 0),(_position select 1),0],[0,0,0],400,"BAF_Merlin_HC3_D",10,"extreme","Random",4,"","USMC_LHD_Crew_Blue","Random","major"] spawn heli_para;
+[[(_position select 0),(_position select 1),0],[0,0,0],400,"BAF_Merlin_HC3_D",10,"extreme","Random",4,"","USMC_LHD_Crew_Blue","Random","major","WAImajorArray"] spawn heli_para;
 
 //CREATE MARKER
 [_position,_missionName,_difficulty] execVM wai_marker;
@@ -126,13 +126,7 @@ if (_playerPresent) then {
 	[_veh,[_vehdir,_objPosition],_vehclass,true,"0"] call custom_publish;
 	[_veh2,[_vehdir,_objPosition2],_vehclass2,true,"0"] call custom_publish;
 	[_veh3,[_vehdir,_objPosition3],_vehclass3,true,"0"] call custom_publish;
-	waitUntil
-	{
-		sleep 5;
-		_playerPresent = false;
-		{if((isPlayer _x) AND (_x distance _position <= 30)) then {_playerPresent = true};}forEach playableUnits;
-		(_playerPresent)
-	};
+	[_position,"WAImajorArray"] call missionComplete;
 	diag_log format["WAI: Mission Convoy Ended At %1",_position];
 	[nil,nil,rTitleText,"Survivors have secured the building supplies!", "PLAIN",10] call RE;
 } else {
