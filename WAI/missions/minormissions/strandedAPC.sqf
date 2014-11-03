@@ -7,9 +7,9 @@
 	APC - No Damage
 	No Fuel
 
-	Extra Large Box of Weapons
-	3 Small Groups of AI
-	1 Small Paradrop Reinforcement Group
+	Large Box of Weapons
+	3 Small Groups of hard AI
+	1 Small Paradrop Reinforcement Group (x5)
 */
 
 private ["_playerPresent","_cleanmission","_currenttime","_starttime","_missiontimeout","_vehname","_veh","_position","_vehclass","_picture","_hint","_missionName","_difficulty","_worldName","_vehArray"];
@@ -21,10 +21,10 @@ _vehname	= getText (configFile >> "CfgVehicles" >> _vehclass >> "displayName");
 _worldName = toLower format ["%1", worldName];
 
 _missionName = "Stranded APC";
-_difficulty = "normal";
+_difficulty = "hard";
 
 _position = [getMarkerPos "center",0,5500,10,0,2000,0] call BIS_fnc_findSafePos;
-diag_log format["WAI: Mission emptyAPC Started At %1",_position];
+diag_log format["WAI: Mission strandedAPC Started At %1",_position];
 
 _picture = getText (configFile >> "cfgVehicles" >> _vehclass >> "picture");
 
@@ -37,17 +37,17 @@ _veh = createVehicle [_vehclass,[(_position select 0) - 10.6206, (_position sele
 [_veh,0,0] call spawnTempVehicle; 
 //[_veh,damage,fuel] call spawnTempVehicle;
 
-diag_log format["WAI: Mission emptyAPC spawned a %1",_vehname];
+diag_log format["WAI: Mission strandedAPC spawned a %1",_vehname];
 
 
 //Troops
 _rndnum = round (random 3) + 4;
-[[_position select 0, _position select 1, 0],5,"normal","Random",4,"","RU_Soldier_HAT","Random","minor","WAIminorArray"] call spawn_group;
-[[_position select 0, _position select 1, 0],4,"normal","Random",4,"","RU_Soldier_Pilot","Random","minor","WAIminorArray"] call spawn_group;
+[[_position select 0, _position select 1, 0],5,"hard","Random",4,"","RU_Soldier_HAT","Random","minor","WAIminorArray"] call spawn_group;
+[[_position select 0, _position select 1, 0],5,"hard","Random",4,"","RU_Soldier_Pilot","Random","minor","WAIminorArray"] call spawn_group;
 [[_position select 0, _position select 1, 0],1,"hard","Random",4,"","RU_Commander","Random","minor","WAIminorArray"] call spawn_group;
 
 //Heli Paradrop
-[[(_position select 0), (_position select 1), 0],[7743.41, 7040.93, 0],400,"UH60M_EP1_DZE",5,"normal","Random",4,"","RU_Soldier_Pilot","Random","minor","WAIminorArray"] spawn heli_para;
+[[(_position select 0), (_position select 1), 0],[7743.41, 7040.93, 0],400,"UH60M_EP1_DZE",5,"hard","Random",4,"","RU_Soldier_Pilot","Random","minor","WAIminorArray"] spawn heli_para;
 
 
 //CREATE MARKER
@@ -82,7 +82,7 @@ while {_missiontimeout} do {
 };
 if (_playerPresent) then {
 	[_position,"WAIminorArray"] call missionComplete;
-	diag_log format["WAI: Mission emptyAPC Ended At %1",_position];
+	diag_log format["WAI: Mission strandedAPC Ended At %1",_position];
 	[nil,nil,rTitleText,"The Crashed Weapons Truck has been Secured", "PLAIN",10] call RE;
 } else {
 	clean_running_minor_mission = True;
@@ -101,7 +101,7 @@ if (_playerPresent) then {
 	};	
 	} forEach allUnits;
 	
-	diag_log format["WAI: Mission emptyAPC Timed Out At %1",_position];
+	diag_log format["WAI: Mission strandedAPC Timed Out At %1",_position];
 	[nil,nil,rTitleText,"You Failed to Clear the Mission in Time", "PLAIN",10] call RE;
 };
 
