@@ -7,12 +7,6 @@ _position = _positionarray call BIS_fnc_selectRandom;
 _missionName = "City Under Siege";
 _difficulty = "hard";
 
-//Extra Large Gun Box
-_box = createVehicle ["RUVehicleBox",[(_position select 0) + 5,(_position select 1),0], [], 0, "CAN_COLLIDE"];
-[_box] call Extra_Large_Gun_Box1;
-_box2 = createVehicle ["BAF_VehicleBox",[(_position select 0) - 10,(_position select 1) - 10,0], [], 0, "CAN_COLLIDE"];
-[_box2] call Sniper_Gun_Box;
- 
 diag_log format["WAI: Mission City Siege Started At %1",_position];
 
 //Decorations  
@@ -62,12 +56,18 @@ while {_missiontimeout} do {
 };
 if (_playerPresent) then {
 	[_position,"WAImajorArray"] call missionComplete;
+	// wait for mission complete then spawn crates
+
+	_box = createVehicle ["RUVehicleBox",[(_position select 0) + 5,(_position select 1),0], [], 0, "CAN_COLLIDE"];
+	[_box] call Extra_Large_Gun_Box1;//Extra Large Gun Box
+	_box2 = createVehicle ["BAF_VehicleBox",[(_position select 0) - 10,(_position select 1) - 10,0], [], 0, "CAN_COLLIDE"];
+	[_box2] call Sniper_Gun_Box;//Sniper Box
+	
 	diag_log format["WAI: Mission City Siege Ended At %1",_position];
+	
 	[nil,nil,rTitleText,"The insurgents have been killed, the City is at peace", "PLAIN",10] call RE;
 } else {
 	clean_running_mission = True;
-	deleteVehicle _box;
-	deleteVehicle _box2;
 	deleteVehicle _baserunover;
 	deleteVehicle _baserunover1;	
 	{_cleanunits = _x getVariable "majorclean";

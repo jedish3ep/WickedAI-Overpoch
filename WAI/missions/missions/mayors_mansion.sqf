@@ -1,13 +1,10 @@
-private ["_position","_box","_missiontimeout","_cleanmission","_playerPresent","_starttime","_currenttime","_cleanunits","_rndnum","_missionName","_hint","_difficulty"];
+private ["_position","_box","_missiontimeout","_cleanmission","_playerPresent","_starttime","_currenttime","_cleanunits","_rndnum","_missionName","_hint","_difficulty","_worldName"];
 vehclass = military_unarmed call BIS_fnc_selectRandom;
  
 _position = [getMarkerPos "center",0,5500,10,0,2000,0] call BIS_fnc_findSafePos;
 _missionName = "Osama's Compound";
 _difficulty = "hard";
-
-//Large Gun Box
-_box = createVehicle ["BAF_VehicleBox",[(_position select 0),(_position select 1), .5], [], 0, "CAN_COLLIDE"];
-[_box] call Extra_Large_Gun_Box;
+_worldName = toLower format ["%1", worldName];
  
 diag_log format["WAI: Mission Osamas Compound Started At %1",_position];
 
@@ -34,8 +31,9 @@ _hint = parseText format ["
 	<t align='center' color='#FFFFFF'>------------------------------</t><br/>
 	<t align='center' color='#1E90FF' size='1.25'>Main Mission</t><br/>
 	<t align='center' color='#FFFFFF' size='1.15'>Difficulty: <t color='#1E90FF'> HARD</t><br/>
-	<t align='center' color='#FFFFFF'>%1 : Osama Bin Laden has been spotted in the Region, Kill the HVT and secure the stolen loot</t>", 
-	_missionName
+	<t align='center' color='#FFFFFF'>%1 : Osama Bin Laden has been spotted in %2, Kill the HVT and secure the stolen loot</t>", 
+	_missionName,
+	_worldName
 	];
 [nil,nil,rHINT,_hint] call RE;
  
@@ -53,11 +51,14 @@ while {_missiontimeout} do {
 };
 if (_playerPresent) then {
 	[_position,"WAImajorArray"] call missionComplete;
+	// wait for complete status. then spawn box
+	_box = createVehicle ["BAF_VehicleBox",[(_position select 0),(_position select 1), .5], [], 0, "CAN_COLLIDE"];
+	[_box] call Extra_Large_Gun_Box;//Large Gun Box
+	
 	diag_log format["WAI: Mission Osamas Compound Ended At %1",_position];
 	[nil,nil,rTitleText,"The HVT is Down. Secure the loot and RTB", "PLAIN",10] call RE;
 } else {
 	clean_running_mission = True;
-	deleteVehicle _box;
 	deleteVehicle _baserunover;
 	{_cleanunits = _x getVariable "majorclean";
 	if (!isNil "_cleanunits") then {

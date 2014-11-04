@@ -12,10 +12,6 @@ _difficulty = "extreme";
 _position = [getMarkerPos "center",0,5500,10,0,2000,0] call BIS_fnc_findSafePos;
 diag_log format["WAI: Mission MV22 Started At %1",_position];
 
-//Medical Supply Box
-_box = createVehicle ["LocalBasicWeaponsBox",[(_position select 0) - 20,(_position select 1) - 20,0], [], 0, "CAN_COLLIDE"];
-[_box] call Medical_Supply_Box;
-
 //Medical Tent
 _tent = createVehicle ["USMC_WarfareBFieldHospital",[(_position select 0) - 20,(_position select 1) - 20,0], [], 0, "CAN_COLLIDE"];
 
@@ -116,12 +112,16 @@ while {_missiontimeout} do {
 };
 if (_playerPresent) then {
 	[_position,"WAImajorArray"] call missionComplete;
+	// wait for mission complete then spawn crate
+	_box = createVehicle ["LocalBasicWeaponsBox",[(_position select 0) - 20,(_position select 1) - 20,0], [], 0, "CAN_COLLIDE"];
+	[_box] call Medical_Supply_Box;//Medical Supply Box
+
 	diag_log format["WAI: Mission MV-22 Ended At %1",_position];
 	[nil,nil,rTitleText,"Survivors have secured the MV-22!", "PLAIN",10] call RE;
 } else {
 	clean_running_mission = True;
 	deleteVehicle _veh;
-	deleteVehicle _box;
+	deleteVehicle _tent;
 	{_cleanunits = _x getVariable "majorclean";
 	if (!isNil "_cleanunits") then {
 		switch (_cleanunits) do {

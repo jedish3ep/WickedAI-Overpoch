@@ -18,11 +18,7 @@ _base setDir 152.66766;
 _base1 = createVehicle ["Land_kulna",[(_position select 0) + 5.4585, (_position select 1) - 2.885,0],[], 0, "CAN_COLLIDE"];
 _base1 setDir -28.282881;
 
-_box = createVehicle ["USBasicAmmunitionBox",[(_position select 0) + 0.7408, (_position select 1) + 1.565, 0.10033049], [], 0, "CAN_COLLIDE"];
-[_box] call Medical_Supply_Box;
 
-_box1 = createVehicle ["USBasicAmmunitionBox",[(_position select 0) - 0.2387, (_position select 1) + 1.043, 0.10033049], [], 0, "CAN_COLLIDE"];
-[_box1] call Medium_Gun_Box;
 
 // civ car
 _veh = createVehicle [_vehclass,[(_position select 0) - 10.6206, (_position select 1) - 0.49,0], [], 0, "CAN_COLLIDE"];
@@ -90,14 +86,21 @@ while {_missiontimeout} do {
 	if ((_playerPresent) OR (_cleanmission)) then {_missiontimeout = false;};
 };
 if (_playerPresent) then {
-	[_veh,[_vehdir,_objPosition],_vehclass,true,"0"] call custom_publish;
+	
 	[_position,"WAIminorArray"] call missionComplete;
+	// wait for mission complete then publish vehicle and spawn crates
+	[_veh,[_vehdir,_objPosition],_vehclass,true,"0"] call custom_publish;
+	_box = createVehicle ["USBasicAmmunitionBox",[(_position select 0) + 0.7408, (_position select 1) + 1.565, 0.10033049], [], 0, "CAN_COLLIDE"];
+	[_box] call Medical_Supply_Box; // medical supplies
+	_box1 = createVehicle ["USBasicAmmunitionBox",[(_position select 0) - 0.2387, (_position select 1) + 1.043, 0.10033049], [], 0, "CAN_COLLIDE"];
+	[_box1] call Medium_Gun_Box; // med gun box
 	diag_log format["WAI: Mission stashHouse Ended At %1",_position];
 	[nil,nil,rTitleText,"The Stash House is under Survivor Control!", "PLAIN",10] call RE;
 } else {
 	clean_running_minor_mission = True;
 	deleteVehicle _veh;
-	deleteVehicle _box;
+	deleteVehicle _base;
+	deleteVehicle _base1;
 	{_cleanunits = _x getVariable "minorclean";
 	if (!isNil "_cleanunits") then {
 		switch (_cleanunits) do {

@@ -13,14 +13,6 @@ diag_log format["WAI: Mission m2hummer Started At %1",_position];
 _picture = getText (configFile >> "cfgVehicles" >> _vehclass >> "picture");
 
 
-
-//Medical Supply Box
-_box = createVehicle ["LocalBasicWeaponsBox",[(_position select 0) - 20,(_position select 1),0], [], 0, "CAN_COLLIDE"];
-[_box] call Medical_Supply_Box;
-
-_box1 = createVehicle ["LocalBasicWeaponsBox",[(_position select 0) + 15,(_position select 1),0], [], 0, "CAN_COLLIDE"];
-[_box1] call Medium_Gun_Box;
-
 //Medical Tent
 _tent = createVehicle ["Land_fort_rampart",[(_position select 0) - 21,(_position select 1),0], [], 0, "CAN_COLLIDE"];
 _tent setDir 90;
@@ -104,12 +96,20 @@ while {_missiontimeout} do {
 };
 if (_playerPresent) then {
 	[_position,"WAIminorArray"] call missionComplete;
+	// wait for mission complete then spawn crates
+
+	_box = createVehicle ["LocalBasicWeaponsBox",[(_position select 0) - 20,(_position select 1),0], [], 0, "CAN_COLLIDE"];
+	[_box] call Medical_Supply_Box; // med supplies
+	_box1 = createVehicle ["LocalBasicWeaponsBox",[(_position select 0) + 15,(_position select 1),0], [], 0, "CAN_COLLIDE"];
+	[_box1] call Medium_Gun_Box; // med gun box
+	
 	diag_log format["WAI: Mission m2hummer Ended At %1",_position];
 	[nil,nil,rTitleText,"US Forces have been wiped out, Good Work!", "PLAIN",10] call RE;
 } else {
 	clean_running_minor_mission = True;
 	deleteVehicle _veh;
-	deleteVehicle _box;
+	deleteVehicle _tent;
+	deleteVehicle _tent2;
 	{_cleanunits = _x getVariable "minorclean";
 	if (!isNil "_cleanunits") then {
 		switch (_cleanunits) do {

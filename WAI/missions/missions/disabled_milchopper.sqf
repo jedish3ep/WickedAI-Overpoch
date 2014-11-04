@@ -19,11 +19,6 @@ _tanktraps = [_position] call tank_traps;
 };
 
 
-//Sniper Gun Box
-_box = createVehicle ["BAF_VehicleBox",[(_position select 0),(_position select 1) + 5,0], [], 0, "CAN_COLLIDE"];
-[_box] call Sniper_Gun_Box;
-
-
 //Military Chopper
 _veh = createVehicle [_vehclass,_position, [], 0, "CAN_COLLIDE"];
 _vehdir = round(random 360);
@@ -41,8 +36,8 @@ _objPosition = getPosATL _veh;
 //Troops
 _rndnum = round (random 3) + 3;
 [[_position select 0, _position select 1, 0],                  //position
-_rndnum,						  //Number Of units
-"hard",					      //Skill level
+_rndnum,				  //Number Of units
+"hard",					  //Skill level
 "Random",			      //Primary gun set number. "Random" for random weapon set.
 4,						  //Number of magazines
 "",						  //Backpack "" for random or classname here.
@@ -54,7 +49,7 @@ _rndnum,						  //Number Of units
 
 [[_position select 0, _position select 1, 0],                  //position
 4,						  //Number Of units
-"hard",					      //Skill level
+"hard",					  //Skill level
 "Random",			      //Primary gun set number. "Random" for random weapon set.
 4,						  //Number of magazines
 "",						  //Backpack "" for random or classname here.
@@ -66,7 +61,7 @@ _rndnum,						  //Number Of units
 
 [[_position select 0, _position select 1, 0],                  //position
 4,						  //Number Of units
-"hard",					      //Skill level
+"hard",					  //Skill level
 "Random",			      //Primary gun set number. "Random" for random weapon set.
 4,						  //Number of magazines
 "",						  //Backpack "" for random or classname here.
@@ -78,7 +73,7 @@ _rndnum,						  //Number Of units
 
 [[_position select 0, _position select 1, 0],                  //position
 4,						  //Number Of units
-"hard",					      //Skill level
+"hard",					  //Skill level
 "Random",			      //Primary gun set number. "Random" for random weapon set.
 4,						  //Number of magazines
 "",						  //Backpack "" for random or classname here.
@@ -129,14 +124,19 @@ while {_missiontimeout} do {
 	if ((_playerPresent) OR (_cleanmission)) then {_missiontimeout = false;};
 };
 if (_playerPresent) then {
-	[_veh,[_vehdir,_objPosition],_vehclass,true,"0"] call custom_publish;
+	
 	[_position,"WAImajorArray"] call missionComplete;
+	// publish vehicle after mission complete.
+	[_veh,[_vehdir,_objPosition],_vehclass,true,"0"] call custom_publish;
+	// wait for mission complete. then spawn crates	
+	_box = createVehicle ["BAF_VehicleBox",[(_position select 0),(_position select 1) + 5,0], [], 0, "CAN_COLLIDE"];
+	[_box] call Sniper_Gun_Box; //Sniper Gun Box
+	
 	diag_log format["WAI: Mission armed chopper Ended At %1",_position];
 	[nil,nil,rTitleText,"Survivors have secured the armed chopper!", "PLAIN",10] call RE;
 } else {
 	clean_running_mission = True;
 	deleteVehicle _veh;
-	deleteVehicle _box;
 	{_cleanunits = _x getVariable "majorclean";
 	if (!isNil "_cleanunits") then {
 		switch (_cleanunits) do {

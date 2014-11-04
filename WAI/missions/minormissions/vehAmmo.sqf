@@ -11,13 +11,6 @@ diag_log format["WAI: Mission vehAmmo Started At %1",_position];
 
 _picture = getText (configFile >> "cfgVehicles" >> _vehclass >> "picture");
 
-//Medical Supply Box
-_box = createVehicle ["LocalBasicWeaponsBox",[(_position select 0) - 20,(_position select 1) - 20,0], [], 0, "CAN_COLLIDE"];
-[_box] call Chain_Bullet_Box;
-
-_box1 = createVehicle ["LocalBasicWeaponsBox",[(_position select 0) + 15,(_position select 1) + 15,0], [], 0, "CAN_COLLIDE"];
-[_box1] call Chain_Bullet_Box;
-
 //Medical Tent
 _tent = createVehicle ["MAP_HBarrier5_round15",[(_position select 0) - 21,(_position select 1) - 21,0], [], 0, "CAN_COLLIDE"];
 _tent setDir 270;
@@ -114,14 +107,22 @@ while {_missiontimeout} do {
 	if ((_playerPresent) OR (_cleanmission)) then {_missiontimeout = false;};
 };
 if (_playerPresent) then {
-	[_veh,[_vehdir,_objPosition],_vehclass,true,"0"] call custom_publish;
 	[_position,"WAIminorArray"] call missionComplete;
+	// wait for mission complete. then spawn boxes and publish vehicle to hive
+	[_veh,[_vehdir,_objPosition],_vehclass,true,"0"] call custom_publish;
+
+	_box = createVehicle ["LocalBasicWeaponsBox",[(_position select 0) - 20,(_position select 1) - 20,0], [], 0, "CAN_COLLIDE"];
+	[_box] call Chain_Bullet_Box;
+	_box1 = createVehicle ["LocalBasicWeaponsBox",[(_position select 0) + 15,(_position select 1) + 15,0], [], 0, "CAN_COLLIDE"];
+	[_box1] call Chain_Bullet_Box;
+
 	diag_log format["WAI: Mission vehAmmo Ended At %1",_position];
 	[nil,nil,rTitleText,"Mission Complete - Job well done boys!", "PLAIN",10] call RE;
 } else {
 	clean_running_minor_mission = True;
 	deleteVehicle _veh;
-	deleteVehicle _box;
+	deleteVehicle _tent;
+	deleteVehicle _tent2;
 	{_cleanunits = _x getVariable "minorclean";
 	if (!isNil "_cleanunits") then {
 		switch (_cleanunits) do {

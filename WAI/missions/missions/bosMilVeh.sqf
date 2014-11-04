@@ -14,11 +14,6 @@ diag_log format["WAI: Mission bosMilVeh Started At %1",_position];
 _picture = getText (configFile >> "cfgVehicles" >> _vehclass >> "picture");
 
 
-
-// Gun Crate
-_box = createVehicle ["LocalBasicWeaponsBox",[(_position select 0) + 15,(_position select 1) + 15,0], [], 0, "CAN_COLLIDE"];
-[_box] call Large_Gun_Box;
-
 //Rampart Barrier
 _base = createVehicle ["Land_fort_rampart",[(_position select 0) + 16,(_position select 1) + 16,0], [], 0, "CAN_COLLIDE"];
 
@@ -127,12 +122,14 @@ while {_missiontimeout} do {
 if (_playerPresent) then {
 	[_veh,[_vehdir,_objPosition],_vehclass,true,"0"] call custom_publish;
 	[_position,"WAImajorArray"] call missionComplete;
+	// wait for mission complete. then spawn crates
+	_box = createVehicle ["LocalBasicWeaponsBox",[(_position select 0) + 15,(_position select 1) + 15,0], [], 0, "CAN_COLLIDE"];
+	[_box] call Large_Gun_Box;// Gun Crate
 	diag_log format["WAI: Mission bosMilVeh Ended At %1",_position];
 	[nil,nil,rTitleText,"The Brotherhood have been beaten into submission, and the armed vehicle has been taken", "PLAIN",10] call RE;
 } else {
 	clean_running_mission = True;
 	deleteVehicle _veh;
-	deleteVehicle _box;
 	deleteVehicle _base;
 	{_cleanunits = _x getVariable "majorclean";
 	if (!isNil "_cleanunits") then {

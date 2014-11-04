@@ -12,10 +12,6 @@ _difficulty = "extreme";
 _positionarray = [[7352.2676,4199.4844,0],[10100.15,4907.896,0],[11468.288, 8656.8252,0],[12853.731,13510.467,0],[11628.281,13562.116,0],[10249.764,12872.967,0],[5314.1094,13544.473,0],[2354.7388,12587.786,0],[1485.0314,8441.3887,0]];
 _position = _positionarray call BIS_fnc_selectRandom;
 
-// Crate full of jewels
-_box = createVehicle ["BAF_VehicleBox",[(_position select 0),(_position select 1) + 5,0], [], 0, "CAN_COLLIDE"];
-[_box] call Jewel_Heist_Box;
-
 // deploy roadkill defense (or not)
 if(wai_enable_tank_traps) then {
 _tanktraps = [_position] call tank_traps;
@@ -127,14 +123,19 @@ while {_missiontimeout} do {
 	if ((_playerPresent) OR (_cleanmission)) then {_missiontimeout = false;};
 };
 if (_playerPresent) then {
-	[_veh,[_vehdir,_objPosition],_vehclass,true,"0"] call custom_publish;
 	[_position,"WAImajorArray"] call missionComplete;
+	// wait for mission complete. then spawn box and save vehicle to hive
+
+	_box = createVehicle ["BAF_VehicleBox",[(_position select 0),(_position select 1) + 5,0], [], 0, "CAN_COLLIDE"];
+	[_box] call Jewel_Heist_Box;// Crate full of jewels
+
+	[_veh,[_vehdir,_objPosition],_vehclass,true,"0"] call custom_publish;
+
 	diag_log format["WAI: Mission Jewel Heist Ended At %1",_position];
 	[nil,nil,rTitleText,"Survivors have killed the bandits and taken the jewels,\nWell Done!", "PLAIN",10] call RE;
 } else {
 	clean_running_mission = True;
 	deleteVehicle _veh;
-	deleteVehicle _box;
 	{_cleanunits = _x getVariable "missionclean";
 	if (!isNil "_cleanunits") then {
 		switch (_cleanunits) do {

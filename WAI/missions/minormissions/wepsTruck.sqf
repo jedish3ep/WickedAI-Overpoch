@@ -25,13 +25,6 @@ diag_log format["WAI: Mission wepsTruck Started At %1",_position];
 
 _picture = getText (configFile >> "cfgVehicles" >> _vehclass >> "picture");
 
-// CRATES 
-_box = createVehicle ["BAF_VehicleBox",[(_position select 0) + 0.7408, (_position select 1) + 4.565, 0.10033049], [], 0, "CAN_COLLIDE"];
-[_box] call vehicle_wreck_box;
-
-_box1 = createVehicle ["RULaunchersBox",[(_position select 0) - 0.2387, (_position select 1) + 1.043, 0.10033049], [], 0, "CAN_COLLIDE"];
-[_box1] call Extra_Large_Gun_Box;
-
 // crashed truck
 _veh = createVehicle [_vehclass,[(_position select 0) - 10.6206, (_position select 1) - 0.49,0], [], 0, "CAN_COLLIDE"];
 [_veh,0.75,0.15] call spawnTempVehicle; 
@@ -78,13 +71,18 @@ while {_missiontimeout} do {
 };
 if (_playerPresent) then {
 	[_position,"WAIminorArray"] call missionComplete;
+	
+	// Wait for mission complete, then spawn the crates
+	_box = createVehicle ["BAF_VehicleBox",[(_position select 0) + 0.7408, (_position select 1) + 4.565, 0.10033049], [], 0, "CAN_COLLIDE"];
+	[_box] call vehicle_wreck_box;
+	_box1 = createVehicle ["RULaunchersBox",[(_position select 0) - 0.2387, (_position select 1) + 1.043, 0.10033049], [], 0, "CAN_COLLIDE"];
+	[_box1] call Extra_Large_Gun_Box;
+
 	diag_log format["WAI: Mission wepsTruck Ended At %1",_position];
 	[nil,nil,rTitleText,"The Crashed Weapons Truck has been Secured", "PLAIN",10] call RE;
 } else {
 	clean_running_minor_mission = True;
 	deleteVehicle _veh;
-	deleteVehicle _box;
-	deleteVehicle _box1;
 	{_cleanunits = _x getVariable "minorclean";
 	if (!isNil "_cleanunits") then {
 		switch (_cleanunits) do {

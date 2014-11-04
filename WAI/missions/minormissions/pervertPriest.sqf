@@ -8,8 +8,8 @@ diag_log format["WAI: Mission pervertPriest Started At %1",_position];
 
 // CHURCH
 _base = createVehicle ["Land_Church_03",_position, [], 0, "CAN_COLLIDE"];
-_box = createVehicle ["RUOrdnanceBox",[(_position select 0) + 6.0991, (_position select 1) + 4.1523, 1], [], 0, "CAN_COLLIDE"];
-[_box] call priest_gold_box;
+_base setVectorUp surfaceNormal position _base;
+
 
 //Troops
 //priest
@@ -69,11 +69,14 @@ while {_missiontimeout} do {
 };
 if (_playerPresent) then {
 	[_position,"WAIminorArray"] call missionComplete;
+	// wait for mission complete then spawn crate
+	_box = createVehicle ["RUOrdnanceBox",[(_position select 0) + 6.0991, (_position select 1) + 4.1523, 1], [], 0, "CAN_COLLIDE"];
+	[_box] call priest_gold_box;
+	
 	diag_log format["WAI: Mission pervertPriest Ended At %1",_position];
 	[nil,nil,rTitleText,"Reverend Cross has been killed, Children of Chernarus Rejoice!", "PLAIN",10] call RE;
 } else {
 	clean_running_minor_mission = True;
-	deleteVehicle _box;
 	deleteVehicle _base;
 	{_cleanunits = _x getVariable "minorclean";
 	if (!isNil "_cleanunits") then {

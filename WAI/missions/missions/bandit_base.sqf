@@ -6,13 +6,6 @@ private ["_position","_box","_missiontimeout","_cleanmission","_playerPresent","
 _position = [getMarkerPos "center",0,5500,10,0,2000,0] call BIS_fnc_findSafePos;
 _missionName = "Bandit Base";
 _difficulty = "extreme";
-//Extra Large Gun Box
- _box = createVehicle ["RUVehicleBox",[(_position select 0) -3,(_position select 1),0], [], 0, "CAN_COLLIDE"];
-[_box] call Extra_Large_Gun_Box1;
-
-//Construction Supply Box
-_box2 = createVehicle ["BAF_VehicleBox",[(_position select 0) +3,(_position select 1), -0.5], [], 0, "CAN_COLLIDE"];
-[_box2] call Construction_Supply_Box;
  
 diag_log format["WAI: Mission Band Base Started At %1",_position];
 
@@ -93,11 +86,26 @@ while {_missiontimeout} do {
 };
 if (_playerPresent) then {
 	[_position,"WAImajorArray"] call missionComplete;
+	// wait for mission complete before spawning boxes
+	 _box = createVehicle ["RUVehicleBox",[(_position select 0) -3,(_position select 1),0], [], 0, "CAN_COLLIDE"];
+	[_box] call Extra_Large_Gun_Box1;//Extra Large Gun Box
+	_box2 = createVehicle ["BAF_VehicleBox",[(_position select 0) +3,(_position select 1), -0.5], [], 0, "CAN_COLLIDE"];
+	[_box2] call Construction_Supply_Box;//Construction Supply Box
+
 	diag_log format["WAI: Mission BaseBandit Ended At %1",_position];
 	[nil,nil,rTitleText,"Survivors captured the base, HOOAH!!", "PLAIN",10] call RE;
 } else {
 	clean_running_mission = True;
-	deleteVehicle _box;
+	
+	deleteVehicle _baserunover;
+	deleteVehicle _baserunover1;
+	deleteVehicle _baserunover2;
+	deleteVehicle _baserunover3;
+	deleteVehicle _baserunover4;
+	deleteVehicle _baserunover5;
+	deleteVehicle _baserunover6;
+	deleteVehicle _baserunover7;
+
 	{_cleanunits = _x getVariable "majorclean";
 	if (!isNil "_cleanunits") then {
 		switch (_cleanunits) do {

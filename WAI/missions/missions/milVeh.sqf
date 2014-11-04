@@ -1,4 +1,4 @@
-private ["_playerPresent","_cleanmission","_currenttime","_starttime","_missiontimeout","_vehname","_veh","_position","_vehclass","_vehdir","_objPosition","_picture","_hint","_missionName","_difficulty"];
+private ["_playerPresent","_cleanmission","_currenttime","_starttime","_missiontimeout","_vehname","_veh","_position","_vehclass","_vehdir","_objPosition","_picture","_hint","_missionName","_difficulty","_tent"];
 
 _vehclass = "GAZ_Vodnik_HMG";
 
@@ -10,15 +10,6 @@ _position = [getMarkerPos "center",0,5500,10,0,2000,0] call BIS_fnc_findSafePos;
 diag_log format["WAI: Mission milVeh Started At %1",_position];
 
 _picture = getText (configFile >> "cfgVehicles" >> _vehclass >> "picture");
-
-
-
-//Medical Supply Box
-_box = createVehicle ["LocalBasicWeaponsBox",[(_position select 0) - 20,(_position select 1) - 20,0], [], 0, "CAN_COLLIDE"];
-[_box] call Medical_Supply_Box;
-
-_box1 = createVehicle ["LocalBasicWeaponsBox",[(_position select 0) + 15,(_position select 1) + 15,0], [], 0, "CAN_COLLIDE"];
-[_box1] call Large_Gun_Box;
 
 //Medical Tent
 _tent = createVehicle ["Land_fort_rampart",[(_position select 0) - 21,(_position select 1) - 21,0], [], 0, "CAN_COLLIDE"];
@@ -123,15 +114,21 @@ while {_missiontimeout} do {
 	if ((_playerPresent) OR (_cleanmission)) then {_missiontimeout = false;};
 };
 if (_playerPresent) then {
-	[_veh,[_vehdir,_objPosition],_vehclass,true,"0"] call custom_publish;
+	
 	[_position,"WAImajorArray"] call missionComplete;
+	// wait for mission complete, then spawn boxes and save vehicle to hive
+	_box = createVehicle ["LocalBasicWeaponsBox",[(_position select 0) - 20,(_position select 1) - 20,0], [], 0, "CAN_COLLIDE"];
+	[_box] call Medical_Supply_Box;//Medical Supply Box
+	_box1 = createVehicle ["LocalBasicWeaponsBox",[(_position select 0) + 15,(_position select 1) + 15,0], [], 0, "CAN_COLLIDE"];
+	[_box1] call Large_Gun_Box;//Large Gun Box
+	[_veh,[_vehdir,_objPosition],_vehclass,true,"0"] call custom_publish;
+
 	diag_log format["WAI: Mission milVeh Ended At %1",_position];
 	[nil,nil,rTitleText,"The Russians have been wiped out, and the Vodnik has been taken", "PLAIN",10] call RE;
 } else {
 	clean_running_mission = True;
 	deleteVehicle _veh;
-	deleteVehicle _box;
-	deleteVehicle _box1;
+	deleteVehicle _tent;
 	{_cleanunits = _x getVariable "majorclean";
 	if (!isNil "_cleanunits") then {
 		switch (_cleanunits) do {

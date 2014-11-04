@@ -9,6 +9,7 @@
 
 	Large Box of Weapons
 	3 Small Groups of hard AI
+	1 Small Group of Normal AI
 	1 Small Paradrop Reinforcement Group (x5)
 */
 
@@ -28,9 +29,6 @@ diag_log format["WAI: Mission strandedAPC Started At %1",_position];
 
 _picture = getText (configFile >> "cfgVehicles" >> _vehclass >> "picture");
 
-// CRATES 
-_box = createVehicle ["RULaunchersBox",[(_position select 0) + 0.7408, (_position select 1) + 4.565, 0.10033049], [], 0, "CAN_COLLIDE"];
-[_box] call Large_Gun_Box;
 
 // apc with no fuel
 _veh = createVehicle [_vehclass,[(_position select 0) - 10.6206, (_position select 1) - 0.49,0], [], 0, "CAN_COLLIDE"];
@@ -45,6 +43,7 @@ _rndnum = round (random 3) + 4;
 [[_position select 0, _position select 1, 0],5,"hard","Random",4,"","RU_Soldier_HAT","Random","minor","WAIminorArray"] call spawn_group;
 [[_position select 0, _position select 1, 0],5,"hard","Random",4,"","RU_Soldier_Pilot","Random","minor","WAIminorArray"] call spawn_group;
 [[_position select 0, _position select 1, 0],1,"hard","Random",4,"","RU_Commander","Random","minor","WAIminorArray"] call spawn_group;
+[[_position select 0, _position select 1, 0],5,"normal","Random",4,"","RU_Soldier_HAT","Random","minor","WAIminorArray"] call spawn_group;
 
 //Heli Paradrop
 [[(_position select 0), (_position select 1), 0],[7743.41, 7040.93, 0],400,"UH60M_EP1_DZE",5,"hard","Random",4,"","RU_Soldier_Pilot","Random",False,"minor","WAIminorArray"] spawn heli_para;
@@ -82,12 +81,15 @@ while {_missiontimeout} do {
 };
 if (_playerPresent) then {
 	[_position,"WAIminorArray"] call missionComplete;
+	// wait for mission complete then spawn box
+	_box = createVehicle ["RULaunchersBox",[(_position select 0) + 0.7408, (_position select 1) + 4.565, 0.10033049], [], 0, "CAN_COLLIDE"];
+	[_box] call Large_Gun_Box; // large gun box
+
 	diag_log format["WAI: Mission strandedAPC Ended At %1",_position];
 	[nil,nil,rTitleText,"The Crashed Weapons Truck has been Secured", "PLAIN",10] call RE;
 } else {
 	clean_running_minor_mission = True;
 	deleteVehicle _veh;
-	deleteVehicle _box;
 	{_cleanunits = _x getVariable "minorclean";
 	if (!isNil "_cleanunits") then {
 		switch (_cleanunits) do {

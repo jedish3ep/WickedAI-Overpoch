@@ -37,13 +37,6 @@ _baserunover4 setVectorUp surfaceNormal position _baserunover4;
 _baserunover5 = createVehicle ["FlagCarrierRU",[(_position select 0) - 0.7871, (_position select 1) + 9.979],[], 0, "CAN_COLLIDE"];
 _baserunover5 setVectorUp surfaceNormal position _baserunover5;
 
-// Building Supplies
-_box = createVehicle ["USVehicleBox",[(_position select 0) + 6.6914,(_position select 1) + 1.1939,0], [], 0, "CAN_COLLIDE"];
-[_box] call Construction_Supply_Box;
-
-// Weapons Crate
-_box1 = createVehicle ["LocalBasicWeaponsBox",[(_position select 0) - 7.6396,(_position select 1) + 7.2813,0], [], 0, "CAN_COLLIDE"];
-[_box1] call Large_Gun_Box;
 
 // ARMOURED VEHICLE
 _veh = createVehicle [_vehclass,[(_position select 0) + 6.8516,(_position select 1) + 14.3345,0], [], 0, "CAN_COLLIDE"];
@@ -148,9 +141,18 @@ while {_missiontimeout} do {
 	if (_currenttime - _starttime >= wai_mission_timeout) then {_cleanmission = true;};
 	if ((_playerPresent) OR (_cleanmission)) then {_missiontimeout = false;};
 };
-if (_playerPresent) then {
-	[_veh,[_vehdir,_objPosition],_vehclass,true,"0"] call custom_publish;
+if (_playerPresent) then {	
 	[_position,"WAImajorArray"] call missionComplete;
+	// wait for mission complete then spawn crates and publish vehicle to hive
+
+	_box = createVehicle ["USVehicleBox",[(_position select 0) + 6.6914,(_position select 1) + 1.1939,0], [], 0, "CAN_COLLIDE"];
+	[_box] call Construction_Supply_Box;// Building Supplies
+
+	_box1 = createVehicle ["LocalBasicWeaponsBox",[(_position select 0) - 7.6396,(_position select 1) + 7.2813,0], [], 0, "CAN_COLLIDE"];
+	[_box1] call Large_Gun_Box;// Weapons Crate
+
+	[_veh,[_vehdir,_objPosition],_vehclass,true,"0"] call custom_publish;
+
 	// SMOKE EFFECTS
 	if(wai_smoke) then {
 		_smoke1 = createVehicle [_smokey,[(_position select 0) - 9.6377,(_position select 1) - 11.9394,0], [], 0, "CAN_COLLIDE"];
@@ -158,14 +160,20 @@ if (_playerPresent) then {
 		_smoke3 = createVehicle [_smokey,[(_position select 0),(_position select 1) + 8,0], [], 0, "CAN_COLLIDE"];
 		_smoke4 = createVehicle [_smokey,[(_position select 0) - 13,(_position select 1) - 2,0], [], 0, "CAN_COLLIDE"];
 	};
+
 	diag_log format["WAI: Mission rusBase Ended At %1",_position];
 	[nil,nil,rTitleText,"The RU Forces have been killed, Great Job!", "PLAIN",10] call RE;
 	wai_smoke = false;
 } else {
 	clean_running_mission = True;
 	deleteVehicle _veh;
-	deleteVehicle _box;
-	deleteVehicle _box1;	
+	deleteVehicle _baserunover;
+	deleteVehicle _baserunover1;
+	deleteVehicle _baserunover2;
+	deleteVehicle _baserunover3;
+	deleteVehicle _baserunover4;
+	deleteVehicle _baserunover5;
+	
 	{_cleanunits = _x getVariable "majorclean";
 	if (!isNil "_cleanunits") then {
 		switch (_cleanunits) do {

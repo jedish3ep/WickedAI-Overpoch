@@ -15,10 +15,6 @@ _missionName = "Ikea Convoy";
 _position = [getMarkerPos "center",0,5500,10,0,2000,0] call BIS_fnc_findSafePos;
 diag_log format["WAI: Mission Convoy Started At %1",_position];
 
-//Construction Supply Box
-_box = createVehicle ["BAF_VehicleBox",[(_position select 0),(_position select 1),0], [], 0, "CAN_COLLIDE"];
-[_box] call Construction_Supply_box;
-
 _veh = createVehicle [_vehclass,[(_position select 0) - 15,(_position select 1),0], [], 0, "CAN_COLLIDE"];
 _vehdir = round(random 360);
 _veh setDir _vehdir;
@@ -114,6 +110,11 @@ while {_missiontimeout} do {
 if (_playerPresent) then {
 	[_veh,[_vehdir,_objPosition],_vehclass,true,"0"] call custom_publish;
 	[_position,"WAImajorArray"] call missionComplete;
+	
+	//wait for mission complete. then spawn crates
+	_box = createVehicle ["BAF_VehicleBox",[(_position select 0),(_position select 1),0], [], 0, "CAN_COLLIDE"];
+	[_box] call Construction_Supply_box; //Construction Supply Box
+
 	diag_log format["WAI: Mission Convoy Ended At %1",_position];
 	[nil,nil,rTitleText,"Survivors have secured the building supplies!", "PLAIN",10] call RE;
 } else {
@@ -121,7 +122,6 @@ if (_playerPresent) then {
 	deleteVehicle _veh;
 	deleteVehicle _veh2;
 	deleteVehicle _veh3;
-	deleteVehicle _box;
 	{_cleanunits = _x getVariable "majorclean";
 	if (!isNil "_cleanunits") then {
 		switch (_cleanunits) do {

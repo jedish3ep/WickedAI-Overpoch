@@ -94,8 +94,10 @@ while {_missiontimeout} do {
 	if ((_playerPresent) OR (_cleanmission)) then {_missiontimeout = false;};
 };
 if (_playerPresent) then {
-	[_veh,[_vehdir,_objPosition],_vehclass,true,"0"] call custom_publish;
 	[_position,"WAIminorArray"] call missionComplete;
+	// wait for mission complete before publishing vehicle to hive
+	[_veh,[_vehdir,_objPosition],_vehclass,true,"0"] call custom_publish;
+	
 	diag_log format["WAI: Mission civVeh Ended At %1",_position];
 	[nil,nil,rTitleText,"The survivors have been wiped out. Well Done !!", "PLAIN",10] call RE;
 } else {
