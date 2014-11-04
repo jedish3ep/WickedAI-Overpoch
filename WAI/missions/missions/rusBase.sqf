@@ -1,4 +1,4 @@
-private ["_playerPresent","_cleanmission","_currenttime","_starttime","_missiontimeout","_vehname","_veh","_position","_vehclass","_vehdir","_objPosition","_picture","_hint","_smokeColours","_smokey","_missionName","_difficulty"];
+private ["_playerPresent","_cleanmission","_currenttime","_starttime","_missiontimeout","_vehname","_veh","_position","_vehclass","_vehdir","_objPosition","_picture","_hint","_missionName","_difficulty"];
 _vehclass = "BRDM2_HQ_Gue";
 
 wai_smoke = true;
@@ -11,10 +11,6 @@ _position = [getMarkerPos "center",0,5500,10,0,2000,0] call BIS_fnc_findSafePos;
 diag_log format["WAI: Mission rusBase Started At %1",_position];
 
 _picture = getText (configFile >> "cfgVehicles" >> _vehclass >> "picture");
-
-
-_smokeColours = ["SmokeShellGreen","SmokeShellRed","SmokeShellBlue","SmokeShellOrange"];
-_smokey = _smokeColours call BIS_fnc_selectRandom;
 
 // BUILDINGS
 // center Anti Air tower
@@ -156,14 +152,6 @@ if (_playerPresent) then {
 	// mark crates with smoke/flares
 	[_box] call markCrates;
 	[_box1] call markCrates;
-
-	// SMOKE EFFECTS
-	if(wai_smoke) then {
-		_smoke1 = createVehicle [_smokey,[(_position select 0) - 9.6377,(_position select 1) - 11.9394,0], [], 0, "CAN_COLLIDE"];
-		_smoke2 = createVehicle [_smokey,[(_position select 0) + 13.1592,(_position select 1) - 1.2251,0], [], 0, "CAN_COLLIDE"];
-		_smoke3 = createVehicle [_smokey,[(_position select 0),(_position select 1) + 8,0], [], 0, "CAN_COLLIDE"];
-		_smoke4 = createVehicle [_smokey,[(_position select 0) - 13,(_position select 1) - 2,0], [], 0, "CAN_COLLIDE"];
-	};
 
 	diag_log format["WAI: Mission rusBase Ended At %1",_position];
 	[nil,nil,rTitleText,"The RU Forces have been killed, Great Job!", "PLAIN",10] call RE;
