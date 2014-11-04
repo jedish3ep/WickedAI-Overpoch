@@ -31,8 +31,7 @@ _hint = parseText format ["
 	<t align='center' color='#1E90FF' size='1.25'>Side Mission</t><br/>
 	<t align='center' color='#FFFFFF' size='1.15'>Difficulty: <t color='#1E90FF'> NORMAL</t><br/>
 	<t align='center' color='#FFFFFF'>%1 : A Bandit Squad has been spotted! Stop them from completing their patrol!</t>", 
-	_missionName,
-	_vehname
+	_missionName
 	];
 [nil,nil,rHINT,_hint] call RE;
 

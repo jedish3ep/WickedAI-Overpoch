@@ -1,5 +1,9 @@
-private ["_position","_box","_missiontimeout","_cleanmission","_playerPresent","_starttime","_currenttime","_cleanunits","_rndnum","_box2","_missionName","_vehclass","_hint","_tanktraps","_difficulty"];
+private ["_position","_box","_missiontimeout","_cleanmission","_playerPresent","_starttime","_currenttime","_cleanunits","_rndnum","_box2","_missionName","_vehclass","_hint","_tanktraps","_difficulty","_vehname","_picture"];
+
 _vehclass = armed_vehicle call BIS_fnc_selectRandom;
+_vehname	= getText (configFile >> "CfgVehicles" >> _vehclass >> "displayName");
+_picture = getText (configFile >> "cfgVehicles" >> _vehclass >> "picture");
+
 _missionName = "Military Camp";
 _difficulty = "extreme";
  
@@ -76,7 +80,9 @@ _hint = parseText format ["
 	<t align='center' color='#FFFFFF'>------------------------------</t><br/>
 	<t align='center' color='#1E90FF' size='1.25'>Main Mission</t><br/>
 	<t align='center' color='#FFFFFF' size='1.15'>Difficulty: <t color='#1E90FF'> EXTREME</t><br/>
+	<t align='center'><img size='5' image='%1'/></t><br/>
 	<t align='center' color='#FFFFFF'>The Military are setting up a camp, they have a %2, Kill them and take their supplies</t>",
+	_picture,
 	_vehname
 	];
 [nil,nil,rHINT,_hint] call RE;
