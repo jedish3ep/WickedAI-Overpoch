@@ -1,5 +1,5 @@
 // MAJOR MISSIONS //
-	wai_mission_timer = 10*60;
+	wai_mission_timer = 15*60;
 	wai_mission_timeout = 45*60;
 	wai_marker = "\z\addons\dayz_server\WAI\compile\markers.sqf";
 	wai_enable_tank_traps		= true;
@@ -20,19 +20,19 @@
 	];
 
 // MINOR MISSIONS //
-	wai_minor_mission_timer = 5*60;
+	wai_minor_mission_timer = 10*60;
 	wai_minor_mission_timeout = 30*60;
 	wai_minor_marker = "\z\addons\dayz_server\WAI\compile\minorMarkers.sqf";
 
 	wai_minor_missions = [
-		"civVeh",
-		"vehAmmo",
-		"m2hummer",
-		"banditsquad",
-		"stashHouse",
-		"pervertPriest",
-		"humveeCrash",
-		"wepsTruck",
+		"civVeh","civVeh","civVeh",
+		"vehAmmo","vehAmmo","vehAmmo",
+		"m2hummer","m2hummer",
+		"banditsquad","banditsquad","banditsquad",
+		"stashHouse","stashHouse","stashHouse",
+		"pervertPriest","pervertPriest",
+		"humveeCrash","humveeCrash","humveeCrash",
+		"wepsTruck","wepsTruck","wepsTruck",
 		"strandedAPC"
 	];
 
