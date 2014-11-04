@@ -47,7 +47,7 @@ _rndnum = round (random 3) + 4;
 [[_position select 0, _position select 1, 0],1,"hard","Random",4,"","RU_Commander","Random","minor","WAIminorArray"] call spawn_group;
 
 //Heli Paradrop
-[[(_position select 0), (_position select 1), 0],[7743.41, 7040.93, 0],400,"UH60M_EP1_DZE",5,"hard","Random",4,"","RU_Soldier_Pilot","Random","minor","WAIminorArray"] spawn heli_para;
+[[(_position select 0), (_position select 1), 0],[7743.41, 7040.93, 0],400,"UH60M_EP1_DZE",5,"hard","Random",4,"","RU_Soldier_Pilot","Random",False,"minor","WAIminorArray"] spawn heli_para;
 
 
 //CREATE MARKER

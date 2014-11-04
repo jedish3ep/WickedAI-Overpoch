@@ -16,11 +16,11 @@ _picture = getText (configFile >> "cfgVehicles" >> _vehclass >> "picture");
 
 
 // Gun Crate
-_box1 = createVehicle ["LocalBasicWeaponsBox",[(_position select 0) + 15,(_position select 1) + 15,0], [], 0, "CAN_COLLIDE"];
-[_box1] call Large_Gun_Box;
+_box = createVehicle ["LocalBasicWeaponsBox",[(_position select 0) + 15,(_position select 1) + 15,0], [], 0, "CAN_COLLIDE"];
+[_box] call Large_Gun_Box;
 
 //Rampart Barrier
-_tent = createVehicle ["Land_fort_rampart",[(_position select 0) + 16,(_position select 1) + 16,0], [], 0, "CAN_COLLIDE"];
+_base = createVehicle ["Land_fort_rampart",[(_position select 0) + 16,(_position select 1) + 16,0], [], 0, "CAN_COLLIDE"];
 
 //Vehicle
 _veh = createVehicle [_vehclass,_position, [], 0, "CAN_COLLIDE"];
@@ -133,6 +133,7 @@ if (_playerPresent) then {
 	clean_running_mission = True;
 	deleteVehicle _veh;
 	deleteVehicle _box;
+	deleteVehicle _base;
 	{_cleanunits = _x getVariable "majorclean";
 	if (!isNil "_cleanunits") then {
 		switch (_cleanunits) do {

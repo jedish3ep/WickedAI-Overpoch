@@ -71,7 +71,7 @@ _rndnum = round (random 3) + 4;
 [[[(_position select 0) - 15, (_position select 1) - 15, 0]],"SPG9_TK_GUE_EP1",0.8,"Soldier_Sniper_PMC_DZ",1,2,"","Random","major"] call spawn_static;
 
 //Heli Paradrop
-[[(_position select 0), (_position select 1), 0],[7743.41, 7040.93, 0],400,"BAF_Merlin_DZE",10,"hard","Random",4,"","UKSF_wdl_tl_l","Random","major","WAImajorArray"] spawn heli_para;
+[[(_position select 0), (_position select 1), 0],[7743.41, 7040.93, 0],400,"BAF_Merlin_DZE",10,"hard","Random",4,"","UKSF_wdl_tl_l","Random",False,"major","WAImajorArray"] spawn heli_para;
  
 [_position,_missionName,_difficulty] execVM wai_marker;
 
@@ -106,6 +106,7 @@ if (_playerPresent) then {
 } else {
 	clean_running_mission = True;
 	deleteVehicle _box;
+	deleteVehicle _box2;
 	{_cleanunits = _x getVariable "majorclean";
 	if (!isNil "_cleanunits") then {
 		switch (_cleanunits) do {

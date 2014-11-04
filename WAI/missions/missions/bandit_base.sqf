@@ -64,7 +64,7 @@ _rndnum = round (random 3) + 4;
 [[[(_position select 0) - 15, (_position select 1) - 15, 0]],"SPG9_TK_GUE_EP1",0.8,"FR_OHara_DZ",1,2,"","Random","major"] call spawn_static;
 
 //Heli Paradrop
-[[(_position select 0), (_position select 1), 0],[7743.41, 7040.93, 0],400,"Mi17_TK_EP1",10,"extreme","Random",4,"","Ins_Soldier_GL_DZ","Random","major","WAImajorArray"] spawn heli_para;
+[[(_position select 0), (_position select 1), 0],[7743.41, 7040.93, 0],400,"Mi17_TK_EP1",10,"extreme","Random",4,"","Ins_Soldier_GL_DZ","Random",False,"major","WAImajorArray"] spawn heli_para;
 
 //CREATE MARKER
 [_position,_missionName,_difficulty] execVM wai_marker;

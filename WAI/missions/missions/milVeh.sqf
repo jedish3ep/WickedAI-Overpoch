@@ -131,6 +131,7 @@ if (_playerPresent) then {
 	clean_running_mission = True;
 	deleteVehicle _veh;
 	deleteVehicle _box;
+	deleteVehicle _box1;
 	{_cleanunits = _x getVariable "majorclean";
 	if (!isNil "_cleanunits") then {
 		switch (_cleanunits) do {

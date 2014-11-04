@@ -81,7 +81,7 @@ _rndnum = round (random 3) + 5;
 ] call spawn_static;
 
 //Heli Para Drop
-[[(_position select 0),(_position select 1),0],[0,0,0],400,"BAF_Merlin_HC3_D",10,"extreme","Random",4,"","USMC_LHD_Crew_Blue","Random","major","WAImajorArray"] spawn heli_para;
+[[(_position select 0),(_position select 1),0],[0,0,0],400,"BAF_Merlin_HC3_D",10,"extreme","Random",4,"","USMC_LHD_Crew_Blue","Random",False,"major","WAImajorArray"] spawn heli_para;
 
 //CREATE MARKER
 [_position,_missionName,_difficulty] execVM wai_marker;
