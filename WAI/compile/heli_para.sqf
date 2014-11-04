@@ -1,5 +1,5 @@
 if (!isServer)exitWith{};
-private ["_cleanheli","_drop","_helipos","_gunner2","_gunner","_playerPresent","_skillarray","_aicskill","_aiskin","_aigear","_helipatrol","_gear","_skin","_backpack","_mags","_gun","_triggerdis","_startingpos","_aiweapon","_mission","_heli_class","_startPos","_helicopter","_unitGroup","_pilot","_skill","_paranumber","_position","_wp1","_unitArray"];
+private ["_cleanheli","_drop","_helipos","_gunner2","_gunner","_playerPresent","_skillarray","_aicskill","_aiskin","_aigear","_helipatrol","_gear","_skin","_backpack","_mags","_gun","_triggerdis","_startingpos","_aiweapon","_mission","_heli_class","_startPos","_helicopter","_unitGroup","_pilot","_skill","_paranumber","_position","_wp1","_unitArray","_aipack"];
 _position = _this select 0;
 _startingpos = _this select 1;
 _triggerdis = _this select 2;
@@ -15,6 +15,7 @@ _helipatrol = _this select 11;
 _mission = _this select 12;
 _unitArray = _this select 13;
 
+_aipack = "";
 _aiweapon = [];
 _aigear = [];
 _aiskin = "";
@@ -116,7 +117,7 @@ while {(alive _helicopter) AND (_drop)} do {
 			};
 			_para = _pgroup createUnit [_aiskin, [0,0,0], [], 1, "PRIVATE"];
 			if (_backpack == "") then {
-				_aipack = ai_packs call BIS_fnc_selectRandom;
+				_aipack = ai_packs call BIS_fnc_selectRandom; 
 			} else {
 				_aipack = _backpack
 			};
