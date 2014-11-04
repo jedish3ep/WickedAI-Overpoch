@@ -21,7 +21,7 @@ _rndnum = round (random 3) + 4;
 [[_position select 0, _position select 1, 0],4,"hard","Random",4,"","TK_GUE_Soldier_HAT_EP1","Random","major","WAImajorArray"] call spawn_group;
 
 //The HVT Himself
-[[_position select 0, _position select 1, 0],1,"extreme","Random",4,"","TK_GUE_Soldier_TL_EP1","Random","major"] call spawn_group;
+[[_position select 0, _position select 1, 0],1,"extreme","Random",4,"","TK_GUE_Soldier_TL_EP1","Random","major","WAImajorArray"] call spawn_group;
  
 [[[(_position select 0) - 15, (_position select 1) + 15, 8]],"KORD_high_TK_EP1",0.8,"TK_INS_Soldier_AT_EP1",1,2,"","Random","major"] call spawn_static;
 [[[(_position select 0) + 15, (_position select 1) - 15, 8]],"KORD_high_UN_EP1",0.8,"TK_Special_Forces_EP1",1,2,"","Random","major"] call spawn_static;
