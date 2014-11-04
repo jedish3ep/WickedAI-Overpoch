@@ -116,6 +116,10 @@ if (_playerPresent) then {
 	_box1 = createVehicle ["LocalBasicWeaponsBox",[(_position select 0) + 15,(_position select 1) + 15,0], [], 0, "CAN_COLLIDE"];
 	[_box1] call Chain_Bullet_Box;
 
+	// mark crates with smoke/flares
+	[_box] call markCrates;
+	[_box1] call markCrates;
+
 	diag_log format["WAI: Mission vehAmmo Ended At %1",_position];
 	[nil,nil,rTitleText,"Mission Complete - Job well done boys!", "PLAIN",10] call RE;
 } else {

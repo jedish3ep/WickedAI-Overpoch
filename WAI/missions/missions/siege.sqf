@@ -62,6 +62,10 @@ if (_playerPresent) then {
 	[_box] call Extra_Large_Gun_Box1;//Extra Large Gun Box
 	_box2 = createVehicle ["BAF_VehicleBox",[(_position select 0) - 10,(_position select 1) - 10,0], [], 0, "CAN_COLLIDE"];
 	[_box2] call Sniper_Gun_Box;//Sniper Box
+
+	// mark crates with smoke/flares
+	[_box] call markCrates;
+	[_box2] call markCrates;
 	
 	diag_log format["WAI: Mission City Siege Ended At %1",_position];
 	

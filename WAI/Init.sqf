@@ -11,6 +11,7 @@ ai_monitor = compile preprocessFileLineNumbers "\z\addons\dayz_server\WAI\compil
 veh_monitor = compile preprocessFileLineNumbers "\z\addons\dayz_server\WAI\compile\vehicle_monitor.sqf";
 missionComplete = compile preprocessFileLineNumbers "\z\addons\dayz_server\WAI\compile\fn_missionComplete.sqf";
 spawnTempVehicle = compile preprocessFileLineNumbers "\z\addons\dayz_server\WAI\compile\fn_tempVeh.sqf";
+markCrates = compile preprocessFileLineNumbers "\z\addons\dayz_server\WAI\compile\fn_markCrates.sqf";
 
 createCenter east;
 WEST setFriend [EAST,0];

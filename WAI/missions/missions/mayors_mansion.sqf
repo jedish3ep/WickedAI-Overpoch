@@ -54,6 +54,9 @@ if (_playerPresent) then {
 	// wait for complete status. then spawn box
 	_box = createVehicle ["BAF_VehicleBox",[(_position select 0),(_position select 1), .5], [], 0, "CAN_COLLIDE"];
 	[_box] call Extra_Large_Gun_Box;//Large Gun Box
+
+	// mark crates with smoke/flares
+	[_box] call markCrates;
 	
 	diag_log format["WAI: Mission Osamas Compound Ended At %1",_position];
 	[nil,nil,rTitleText,"The HVT is Down. Secure the loot and RTB", "PLAIN",10] call RE;

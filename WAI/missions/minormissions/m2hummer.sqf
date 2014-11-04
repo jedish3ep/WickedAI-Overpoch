@@ -102,6 +102,10 @@ if (_playerPresent) then {
 	[_box] call Medical_Supply_Box; // med supplies
 	_box1 = createVehicle ["LocalBasicWeaponsBox",[(_position select 0) + 15,(_position select 1),0], [], 0, "CAN_COLLIDE"];
 	[_box1] call Medium_Gun_Box; // med gun box
+
+	// mark crates with smoke/flares
+	[_box] call markCrates;
+	[_box1] call markCrates;
 	
 	diag_log format["WAI: Mission m2hummer Ended At %1",_position];
 	[nil,nil,rTitleText,"US Forces have been wiped out, Good Work!", "PLAIN",10] call RE;

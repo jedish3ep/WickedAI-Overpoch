@@ -125,6 +125,10 @@ if (_playerPresent) then {
 	// wait for mission complete. then spawn crates
 	_box = createVehicle ["LocalBasicWeaponsBox",[(_position select 0) + 15,(_position select 1) + 15,0], [], 0, "CAN_COLLIDE"];
 	[_box] call Large_Gun_Box;// Gun Crate
+
+	// mark crates with smoke/flares
+	[_box] call markCrates;
+	
 	diag_log format["WAI: Mission bosMilVeh Ended At %1",_position];
 	[nil,nil,rTitleText,"The Brotherhood have been beaten into submission, and the armed vehicle has been taken", "PLAIN",10] call RE;
 } else {

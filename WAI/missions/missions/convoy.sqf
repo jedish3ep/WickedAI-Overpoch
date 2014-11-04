@@ -115,6 +115,9 @@ if (_playerPresent) then {
 	_box = createVehicle ["BAF_VehicleBox",[(_position select 0),(_position select 1),0], [], 0, "CAN_COLLIDE"];
 	[_box] call Construction_Supply_box; //Construction Supply Box
 
+	// mark crates with smoke/flares
+	[_box] call markCrates;
+
 	diag_log format["WAI: Mission Convoy Ended At %1",_position];
 	[nil,nil,rTitleText,"Survivors have secured the building supplies!", "PLAIN",10] call RE;
 } else {

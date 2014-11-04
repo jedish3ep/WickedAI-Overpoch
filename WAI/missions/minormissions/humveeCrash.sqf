@@ -76,6 +76,10 @@ if (_playerPresent) then {
 	_box1 = createVehicle ["RULaunchersBox",[(_position select 0) - 0.2387, (_position select 1) + 1.043, 0.10033049], [], 0, "CAN_COLLIDE"];
 	[_box1] call Large_Gun_Box; // large gun box
 
+	// mark crates with smoke/flares
+	[_box] call markCrates;
+	[_box1] call markCrates;
+
 	diag_log format["WAI: Mission humveeCrash Ended At %1",_position];
 	[nil,nil,rTitleText,"The Crashed Hummer has been Secured", "PLAIN",10] call RE;
 } else {

@@ -100,6 +100,10 @@ if (_playerPresent) then {
 	_box2 = createVehicle ["BAF_VehicleBox",[(_position select 0) +15,(_position select 1),0], [], 0, "CAN_COLLIDE"];
 	[_box2] call Construction_Supply_Box;//Construction Supply Box
 
+	// mark crates with smoke/flares
+	[_box] call markCrates;
+	[_box2] call markCrates;
+
 	diag_log format["WAI: Mission milCamp Ended At %1",_position];
 	[nil,nil,rTitleText,"The Military presence has been eliminated! Well Done", "PLAIN",10] call RE;
 } else {

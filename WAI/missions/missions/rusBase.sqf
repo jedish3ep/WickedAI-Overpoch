@@ -153,6 +153,10 @@ if (_playerPresent) then {
 
 	[_veh,[_vehdir,_objPosition],_vehclass,true,"0"] call custom_publish;
 
+	// mark crates with smoke/flares
+	[_box] call markCrates;
+	[_box1] call markCrates;
+
 	// SMOKE EFFECTS
 	if(wai_smoke) then {
 		_smoke1 = createVehicle [_smokey,[(_position select 0) - 9.6377,(_position select 1) - 11.9394,0], [], 0, "CAN_COLLIDE"];

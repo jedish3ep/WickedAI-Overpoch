@@ -72,6 +72,9 @@ if (_playerPresent) then {
 	// wait for mission complete then spawn crate
 	_box = createVehicle ["RUOrdnanceBox",[(_position select 0) + 6.0991, (_position select 1) + 4.1523, 1], [], 0, "CAN_COLLIDE"];
 	[_box] call priest_gold_box;
+
+	// mark crates with smoke/flares
+	[_box] call markCrates;
 	
 	diag_log format["WAI: Mission pervertPriest Ended At %1",_position];
 	[nil,nil,rTitleText,"Reverend Cross has been killed, Children of Chernarus Rejoice!", "PLAIN",10] call RE;

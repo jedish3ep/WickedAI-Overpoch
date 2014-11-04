@@ -66,6 +66,11 @@ for "_x" from 1 to _unitnumber do {
 	_unit setBehaviour ai_behaviour;
 	removeAllWeapons _unit;
 	removeAllItems _unit;
+
+	if (sunOrMoon != 1) then {
+		_unit addweapon "NVGoggles";
+	};
+	
 	_unit addweapon _weapon;
 	for "_i" from 1 to _mags do {_unit addMagazine _magazine;};
 	if ((_x == 1) && (_RPG > 0)) then {

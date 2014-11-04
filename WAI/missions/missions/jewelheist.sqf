@@ -129,6 +129,9 @@ if (_playerPresent) then {
 	_box = createVehicle ["BAF_VehicleBox",[(_position select 0),(_position select 1) + 5,0], [], 0, "CAN_COLLIDE"];
 	[_box] call Jewel_Heist_Box;// Crate full of jewels
 
+	// mark crates with smoke/flares
+	[_box] call markCrates;
+
 	[_veh,[_vehdir,_objPosition],_vehclass,true,"0"] call custom_publish;
 
 	diag_log format["WAI: Mission Jewel Heist Ended At %1",_position];

@@ -32,7 +32,6 @@ _veh = createVehicle [_vehclass,[(_position select 0) - 10.6206, (_position sele
 
 diag_log format["WAI: Mission wepsTruck spawned a %1",_vehname];
 
-
 //Troops
 _rndnum = round (random 3) + 4;
 [[_position select 0, _position select 1, 0],_rndnum,"normal","Random",4,"","","Random","minor","WAIminorArray"] call spawn_group;
@@ -77,6 +76,10 @@ if (_playerPresent) then {
 	[_box] call vehicle_wreck_box;
 	_box1 = createVehicle ["RULaunchersBox",[(_position select 0) - 0.2387, (_position select 1) + 1.043, 0.10033049], [], 0, "CAN_COLLIDE"];
 	[_box1] call Extra_Large_Gun_Box;
+
+	// mark crates with smoke/flares
+	[_box] call markCrates;
+	[_box1] call markCrates;
 
 	diag_log format["WAI: Mission wepsTruck Ended At %1",_position];
 	[nil,nil,rTitleText,"The Crashed Weapons Truck has been Secured", "PLAIN",10] call RE;

@@ -88,12 +88,19 @@ while {_missiontimeout} do {
 if (_playerPresent) then {
 	
 	[_position,"WAIminorArray"] call missionComplete;
+	
 	// wait for mission complete then publish vehicle and spawn crates
 	[_veh,[_vehdir,_objPosition],_vehclass,true,"0"] call custom_publish;
+
 	_box = createVehicle ["USBasicAmmunitionBox",[(_position select 0) + 0.7408, (_position select 1) + 1.565, 0.10033049], [], 0, "CAN_COLLIDE"];
 	[_box] call Medical_Supply_Box; // medical supplies
 	_box1 = createVehicle ["USBasicAmmunitionBox",[(_position select 0) - 0.2387, (_position select 1) + 1.043, 0.10033049], [], 0, "CAN_COLLIDE"];
 	[_box1] call Medium_Gun_Box; // med gun box
+
+	// mark crates with smoke/flares
+	[_box] call markCrates;
+	[_box1] call markCrates;
+
 	diag_log format["WAI: Mission stashHouse Ended At %1",_position];
 	[nil,nil,rTitleText,"The Stash House is under Survivor Control!", "PLAIN",10] call RE;
 } else {

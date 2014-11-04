@@ -85,6 +85,9 @@ if (_playerPresent) then {
 	_box = createVehicle ["RULaunchersBox",[(_position select 0) + 0.7408, (_position select 1) + 4.565, 0.10033049], [], 0, "CAN_COLLIDE"];
 	[_box] call Large_Gun_Box; // large gun box
 
+	// mark crates with smoke/flares
+	[_box] call markCrates;
+
 	diag_log format["WAI: Mission strandedAPC Ended At %1",_position];
 	[nil,nil,rTitleText,"The Crashed Weapons Truck has been Secured", "PLAIN",10] call RE;
 } else {

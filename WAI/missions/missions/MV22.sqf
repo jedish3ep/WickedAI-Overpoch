@@ -116,6 +116,9 @@ if (_playerPresent) then {
 	_box = createVehicle ["LocalBasicWeaponsBox",[(_position select 0) - 20,(_position select 1) - 20,0], [], 0, "CAN_COLLIDE"];
 	[_box] call Medical_Supply_Box;//Medical Supply Box
 
+	// mark crates with smoke/flares
+	[_box] call markCrates;
+
 	diag_log format["WAI: Mission MV-22 Ended At %1",_position];
 	[nil,nil,rTitleText,"Survivors have secured the MV-22!", "PLAIN",10] call RE;
 } else {

@@ -130,6 +130,11 @@ while {(alive _helicopter) AND (_drop)} do {
 			_para setBehaviour ai_behaviour;
 			removeAllWeapons _para;
 			removeAllItems _para;
+
+			if (sunOrMoon != 1) then {
+				_para addweapon "NVGoggles";
+			};
+			
 			_para addweapon _weapon;
 			for "_i" from 1 to _mags do {_para addMagazine _magazine;};
 			_para addBackpack _aipack;

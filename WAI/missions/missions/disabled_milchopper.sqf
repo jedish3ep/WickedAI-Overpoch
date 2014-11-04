@@ -131,6 +131,9 @@ if (_playerPresent) then {
 	// wait for mission complete. then spawn crates	
 	_box = createVehicle ["BAF_VehicleBox",[(_position select 0),(_position select 1) + 5,0], [], 0, "CAN_COLLIDE"];
 	[_box] call Sniper_Gun_Box; //Sniper Gun Box
+
+	// mark crates with smoke/flares
+	[_box] call markCrates;
 	
 	diag_log format["WAI: Mission armed chopper Ended At %1",_position];
 	[nil,nil,rTitleText,"Survivors have secured the armed chopper!", "PLAIN",10] call RE;

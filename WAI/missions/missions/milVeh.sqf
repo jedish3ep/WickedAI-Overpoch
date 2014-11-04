@@ -117,11 +117,17 @@ if (_playerPresent) then {
 	
 	[_position,"WAImajorArray"] call missionComplete;
 	// wait for mission complete, then spawn boxes and save vehicle to hive
+
+	[_veh,[_vehdir,_objPosition],_vehclass,true,"0"] call custom_publish;
+	
 	_box = createVehicle ["LocalBasicWeaponsBox",[(_position select 0) - 20,(_position select 1) - 20,0], [], 0, "CAN_COLLIDE"];
 	[_box] call Medical_Supply_Box;//Medical Supply Box
 	_box1 = createVehicle ["LocalBasicWeaponsBox",[(_position select 0) + 15,(_position select 1) + 15,0], [], 0, "CAN_COLLIDE"];
 	[_box1] call Large_Gun_Box;//Large Gun Box
-	[_veh,[_vehdir,_objPosition],_vehclass,true,"0"] call custom_publish;
+
+	// mark crates with smoke/flares
+	[_box] call markCrates;
+	[_box1] call markCrates;
 
 	diag_log format["WAI: Mission milVeh Ended At %1",_position];
 	[nil,nil,rTitleText,"The Russians have been wiped out, and the Vodnik has been taken", "PLAIN",10] call RE;

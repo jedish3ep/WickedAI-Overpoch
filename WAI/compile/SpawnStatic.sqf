@@ -48,6 +48,11 @@ _unit setCombatMode ai_combatmode;
 _unit setBehaviour ai_behaviour;
 removeAllWeapons _unit;
 removeAllItems _unit;
+
+if (sunOrMoon != 1) then {
+	_unit addweapon "NVGoggles";
+};
+
 if (ai_static_useweapon) then {
 	switch (_gun) do {
 		case 0 : {_aiweapon = ai_wep0;};
