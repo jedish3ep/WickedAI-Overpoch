@@ -1,3 +1,13 @@
+/*
+
+	File : fn_markCrates.sqf
+	Auth : JakeHekesFists[DMD]
+	Desc : Marks crates with smoke grenade or flares
+			Based on Function in f3cuk's version of WickedAI
+			https://github.com/f3cuk/WICKED-AI/tree/master/WAI
+
+*/
+
 private ["_box","_marker","_inRange","_smokeColours","_smokeShell"];
 
 _box = _this select 0;
