@@ -18,6 +18,10 @@ _base setDir 152.66766;
 _base1 = createVehicle ["Land_kulna",[(_position select 0) + 5.4585, (_position select 1) - 2.885,0],[], 0, "CAN_COLLIDE"];
 _base1 setDir -28.282881;
 
+minorBldList = minorBldList + [_base];
+minorBldList = minorBldList + [_base1];
+
+
 
 
 // civ car
@@ -103,23 +107,12 @@ if (_playerPresent) then {
 
 	diag_log format["WAI: Mission stashHouse Ended At %1",_position];
 	[nil,nil,rTitleText,"The Stash House is under Survivor Control!", "PLAIN",10] call RE;
+	uiSleep 300;
+	["minorclean"] call WAIcleanup;
 } else {
 	clean_running_minor_mission = True;
 	deleteVehicle _veh;
-	deleteVehicle _base;
-	deleteVehicle _base1;
-	{_cleanunits = _x getVariable "minorclean";
-	if (!isNil "_cleanunits") then {
-		switch (_cleanunits) do {
-			case "ground" :  {ai_ground_units = (ai_ground_units -1);};
-			case "air" :     {ai_air_units = (ai_air_units -1);};
-			case "vehicle" : {ai_vehicle_units = (ai_vehicle_units -1);};
-			case "static" :  {ai_emplacement_units = (ai_emplacement_units -1);};
-		};
-		deleteVehicle _x;
-		sleep 0.05;
-	};	
-	} forEach allUnits;
+	["minorclean"] call WAIcleanup;
 	
 	diag_log format["WAI: Mission stashHouse Timed Out At %1",_position];
 	[nil,nil,rTitleText,"Time's up! MISSION FAILED", "PLAIN",10] call RE;

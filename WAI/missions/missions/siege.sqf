@@ -1,6 +1,6 @@
 //City Under Siege - by jakehekesfists
  
-private ["_position","_box","_missiontimeout","_cleanmission","_playerPresent","_starttime","_currenttime","_cleanunits","_rndnum","_box2","_hint","_missionName","_difficulty"];
+private ["_position","_box","_missiontimeout","_cleanmission","_playerPresent","_starttime","_currenttime","_cleanunits","_rndnum","_box2","_hint","_missionName","_difficulty","_base"];
  
 _positionarray = [[7546.7695,5144.9907,0],[5981.9287,10345.304,0],[12045.273,9092.3789,0],[11200.665,6572.3813,0],[4485.8018,6414.3247,0]];
 _position = _positionarray call BIS_fnc_selectRandom;
@@ -12,9 +12,13 @@ diag_log format["WAI: Mission City Siege Started At %1",_position];
 //Decorations  
 _baserunover = createVehicle ["HMMWVWreck",[(_position select 0) - 40, (_position select 1),-0.2],[], 0, "CAN_COLLIDE"];
 _baserunover setDir 90;
-_baserunover setVectorUp surfaceNormal position _baserunover;
 _baserunover1 = createVehicle ["M1130_HQ_unfolded_EP1",[(_position select 0), (_position select 1),-0.2],[], 0, "CAN_COLLIDE"];
 _baserunover1 setDir 270;
+
+_base = [_baserunover,_baserunover1];
+
+{ majorBldList = majorBldList + [_x]; } forEach _base;
+{ _x setVectorUp surfaceNormal position _x; } count _base;
 
 //Group Spawning
 _rndnum = round (random 3) + 4;
@@ -70,22 +74,11 @@ if (_playerPresent) then {
 	diag_log format["WAI: Mission City Siege Ended At %1",_position];
 	
 	[nil,nil,rTitleText,"The insurgents have been killed, the City is at peace", "PLAIN",10] call RE;
+	uiSleep 300;
+	["majorclean"] call WAIcleanup;
 } else {
 	clean_running_mission = True;
-	deleteVehicle _baserunover;
-	deleteVehicle _baserunover1;	
-	{_cleanunits = _x getVariable "majorclean";
-	if (!isNil "_cleanunits") then {
-		switch (_cleanunits) do {
-			case "ground" :  {ai_ground_units = (ai_ground_units -1);};
-			case "air" :     {ai_air_units = (ai_air_units -1);};
-			case "vehicle" : {ai_vehicle_units = (ai_vehicle_units -1);};
-			case "static" :  {ai_emplacement_units = (ai_emplacement_units -1);};
-		};
-		deleteVehicle _x;
-		sleep 0.05;
-	};
-	} forEach allUnits;
+	["majorclean"] call WAIcleanup;
  
 	diag_log format["WAI: Mission City Siege At %1",_position];
 	[nil,nil,rTitleText,"The Terrorists have won, The city has been laid to waste", "PLAIN",10] call RE;

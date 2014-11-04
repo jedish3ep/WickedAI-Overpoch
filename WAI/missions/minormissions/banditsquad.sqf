@@ -50,20 +50,11 @@ if (_playerPresent) then {
 	[_position,"WAIminorArray"] call missionComplete;
 	diag_log format["WAI: Mission bandSquad Ended At %1",_position];
 	[nil,nil,rTitleText,"All bandits bagged and tagged, Nice Work!", "PLAIN",10] call RE;
+	uiSleep 300;
+	["minorclean"] call WAIcleanup;
 } else {
 	clean_running_minor_mission = True;
-	{_cleanunits = _x getVariable "minorclean";
-	if (!isNil "_cleanunits") then {
-		switch (_cleanunits) do {
-			case "ground" :  {ai_ground_units = (ai_ground_units -1);};
-			case "air" :     {ai_air_units = (ai_air_units -1);};
-			case "vehicle" : {ai_vehicle_units = (ai_vehicle_units -1);};
-			case "static" :  {ai_emplacement_units = (ai_emplacement_units -1);};
-		};
-		deleteVehicle _x;
-		sleep 0.05;
-	};	
-	} forEach allUnits;
+	["minorclean"] call WAIcleanup;
 	
 	diag_log format["WAI: Minor Mission bandSquad Timed Out At %1",_position];
 	[nil,nil,rTitleText,"The Bandit Squad have completed their patrol - Mission Failed", "PLAIN",10] call RE;

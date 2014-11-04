@@ -1,4 +1,4 @@
-private ["_position","_box","_missiontimeout","_cleanmission","_playerPresent","_starttime","_currenttime","_cleanunits","_rndnum","_box2","_missionName","_vehclass","_hint","_tanktraps","_difficulty","_vehname","_picture"];
+private ["_position","_box","_missiontimeout","_cleanmission","_playerPresent","_starttime","_currenttime","_cleanunits","_rndnum","_box2","_missionName","_vehclass","_hint","_tanktraps","_difficulty","_vehname","_picture","_base"];
 
 _vehclass = armed_vehicle call BIS_fnc_selectRandom;
 _vehname	= getText (configFile >> "CfgVehicles" >> _vehclass >> "displayName");
@@ -29,24 +29,22 @@ diag_log format["WAI: Mission MilCamp spawned a %1",_vehname];
 //Buildings 
 _baserunover = createVehicle ["US_WarfareBAntiAirRadar_Base_EP1",[(_position select 0), (_position select 1)],[], 0, "CAN_COLLIDE"];
 _baserunover setDir 90;
-_baserunover setVectorUp surfaceNormal position _baserunover;
-
 _baserunover1 = createVehicle ["TK_WarfareBBarracks_EP1",[(_position select 0) + 25, (_position select 1)],[], 0, "CAN_COLLIDE"];
 _baserunover1 setDir 90;
-_baserunover1 setVectorUp surfaceNormal position _baserunover1;
-
 _baserunover4 = createVehicle ["Misc_cargo_cont_net3",[(_position select 0) - 10, (_position select 1),-0.2],[], 0, "CAN_COLLIDE"];
 _baserunover4 setDir 0;
-_baserunover4 setVectorUp surfaceNormal position _baserunover4;
 _baserunover5 = createVehicle ["Misc_cargo_cont_net2",[(_position select 0) + 10, (_position select 1),-0.2],[], 0, "CAN_COLLIDE"];
 _baserunover5 setDir 180;
-_baserunover5 setVectorUp surfaceNormal position _baserunover5;
 _baserunover6 = createVehicle ["Misc_cargo_cont_net3",[(_position select 0), (_position select 1) - 10,-0.2],[], 0, "CAN_COLLIDE"];
 _baserunover6 setDir 270;
-_baserunover6 setVectorUp surfaceNormal position _baserunover6;
 _baserunover7 = createVehicle ["Misc_cargo_cont_net2",[(_position select 0), (_position select 1) + 10,-0.2],[], 0, "CAN_COLLIDE"];
 _baserunover7 setDir 90;
-_baserunover7 setVectorUp surfaceNormal position _baserunover7;
+
+_base = [_baserunover,_baserunover1,_baserunover4,_baserunover5,_baserunover6,_baserunover7];
+
+{ majorBldList = majorBldList + [_x]; } forEach _base;
+{ _x setVectorUp surfaceNormal position _x; } count _base;
+
 
 //Group Spawning
 _rndnum = round (random 3) + 4;
@@ -106,27 +104,11 @@ if (_playerPresent) then {
 
 	diag_log format["WAI: Mission milCamp Ended At %1",_position];
 	[nil,nil,rTitleText,"The Military presence has been eliminated! Well Done", "PLAIN",10] call RE;
+	uiSleep 300;
+	["majorclean"] call WAIcleanup;
 } else {
 	clean_running_mission = True;
-	deleteVehicle _baserunover;
-	deleteVehicle _baserunover1;
-	deleteVehicle _baserunover4;
-	deleteVehicle _baserunover5;
-	deleteVehicle _baserunover6;
-	deleteVehicle _baserunover7;
-	{_cleanunits = _x getVariable "majorclean";
-	if (!isNil "_cleanunits") then {
-		switch (_cleanunits) do {
-			case "ground" :  {ai_ground_units = (ai_ground_units -1);};
-			case "air" :     {ai_air_units = (ai_air_units -1);};
-			case "vehicle" : {ai_vehicle_units = (ai_vehicle_units -1);};
-			case "static" :  {ai_emplacement_units = (ai_emplacement_units -1);};
-		};
-		deleteVehicle _x;
-		sleep 0.05;
-	};
-	} forEach allUnits;
- 
+	["majorclean"] call WAIcleanup; 
 	diag_log format["WAI: Mission milCamp At %1",_position];
 	[nil,nil,rTitleText,"Time's up! MISSION FAILED!!", "PLAIN",10] call RE;
 };

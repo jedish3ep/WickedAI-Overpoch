@@ -1,7 +1,5 @@
-private ["_playerPresent","_cleanmission","_currenttime","_starttime","_missiontimeout","_vehname","_veh","_position","_vehclass","_vehdir","_objPosition","_picture","_hint","_missionName","_difficulty"];
+private ["_playerPresent","_cleanmission","_currenttime","_starttime","_missiontimeout","_vehname","_veh","_position","_vehclass","_vehdir","_objPosition","_picture","_hint","_missionName","_difficulty","_base"];
 _vehclass = "BRDM2_HQ_Gue";
-
-wai_smoke = true;
 
 _vehname	= getText (configFile >> "CfgVehicles" >> _vehclass >> "displayName");
 _missionName = "Russian Outpost";
@@ -32,6 +30,11 @@ _baserunover4 setVectorUp surfaceNormal position _baserunover4;
 // russian flag
 _baserunover5 = createVehicle ["FlagCarrierRU",[(_position select 0) - 0.7871, (_position select 1) + 9.979],[], 0, "CAN_COLLIDE"];
 _baserunover5 setVectorUp surfaceNormal position _baserunover5;
+
+_base = [_baserunover,_baserunover1,_baserunover2,_baserunover3,_baserunover4,_baserunover5];
+
+{ majorBldList = majorBldList + [_x]; } forEach _base;
+{ _x setVectorUp surfaceNormal position _x; } count _base;
 
 
 // ARMOURED VEHICLE
@@ -155,32 +158,15 @@ if (_playerPresent) then {
 
 	diag_log format["WAI: Mission rusBase Ended At %1",_position];
 	[nil,nil,rTitleText,"The RU Forces have been killed, Great Job!", "PLAIN",10] call RE;
-	wai_smoke = false;
+	uiSleep 300;
+	["majorclean"] call WAIcleanup;
 } else {
 	clean_running_mission = True;
 	deleteVehicle _veh;
-	deleteVehicle _baserunover;
-	deleteVehicle _baserunover1;
-	deleteVehicle _baserunover2;
-	deleteVehicle _baserunover3;
-	deleteVehicle _baserunover4;
-	deleteVehicle _baserunover5;
 	
-	{_cleanunits = _x getVariable "majorclean";
-	if (!isNil "_cleanunits") then {
-		switch (_cleanunits) do {
-			case "ground" :  {ai_ground_units = (ai_ground_units -1);};
-			case "air" :     {ai_air_units = (ai_air_units -1);};
-			case "vehicle" : {ai_vehicle_units = (ai_vehicle_units -1);};
-			case "static" :  {ai_emplacement_units = (ai_emplacement_units -1);};
-		};
-		deleteVehicle _x;
-		sleep 0.05;
-	};	
-	} forEach allUnits;
+	["majorclean"] call WAIcleanup;
 	
 	diag_log format["WAI: Mission rusBase Timed Out At %1",_position];
 	[nil,nil,rTitleText,"Times Up! Mission Failed", "PLAIN",10] call RE;
-	wai_smoke = false;
 };
 missionrunning = false;

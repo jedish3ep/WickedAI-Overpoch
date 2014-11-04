@@ -14,6 +14,7 @@ diag_log format["WAI: Mission MV22 Started At %1",_position];
 
 //Medical Tent
 _tent = createVehicle ["USMC_WarfareBFieldHospital",[(_position select 0) - 20,(_position select 1) - 20,0], [], 0, "CAN_COLLIDE"];
+majorBldList = majorBldList + [_tent];
 
 //MV22
 _veh = createVehicle [_vehclass,_position, [], 0, "CAN_COLLIDE"];
@@ -121,22 +122,12 @@ if (_playerPresent) then {
 
 	diag_log format["WAI: Mission MV-22 Ended At %1",_position];
 	[nil,nil,rTitleText,"Survivors have secured the MV-22!", "PLAIN",10] call RE;
+	uiSleep 300;
+	["majorclean"] call WAIcleanup;
 } else {
 	clean_running_mission = True;
 	deleteVehicle _veh;
-	deleteVehicle _tent;
-	{_cleanunits = _x getVariable "majorclean";
-	if (!isNil "_cleanunits") then {
-		switch (_cleanunits) do {
-			case "ground" :  {ai_ground_units = (ai_ground_units -1);};
-			case "air" :     {ai_air_units = (ai_air_units -1);};
-			case "vehicle" : {ai_vehicle_units = (ai_vehicle_units -1);};
-			case "static" :  {ai_emplacement_units = (ai_emplacement_units -1);};
-		};
-		deleteVehicle _x;
-		sleep 0.05;
-	};	
-	} forEach allUnits;
+	["majorclean"] call WAIcleanup;
 	
 	diag_log format["WAI: Mission MV-22 Timed Out At %1",_position];
 	[nil,nil,rTitleText,"Survivors did not secure the MV-22 in time!", "PLAIN",10] call RE;

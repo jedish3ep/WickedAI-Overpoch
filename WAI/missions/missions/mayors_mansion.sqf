@@ -10,6 +10,7 @@ diag_log format["WAI: Mission Osamas Compound Started At %1",_position];
 
 //Mayors Mansion
 _baserunover = createVehicle ["Land_A_Villa_EP1",[(_position select 0), (_position select 1),0],[], 0, "CAN_COLLIDE"];
+majorBldList = majorBldList + [_baserunover];
 
 _rndnum = round (random 3) + 4;
 [[_position select 0, _position select 1, 0],4,"hard","Random",4,"","TK_INS_Soldier_EP1_DZ","Random","major","WAImajorArray"] call spawn_group;
@@ -60,22 +61,13 @@ if (_playerPresent) then {
 	
 	diag_log format["WAI: Mission Osamas Compound Ended At %1",_position];
 	[nil,nil,rTitleText,"The HVT is Down. Secure the loot and RTB", "PLAIN",10] call RE;
+	uiSleep 300;
+	["majorclean"] call WAIcleanup;
 } else {
 	clean_running_mission = True;
-	deleteVehicle _baserunover;
-	{_cleanunits = _x getVariable "majorclean";
-	if (!isNil "_cleanunits") then {
-		switch (_cleanunits) do {
-			case "ground" :  {ai_ground_units = (ai_ground_units -1);};
-			case "air" :     {ai_air_units = (ai_air_units -1);};
-			case "vehicle" : {ai_vehicle_units = (ai_vehicle_units -1);};
-			case "static" :  {ai_emplacement_units = (ai_emplacement_units -1);};
-		};
-		deleteVehicle _x;
-		sleep 0.05;
-	};
-	} forEach allUnits;
- 
+	uiSleep 300;
+	["majorclean"] call WAIcleanup;
+	 
 	diag_log format["WAI: Mission Osamas Compound At %1",_position];
 	[nil,nil,rTitleText,"The HVT has fled the region. Time's up", "PLAIN",10] call RE;
 };

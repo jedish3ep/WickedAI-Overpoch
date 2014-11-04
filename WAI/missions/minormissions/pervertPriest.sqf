@@ -9,6 +9,7 @@ diag_log format["WAI: Mission pervertPriest Started At %1",_position];
 // CHURCH
 _base = createVehicle ["Land_Church_03",_position, [], 0, "CAN_COLLIDE"];
 _base setVectorUp surfaceNormal position _base;
+minorBldList = minorBldList + [_base];
 
 
 //Troops
@@ -78,22 +79,15 @@ if (_playerPresent) then {
 	
 	diag_log format["WAI: Mission pervertPriest Ended At %1",_position];
 	[nil,nil,rTitleText,"Reverend Cross has been killed, Children of Chernarus Rejoice!", "PLAIN",10] call RE;
+
+	uiSleep 300;
+	["minorclean"] call WAIcleanup;
+
 } else {
+
 	clean_running_minor_mission = True;
-	deleteVehicle _base;
-	{_cleanunits = _x getVariable "minorclean";
-	if (!isNil "_cleanunits") then {
-		switch (_cleanunits) do {
-			case "ground" :  {ai_ground_units = (ai_ground_units -1);};
-			case "air" :     {ai_air_units = (ai_air_units -1);};
-			case "vehicle" : {ai_vehicle_units = (ai_vehicle_units -1);};
-			case "static" :  {ai_emplacement_units = (ai_emplacement_units -1);};
-		};
-		deleteVehicle _x;
-		sleep 0.05;
-	};	
-	} forEach allUnits;
-	
+	["minorclean"] call WAIcleanup;
+
 	diag_log format["WAI: Mission pervertPriest Timed Out At %1",_position];
 	[nil,nil,rTitleText,"Time's up! Reverend Cross has gone into hiding", "PLAIN",10] call RE;
 };

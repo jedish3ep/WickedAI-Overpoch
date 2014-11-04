@@ -12,6 +12,7 @@ veh_monitor = compile preprocessFileLineNumbers "\z\addons\dayz_server\WAI\compi
 missionComplete = compile preprocessFileLineNumbers "\z\addons\dayz_server\WAI\compile\fn_missionComplete.sqf";
 spawnTempVehicle = compile preprocessFileLineNumbers "\z\addons\dayz_server\WAI\compile\fn_tempVeh.sqf";
 markCrates = compile preprocessFileLineNumbers "\z\addons\dayz_server\WAI\compile\fn_markCrates.sqf";
+WAIcleanup = compile preprocessFileLineNumbers "\z\addons\dayz_server\WAI\compile\fn_cleanup.sqf";
 
 createCenter east;
 WEST setFriend [EAST,0];
@@ -28,6 +29,9 @@ ai_vehicle_units = 0;
 WAIminorArray = [];
 WAImajorArray = [];
 WAIcompoundArray = [];
+
+minorBldList = [];
+majorBldList = [];
 
 //Load config
 [] ExecVM "\z\addons\dayz_server\WAI\AIconfig.sqf";

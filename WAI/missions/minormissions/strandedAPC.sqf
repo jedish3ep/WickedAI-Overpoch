@@ -90,21 +90,12 @@ if (_playerPresent) then {
 
 	diag_log format["WAI: Mission strandedAPC Ended At %1",_position];
 	[nil,nil,rTitleText,"The Crashed Weapons Truck has been Secured", "PLAIN",10] call RE;
+	uiSleep 300;
+	["minorclean"] call WAIcleanup;
 } else {
 	clean_running_minor_mission = True;
 	deleteVehicle _veh;
-	{_cleanunits = _x getVariable "minorclean";
-	if (!isNil "_cleanunits") then {
-		switch (_cleanunits) do {
-			case "ground" :  {ai_ground_units = (ai_ground_units -1);};
-			case "air" :     {ai_air_units = (ai_air_units -1);};
-			case "vehicle" : {ai_vehicle_units = (ai_vehicle_units -1);};
-			case "static" :  {ai_emplacement_units = (ai_emplacement_units -1);};
-		};
-		deleteVehicle _x;
-		sleep 0.05;
-	};	
-	} forEach allUnits;
+	["minorclean"] call WAIcleanup;
 	
 	diag_log format["WAI: Mission strandedAPC Timed Out At %1",_position];
 	[nil,nil,rTitleText,"You Failed to Clear the Mission in Time", "PLAIN",10] call RE;
