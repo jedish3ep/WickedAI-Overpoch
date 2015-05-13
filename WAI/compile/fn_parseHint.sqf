@@ -19,7 +19,7 @@ _misDesc = _this select 4;
 
 
 _hint = parseText format [
-	"<t align='center' color='#1E90FF' shadow='2' size='1.75'>Priority Transmissions</t><br/>" +
+	"<t align='center' color='#1E90FF' shadow='2' size='1.75'>Priority Transmission</t><br/>" +
 	"<t align='center' color='#FFFFFF'>------------------------------</t><br/>" +
 	"<t align='center' color='#1E90FF' size='1.25'>%1</t><br/>" +
 	"<t align='center' color='#FFFFFF' size='1.25'>%2</t><br/>" +

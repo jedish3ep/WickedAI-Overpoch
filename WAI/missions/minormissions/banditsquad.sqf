@@ -1,28 +1,23 @@
-private ["_missionName", "_difficulty", "_position", "_hint", "_rndnum", "_missiontimeout", "_cleanmission", "_playerPresent", "_starttime", "_currenttime"];
+private ["_fileName", "_missionName", "_difficulty", "_missionType", "_position", "_picture", "_missionDesc", "_winMessage", "_failMessage", "_rndnum", "_missiontimeout", "_cleanmission", "_playerPresent", "_starttime", "_currenttime"];
 
+_fileName = "banditSquad";
 _missionName = "Bandit Squad";
 _difficulty = "easy";
+_missionType = "Minor Mission";
 
 _position = [getMarkerPos "center",0,5500,10,0,2000,0] call BIS_fnc_findSafePos;
 
-diag_log format["WAI: Mission bandSquad Started At %1",_position];
-sleep 0.1;
-//CREATE MARKER
+_picture = getText (configFile >> "cfgMagazines" >> "Moscow_Bombing_File" >> "picture");
+_missionDesc = format["A %1 has been spotted! Stop them from completing their patrol!",_missionName];
+_winMessage = format["The %1 bagged and tagged, Nice Work!",_missionName];
+_failMessage = format["The %1 have completed their patrol - Mission Failed",_missionName];
+
+/* create marker and display messages */
+diag_log format["WAI: Mission %1 Started At %2",_fileName,_position];
 [_position,_missionName,_difficulty] execVM wai_minor_marker;
-
-_hint = parseText format [
-		"<t align='center' color='#1E90FF' shadow='2' size='1.75'>Priority Transmission</t><br/>" +
-		"<t align='center' color='#FFFFFF'>------------------------------</t><br/>" +
-		"<t align='center' color='#1E90FF' size='1.25'>Side Mission</t><br/>" +
-		"<t align='center' color='#FFFFFF' size='1.15'>Difficulty: <t color='#1E90FF'> %2</t><br/>" +
-		"<t align='center' color='#FFFFFF'>%1 : A %1 has been spotted! Stop them from completing their patrol!</t>"
-		,
-		_missionName,
-		_difficulty
-	];
-
-	[nil,nil,rHINT,_hint] call RE;
-	[nil,nil,rTitleText,"A Bandit Squad has been spotted!\nStop them from completing their patrol!", "PLAIN",10] call RE;
+[_missionName,_missionType,_difficulty,_picture,_missionDesc] call fn_parseHint;
+[nil,nil,rTitleText,format["%1",_missionDesc], "PLAIN",10] call RE;
+sleep 0.1;
 
 sleep 1;
 _rndnum = round (random 3) + 5;
@@ -58,8 +53,10 @@ while {_missiontimeout} do
 if (_playerPresent) then 
 	{
 		[_position,"WAIminorArray"] call missionComplete;
-		diag_log format["WAI: Mission bandSquad Ended At %1",_position];
-		[nil,nil,rTitleText,"All bandits bagged and tagged, Nice Work!", "PLAIN",10] call RE;
+		
+		diag_log format["WAI: Mission %1 Ended At %2",_fileName,_position];
+		[nil,nil,rTitleText,format["%1",_winMessage], "PLAIN",10] call RE;
+		
 		uiSleep 300;
 		["minorclean"] call WAIcleanup;
 	} 
@@ -68,8 +65,7 @@ if (_playerPresent) then
 		clean_running_minor_mission = True;
 		["minorclean"] call WAIcleanup;
 		
-		diag_log format["WAI: Minor Mission bandSquad Timed Out At %1",_position];
-		[nil,nil,rTitleText,"The Bandit Squad have completed their patrol - Mission Failed", "PLAIN",10] call RE;
+		diag_log format["WAI: Mission %1 Timed Out At %2",_fileName,_position];
+		[nil,nil,rTitleText,format["%1",_failMessage], "PLAIN",10] call RE;
 	};
-
 minor_missionrunning = false;
