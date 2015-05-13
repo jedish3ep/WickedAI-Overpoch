@@ -1,14 +1,25 @@
-private ["_position","_box","_missiontimeout","_cleanmission","_playerPresent","_starttime","_currenttime","_cleanunits","_rndnum","_missionName","_hint","_difficulty","_worldName"];
-vehclass = military_unarmed call BIS_fnc_selectRandom;
- 
+private ["_fileName", "_missionType", "_position", "_missionName", "_difficulty", "_worldName", "_picture", "_missionDesc", "_winMessage", "_failMessage", "_baserunover", "_rndnum", "_missiontimeout", "_cleanmission", "_playerPresent", "_starttime", "_currenttime", "_box"];
+  
+_fileName = "osamaCompound";
+_missionType = "Major Mission";
 _position = [getMarkerPos "center",0,5500,10,0,2000,0] call BIS_fnc_findSafePos;
-_missionName = "Osama's Compound";
+
+_missionName = "Operation Neptune Spear";
 _difficulty = "hard";
 _worldName = toLower format ["%1", worldName];
- 
-diag_log format["WAI: Mission Osamas Compound Started At %1",_position];
+_picture = getText (configFile >> "cfgMagazines" >> "Moscow_Bombing_File" >> "picture");
+ _missionDesc = format["Osama Bin Laden has been spotted in %1, Kill the HVT and secure the stolen loot",_worldName];
+_winMessage = format["The HVT is Down. Secure the loot and RTB",_fileName];
+_failMessage = format["The HVT has fled %1. Time's up",_worldName];
 
-//Mayors Mansion
+/* create marker and display messages */
+diag_log format["WAI: Mission %1 Started At %2",_fileName,_position];
+[_position,_missionName,_difficulty] execVM wai_major_marker;
+[_missionName,_missionType,_difficulty,_picture,_missionDesc] call fn_parseHint;
+[nil,nil,rTitleText,format["%1",_missionDesc], "PLAIN",10] call RE;
+sleep 0.1;
+
+/* create the compound */
 _baserunover = createVehicle ["Land_A_Villa_EP1",[(_position select 0), (_position select 1),0],[], 0, "CAN_COLLIDE"];
 majorBldList = majorBldList + [_baserunover];
 
@@ -20,56 +31,44 @@ _rndnum = round (random 3) + 4;
 
 //The HVT Himself
 [[_position select 0, _position select 1, 0],1,"extreme","Random",4,"","TK_GUE_Soldier_TL_EP1","Random","major","WAImajorArray"] call spawn_group;
- 
-[[[(_position select 0) - 15, (_position select 1) + 15, 8]],"KORD_high_TK_EP1",0.8,"TK_INS_Soldier_AT_EP1",1,2,"","Random","major"] call spawn_static;
+ [[[(_position select 0) - 15, (_position select 1) + 15, 8]],"KORD_high_TK_EP1",0.8,"TK_INS_Soldier_AT_EP1",1,2,"","Random","major"] call spawn_static;
 [[[(_position select 0) + 15, (_position select 1) - 15, 8]],"KORD_high_UN_EP1",0.8,"TK_Special_Forces_EP1",1,2,"","Random","major"] call spawn_static;
- 
-//CREATE MARKER
-[_position,_missionName,_difficulty] execVM wai_marker;
 
-_hint = parseText format ["
-	<t align='center' color='#1E90FF' shadow='2' size='1.75'>Priority Transmission</t><br/>
-	<t align='center' color='#FFFFFF'>------------------------------</t><br/>
-	<t align='center' color='#1E90FF' size='1.25'>Main Mission</t><br/>
-	<t align='center' color='#FFFFFF' size='1.15'>Difficulty: <t color='#1E90FF'> HARD</t><br/>
-	<t align='center' color='#FFFFFF'>%1 : Osama Bin Laden has been spotted in %2, Kill the HVT and secure the stolen loot</t>", 
-	_missionName,
-	_worldName
-	];
-[nil,nil,rHINT,_hint] call RE;
- 
-[nil,nil,rTitleText,"Operation Neptune Spear - Kill the HVT and Secure the loot", "PLAIN",10] call RE;
 _missiontimeout = true;
 _cleanmission = false;
 _playerPresent = false;
 _starttime = floor(time);
-while {_missiontimeout} do {
-	sleep 5;
-	_currenttime = floor(time);
-	{if((isPlayer _x) AND (_x distance _position <= 150)) then {_playerPresent = true};}forEach playableUnits;
-	if (_currenttime - _starttime >= wai_mission_timeout) then {_cleanmission = true;};
-	if ((_playerPresent) OR (_cleanmission)) then {_missiontimeout = false;};
-};
-if (_playerPresent) then {
-	[_position,"WAImajorArray"] call missionComplete;
-	// wait for complete status. then spawn box
-	_box = createVehicle ["BAF_VehicleBox",[(_position select 0),(_position select 1), .5], [], 0, "CAN_COLLIDE"];
-	[_box] call Extra_Large_Gun_Box;//Large Gun Box
 
-	// mark crates with smoke/flares
-	[_box] call markCrates;
-	
-	diag_log format["WAI: Mission Osamas Compound Ended At %1",_position];
-	[nil,nil,rTitleText,"The HVT is Down. Secure the loot and RTB", "PLAIN",10] call RE;
-	uiSleep 300;
-	["majorclean"] call WAIcleanup;
-} else {
-	clean_running_mission = True;
-	uiSleep 300;
-	["majorclean"] call WAIcleanup;
-	 
-	diag_log format["WAI: Mission Osamas Compound At %1",_position];
-	[nil,nil,rTitleText,"The HVT has fled the region. Time's up", "PLAIN",10] call RE;
-};
- 
-missionrunning = false;
+while {_missiontimeout} do 
+	{
+		sleep 5;
+		_currenttime = floor(time);
+		{if((isPlayer _x) AND (_x distance _position <= 150)) then {_playerPresent = true};}forEach playableUnits;
+		if (_currenttime - _starttime >= wai_mission_timeout) then {_cleanmission = true;};
+		if ((_playerPresent) OR (_cleanmission)) then {_missiontimeout = false;};
+	};
+
+if (_playerPresent) then 
+	{
+		[_position,"WAImajorArray"] call missionComplete;
+		// wait for complete status. then spawn box
+		_box = createVehicle ["BAF_VehicleBox",[(_position select 0),(_position select 1), .5], [], 0, "CAN_COLLIDE"];
+		[_box] call Extra_Large_Gun_Box;//Large Gun Box
+
+		// mark crates with smoke/flares
+		[_box] call markCrates;
+		
+		diag_log format["WAI: Mission %1 Ended At %2",_fileName,_position];
+		[nil,nil,rTitleText,format["%1",_winMessage], "PLAIN",10] call RE;
+		uiSleep 5*60;
+		["majorclean"] call WAIcleanup;
+	}
+		else 
+	{
+		clean_running_mission = True;
+		uiSleep 5*60;
+		["majorclean"] call WAIcleanup;
+		diag_log format["WAI: Mission %1 Timed Out At %2",_fileName,_position];
+		[nil,nil,rTitleText,format["%1",_failMessage], "PLAIN",10] call RE;
+	};
+ missionrunning = false;

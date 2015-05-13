@@ -104,7 +104,7 @@ if (_playerPresent) then {
 	// mark crates with smoke/flares
 	[_box] call markCrates;
 	[_box1] call markCrates;
-		diag_log format["WAI: Mission %1 Ended At %2",_fileName,_position];
+	diag_log format["WAI: Mission %1 Ended At %2",_fileName,_position];
 	[nil,nil,rTitleText,format["%1",_winMessage], "PLAIN",10] call RE;
 } else {
 	clean_running_minor_mission = True;
