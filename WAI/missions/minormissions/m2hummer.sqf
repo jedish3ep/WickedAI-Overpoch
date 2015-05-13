@@ -1,23 +1,36 @@
-private ["_playerPresent","_cleanmission","_currenttime","_starttime","_missiontimeout","_vehname","_veh","_position","_vehclass","_vehdir","_picture","_hint","_missionName","_difficulty"];
+private ["_fileName", "_missionType", "_position", "_vehclass", "_vehname", "_picture", "_missionName", "_difficulty", "_missionDesc", "_winMessage", "_failMessage", "_tent", "_tent2", "_scenery", "_veh", "_rndnum", "_missiontimeout", "_cleanmission", "_playerPresent", "_starttime", "_currenttime", "_box", "_box1"];
+
+_fileName = "m2hummer";
+_missionType = "Minor Mission";
+_position = [getMarkerPos "center",0,5500,10,0,2000,0] call BIS_fnc_findSafePos;
 
 _vehclass = "HMMWV_M1151_M2_DES_EP1";
-_difficulty = "normal";
-
 _vehname	= getText (configFile >> "CfgVehicles" >> _vehclass >> "displayName");
-
-_missionName = _vehname;
-
-_position = [getMarkerPos "center",0,5500,10,0,2000,0] call BIS_fnc_findSafePos;
-diag_log format["WAI: Mission m2hummer Started At %1",_position];
-
 _picture = getText (configFile >> "cfgVehicles" >> _vehclass >> "picture");
 
+_missionName = _vehname;
+_difficulty = "normal";
+
+_missionDesc = format["US Forces have been spotted with a %1 Kill the soldiers and make the vehicle your own!",_vehname];
+_winMessage = format["US Forces have been wiped out, Good Work! the %1 is yours",_vehname];
+_failMessage = format["The US Forces have left the Area with their %1 - Mission Failed!",_vehname];
+
+/* create marker and display messages */
+diag_log format["WAI: Mission %1 Started At %2",_fileName,_position];
+[_position,_missionName,_difficulty] execVM wai_minor_marker;
+[_missionName,_missionType,_difficulty,_picture,_missionDesc] call fn_parseHint;
+[nil,nil,rTitleText,format["%1",_missionDesc], "PLAIN",10] call RE;
+sleep 0.1;
 
 //Medical Tent
 _tent = createVehicle ["Land_fort_rampart",[(_position select 0) - 21,(_position select 1),0], [], 0, "CAN_COLLIDE"];
 _tent setDir 90;
 _tent2 = createVehicle ["Land_fort_rampart",[(_position select 0) + 16,(_position select 1),0], [], 0, "CAN_COLLIDE"];
 _tent2 setDir 270;
+_scenery = [_tent,_tent2];
+
+{ minorBldList = minorBldList + [_x]; } forEach _scenery;
+{ _x setVectorUp surfaceNormal position _x; } count _scenery;
 
 //Hummer
 _veh = createVehicle [_vehclass,_position, [], 0, "CAN_COLLIDE"];
@@ -25,10 +38,6 @@ _veh = createVehicle [_vehclass,_position, [], 0, "CAN_COLLIDE"];
 [_veh,0,0.75] call spawnTempVehicle; 
 _veh setVehicleLock "LOCKED";
 _veh setVariable ["R3F_LOG_disabled",true,true];
-
-
-diag_log format["WAI: Mission m2hummer spawned a %1",_vehname];
-
 
 //Troops
 _rndnum = round (random 3) + 4;
@@ -68,73 +77,39 @@ _rndnum,				  //Number Of units
 "WAIminorArray"
 ] call spawn_group;
 
-
-//CREATE MARKER
-[_position,_missionName,_difficulty] execVM wai_minor_marker;
-
-[nil,nil,rTitleText,"US Forces have been spotted with a GPK M2 Hummer\nKill the soldiers and make the vehicle your own!", "PLAIN",10] call RE;
-
-_hint = parseText format ["
-	<t align='center' color='#1E90FF' shadow='2' size='1.75'>Priority Transmission</t><br/>
-	<t align='center' color='#FFFFFF'>------------------------------</t><br/>
-	<t align='center' color='#1E90FF' size='1.25'>Side Mission</t><br/>
-	<t align='center' color='#FFFFFF' size='1.15'>Difficulty: <t color='#1E90FF'> NORMAL</t><br/>
-	<t align='center'><img size='5' image='%1'/></t><br/>
-	<t align='center' color='#FFFFFF'>The US Military have a<t color='#1E90FF'> %2</t>Eliminate the soldiers and make it yours!</t>",
-	 _picture,
-	 _vehname
-	 ];
-[nil,nil,rHINT,_hint] call RE;
-
 _missiontimeout = true;
 _cleanmission = false;
 _playerPresent = false;
 _starttime = floor(time);
-while {_missiontimeout} do {
-	sleep 5;
-	_currenttime = floor(time);
-	{if((isPlayer _x) AND (_x distance _position <= 150)) then {_playerPresent = true};}forEach playableUnits;
-	if (_currenttime - _starttime >= wai_mission_timeout) then {_cleanmission = true;};
-	if ((_playerPresent) OR (_cleanmission)) then {_missiontimeout = false;};
-};
+
+while {_missiontimeout} do 
+	{
+		sleep 5;
+		_currenttime = floor(time);
+		{if((isPlayer _x) AND (_x distance _position <= 150)) then {_playerPresent = true};}forEach playableUnits;
+		if (_currenttime - _starttime >= wai_mission_timeout) then {_cleanmission = true;};
+		if ((_playerPresent) OR (_cleanmission)) then {_missiontimeout = false;};
+	};
 if (_playerPresent) then {
 	[_position,"WAIminorArray"] call missionComplete;
-	// wait for mission complete then spawn crates
-
+	/* wait for mission complete, then spawn crates and unlock vehicle */	
 	_veh setVehicleLock "UNLOCKED";
 	_veh setVariable ["R3F_LOG_disabled",false,true];
 
-
 	_box = createVehicle ["LocalBasicWeaponsBox",[(_position select 0) - 20,(_position select 1),0], [], 0, "CAN_COLLIDE"];
-	[_box] call Medical_Supply_Box; // med supplies
 	_box1 = createVehicle ["LocalBasicWeaponsBox",[(_position select 0) + 15,(_position select 1),0], [], 0, "CAN_COLLIDE"];
-	[_box1] call Medium_Gun_Box; // med gun box
 
+	[_box] call Medical_Supply_Box; // med supplies
+	[_box1] call Medium_Gun_Box; // med gun box
 	// mark crates with smoke/flares
 	[_box] call markCrates;
 	[_box1] call markCrates;
-	
-	diag_log format["WAI: Mission m2hummer Ended At %1",_position];
-	[nil,nil,rTitleText,"US Forces have been wiped out, Good Work!", "PLAIN",10] call RE;
+		diag_log format["WAI: Mission %1 Ended At %2",_fileName,_position];
+	[nil,nil,rTitleText,format["%1",_winMessage], "PLAIN",10] call RE;
 } else {
 	clean_running_minor_mission = True;
-	deleteVehicle _veh;
-	deleteVehicle _tent;
-	deleteVehicle _tent2;
-	{_cleanunits = _x getVariable "minorclean";
-	if (!isNil "_cleanunits") then {
-		switch (_cleanunits) do {
-			case "ground" :  {ai_ground_units = (ai_ground_units -1);};
-			case "air" :     {ai_air_units = (ai_air_units -1);};
-			case "vehicle" : {ai_vehicle_units = (ai_vehicle_units -1);};
-			case "static" :  {ai_emplacement_units = (ai_emplacement_units -1);};
-		};
-		deleteVehicle _x;
-		sleep 0.05;
-	};	
-	} forEach allUnits;
-	
-	diag_log format["WAI: Mission m2hummer Timed Out At %1",_position];
-	[nil,nil,rTitleText,"The US Forces have left the Area - Mission Failed", "PLAIN",10] call RE;
+	["minorclean"] call WAIcleanup;
+	diag_log format["WAI: Mission %1 Timed Out At %2",_fileName,_position];
+	[nil,nil,rTitleText,format["%1",_failMessage], "PLAIN",10] call RE;
 };
 minor_missionrunning = false;
