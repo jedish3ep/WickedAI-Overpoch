@@ -84,6 +84,7 @@ for "_x" from 1 to _unitnumber do {
 	{_unit addweapon _x} forEach _geartools;
 
 	call {
+		if(_skill == "easy") exitWith { _aicskill = ai_skill_easy; };
 		if(_skill == "normal") exitWith { _aicskill = ai_skill_normal; };
 		if(_skill == "hard") exitWith { _aicskill = ai_skill_hard; };
 		if(_skill == "extreme") exitWith { _aicskill = ai_skill_extreme; };
@@ -121,6 +122,12 @@ for "_x" from 1 to _unitnumber do {
 call compile format["%1 = %1 + (units _unitGroup);",_unitArray];
 
 _unitGroup selectLeader ((units _unitGroup) select 0);
+/** FUNCTION DISABLED DUE TO PROBLEMS WITH CACHING 
+if (_mission != "compound") then 
+	{
+		[_unitGroup] spawn cache_units;
+	};
+**/	
 [_unitGroup, _position, _mission] call group_waypoints;
 
 diag_log format ["WAI: Spawned a group of %1 Bandits at %2 - AI Type: %3",_unitnumber,_position,_mission];

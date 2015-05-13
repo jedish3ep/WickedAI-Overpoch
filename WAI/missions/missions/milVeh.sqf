@@ -23,6 +23,8 @@ clearWeaponCargoGlobal _veh;
 clearMagazineCargoGlobal _veh;
 _veh setVariable ["ObjectID","1",true];
 PVDZE_serverObjectMonitor set [count PVDZE_serverObjectMonitor,_veh];
+_veh setVehicleLock "LOCKED";
+_veh setVariable ["R3F_LOG_disabled",true,true];
 diag_log format["WAI: Mission milVeh spawned a %1",_vehname];
 
 _objPosition = getPosATL _veh;
@@ -118,6 +120,8 @@ if (_playerPresent) then {
 	
 	[_position,"WAImajorArray"] call missionComplete;
 	// wait for mission complete, then spawn boxes and save vehicle to hive
+	_veh setVehicleLock "UNLOCKED";
+	_veh setVariable ["R3F_LOG_disabled",false,true];
 
 	[_veh,[_vehdir,_objPosition],_vehclass,true,"0"] call custom_publish;
 	

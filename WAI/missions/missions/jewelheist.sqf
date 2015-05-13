@@ -26,6 +26,8 @@ clearWeaponCargoGlobal _veh;
 clearMagazineCargoGlobal _veh;
 _veh setVariable ["ObjectID","1",true];
 PVDZE_serverObjectMonitor set [count PVDZE_serverObjectMonitor,_veh];
+_veh setVehicleLock "LOCKED";
+_veh setVariable ["R3F_LOG_disabled",true,true];
 diag_log format["WAI: Mission Jewel Heist spawned a %1",_vehname];
 
 _objPosition = getPosATL _veh;
@@ -131,6 +133,9 @@ if (_playerPresent) then {
 
 	// mark crates with smoke/flares
 	[_box] call markCrates;
+
+	_veh setVehicleLock "UNLOCKED";
+	_veh setVariable ["R3F_LOG_disabled",false,true];
 
 	[_veh,[_vehdir,_objPosition],_vehclass,true,"0"] call custom_publish;
 

@@ -46,6 +46,8 @@ clearMagazineCargoGlobal _veh;
 _veh setVariable ["ObjectID","1",true];
 PVDZE_serverObjectMonitor set [count PVDZE_serverObjectMonitor,_veh];
 diag_log format["WAI: Mission rusBase spawned a %1",_vehname];
+_veh setVehicleLock "LOCKED";
+_veh setVariable ["R3F_LOG_disabled",true,true];
 
 _objPosition = getPosATL _veh;
 //[_veh,[_vehdir,_objPosition],_vehclass,true,"0"] call custom_publish;
@@ -143,6 +145,9 @@ while {_missiontimeout} do {
 if (_playerPresent) then {	
 	[_position,"WAImajorArray"] call missionComplete;
 	// wait for mission complete then spawn crates and publish vehicle to hive
+
+	_veh setVehicleLock "UNLOCKED";
+	_veh setVariable ["R3F_LOG_disabled",false,true];
 
 	_box = createVehicle ["USVehicleBox",[(_position select 0) + 6.6914,(_position select 1) + 1.1939,0], [], 0, "CAN_COLLIDE"];
 	[_box] call Construction_Supply_Box;// Building Supplies

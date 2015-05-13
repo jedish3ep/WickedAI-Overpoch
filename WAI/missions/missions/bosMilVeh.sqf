@@ -27,6 +27,8 @@ clearMagazineCargoGlobal _veh;
 _veh setVariable ["ObjectID","1",true];
 PVDZE_serverObjectMonitor set [count PVDZE_serverObjectMonitor,_veh];
 diag_log format["WAI: Mission bosMilVeh spawned a %1",_vehname];
+_veh setVehicleLock "LOCKED";
+_veh setVariable ["R3F_LOG_disabled",true,true];
 
 _objPosition = getPosATL _veh;
 //[_veh,[_vehdir,_objPosition],_vehclass,true,"0"] call custom_publish;
@@ -121,8 +123,12 @@ while {_missiontimeout} do {
 	if ((_playerPresent) OR (_cleanmission)) then {_missiontimeout = false;};
 };
 if (_playerPresent) then {
-	[_veh,[_vehdir,_objPosition],_vehclass,true,"0"] call custom_publish;
 	[_position,"WAImajorArray"] call missionComplete;
+	
+	[_veh,[_vehdir,_objPosition],_vehclass,true,"0"] call custom_publish;
+	_veh setVehicleLock "UNLOCKED";
+	_veh setVariable ["R3F_LOG_disabled",false,true];
+	
 	// wait for mission complete. then spawn crates
 	_box = createVehicle ["LocalBasicWeaponsBox",[(_position select 0) + 15,(_position select 1) + 15,0], [], 0, "CAN_COLLIDE"];
 	[_box] call Large_Gun_Box;// Gun Crate

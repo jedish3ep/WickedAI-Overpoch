@@ -23,16 +23,22 @@ clearMagazineCargoGlobal _veh;
 _veh setVariable ["ObjectID","1",true];
 PVDZE_serverObjectMonitor set [count PVDZE_serverObjectMonitor,_veh];
 diag_log format["WAI: Mission Convoy spawned a %1",_vehclass];
+_veh setVehicleLock "LOCKED";
+_veh setVariable ["R3F_LOG_disabled",true,true];
 
 _objPosition = getPosATL _veh;
 // CARGO TRUCK WILL SAVE! 
 
 _veh2 = createVehicle [_vehclass2,[(_position select 0) + 15,(_position select 1),0], [], 0, "CAN_COLLIDE"];
 [_veh2,0,0.75] call spawnTempVehicle;
+_veh2 setVehicleLock "LOCKED";
+_veh2 setVariable ["R3F_LOG_disabled",true,true];
 //[_veh,damage,fuel] call spawnTempVehicle;
 
 _veh3 = createVehicle [_vehclass3,[(_position select 0) + 30,(_position select 1),0], [], 0, "CAN_COLLIDE"];
 [_veh3,0,0.67] call spawnTempVehicle;
+_veh3 setVehicleLock "LOCKED";
+_veh3 setVariable ["R3F_LOG_disabled",true,true];
 //[_veh,damage,fuel] call spawnTempVehicle;
 
 //Troops
@@ -108,8 +114,16 @@ while {_missiontimeout} do {
 	if ((_playerPresent) OR (_cleanmission)) then {_missiontimeout = false;};
 };
 if (_playerPresent) then {
-	[_veh,[_vehdir,_objPosition],_vehclass,true,"0"] call custom_publish;
 	[_position,"WAImajorArray"] call missionComplete;
+
+	[_veh,[_vehdir,_objPosition],_vehclass,true,"0"] call custom_publish;
+
+	_veh setVehicleLock "UNLOCKED";
+	_veh setVariable ["R3F_LOG_disabled",false,true];
+	_veh2 setVehicleLock "UNLOCKED";
+	_veh2 setVariable ["R3F_LOG_disabled",false,true];
+	_veh3 setVehicleLock "UNLOCKED";
+	_veh3 setVariable ["R3F_LOG_disabled",false,true];
 	
 	//wait for mission complete. then spawn crates
 	_box = createVehicle ["BAF_VehicleBox",[(_position select 0),(_position select 1),0], [], 0, "CAN_COLLIDE"];

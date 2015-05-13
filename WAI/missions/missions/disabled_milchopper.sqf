@@ -27,6 +27,8 @@ clearWeaponCargoGlobal _veh;
 clearMagazineCargoGlobal _veh;
 _veh setVariable ["ObjectID","1",true];
 PVDZE_serverObjectMonitor set [count PVDZE_serverObjectMonitor,_veh];
+_veh setVehicleLock "LOCKED";
+_veh setVariable ["R3F_LOG_disabled",true,true];
 diag_log format["WAI: Mission Armed Chopper spawned a %1",_vehname];
 
 _objPosition = getPosATL _veh;
@@ -128,6 +130,8 @@ if (_playerPresent) then {
 	[_position,"WAImajorArray"] call missionComplete;
 	// publish vehicle after mission complete.
 	[_veh,[_vehdir,_objPosition],_vehclass,true,"0"] call custom_publish;
+	_veh setVehicleLock "UNLOCKED";
+	_veh setVariable ["R3F_LOG_disabled",false,true];
 	// wait for mission complete. then spawn crates	
 	_box = createVehicle ["BAF_VehicleBox",[(_position select 0),(_position select 1) + 5,0], [], 0, "CAN_COLLIDE"];
 	[_box] call Sniper_Gun_Box; //Sniper Gun Box

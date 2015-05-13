@@ -17,7 +17,7 @@ _result = 0;
 			_startTime = floor(time);
 		};
 		
-		if((_cnt >= 1) && ((diag_fps) > 5)) then 
+		if(_cnt >= 1) then 
 		{
 			if(_result == 1) then
 			{

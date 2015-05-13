@@ -27,7 +27,9 @@ _picture = getText (configFile >> "cfgVehicles" >> _vehclass >> "picture");
 
 // humvee
 _veh = createVehicle [_vehclass,[(_position select 0) - 10.6206, (_position select 1) - 0.49,0], [], 0, "CAN_COLLIDE"];
-[_veh,0.75,0.15] call spawnTempVehicle; 
+[_veh,0.75,0.15] call spawnTempVehicle;
+_veh setVehicleLock "LOCKED";
+_veh setVariable ["R3F_LOG_disabled",true,true]; 
 //[_veh,damage,fuel] call spawnTempVehicle;
 
 diag_log format["WAI: Mission humveeCrash spawned a %1",_vehname];
@@ -70,6 +72,8 @@ while {_missiontimeout} do {
 };
 if (_playerPresent) then {
 	[_position,"WAIminorArray"] call missionComplete;
+	_veh setVehicleLock "UNLOCKED";
+	_veh setVariable ["R3F_LOG_disabled",false,true];
 	// wait for mission complete then spawn crates
 	_box = createVehicle ["BAF_VehicleBox",[(_position select 0) + 0.7408, (_position select 1) + 4.565, 0.10033049], [], 0, "CAN_COLLIDE"];
 	[_box] call vehicle_wreck_box; // vehicle parts

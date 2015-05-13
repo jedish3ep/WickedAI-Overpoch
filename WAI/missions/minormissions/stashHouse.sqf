@@ -32,6 +32,8 @@ clearWeaponCargoGlobal _veh;
 clearMagazineCargoGlobal _veh;
 _veh setVariable ["ObjectID","1",true];
 PVDZE_serverObjectMonitor set [count PVDZE_serverObjectMonitor,_veh];
+_veh setVehicleLock "LOCKED";
+_veh setVariable ["R3F_LOG_disabled",true,true];
 diag_log format["WAI: Mission stashHouse spawned a %1",_vehname];
 
 _objPosition = getPosATL _veh;
@@ -94,7 +96,10 @@ if (_playerPresent) then {
 	[_position,"WAIminorArray"] call missionComplete;
 	
 	// wait for mission complete then publish vehicle and spawn crates
+	_veh setVehicleLock "UNLOCKED";
+	_veh setVariable ["R3F_LOG_disabled",false,true];
 	[_veh,[_vehdir,_objPosition],_vehclass,true,"0"] call custom_publish;
+	
 
 	_box = createVehicle ["USBasicAmmunitionBox",[(_position select 0) + 0.7408, (_position select 1) + 1.565, 0.10033049], [], 0, "CAN_COLLIDE"];
 	[_box] call Medical_Supply_Box; // medical supplies

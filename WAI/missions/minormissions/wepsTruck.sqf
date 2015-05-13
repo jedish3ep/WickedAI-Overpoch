@@ -29,6 +29,8 @@ _picture = getText (configFile >> "cfgVehicles" >> _vehclass >> "picture");
 _veh = createVehicle [_vehclass,[(_position select 0) - 10.6206, (_position select 1) - 0.49,0], [], 0, "CAN_COLLIDE"];
 [_veh,0.75,0.15] call spawnTempVehicle; 
 //[_veh,damage,fuel] call spawnTempVehicle;
+_veh setVehicleLock "LOCKED";
+_veh setVariable ["R3F_LOG_disabled",true,true];
 
 diag_log format["WAI: Mission wepsTruck spawned a %1",_vehname];
 
@@ -70,6 +72,9 @@ while {_missiontimeout} do {
 };
 if (_playerPresent) then {
 	[_position,"WAIminorArray"] call missionComplete;
+
+	_veh setVehicleLock "UNLOCKED";
+	_veh setVariable ["R3F_LOG_disabled",false,true];
 	
 	// Wait for mission complete, then spawn the crates
 	_box = createVehicle ["BAF_VehicleBox",[(_position select 0) + 0.7408, (_position select 1) + 4.565, 0.10033049], [], 0, "CAN_COLLIDE"];

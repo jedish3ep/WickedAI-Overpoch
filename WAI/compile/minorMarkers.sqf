@@ -1,29 +1,36 @@
 if(isServer) then {
 
-	private ["_Minor2","_position","_Minor1","_name","_difficulty","_markerColor","_size"];
+	private ["_Minor2","_position","_Minor1","_markerName","_difficulty","_markerColor","_size"];
 	_position 	= _this select 0;
-	_name 		= _this select 1;
+	_markerName = _this select 1;
 	_difficulty = _this select 2;
 
 	call 
 		{
+			if (_difficulty == "easy") exitWith 
+				{
+					_markerColor = "ColorGreen";	
+					_markerName = "[Easy] " + _markerName;
+					_size = 150;
+				};
+				
 			if (_difficulty == "normal") exitWith 
 				{
 					_markerColor = "ColorYellow";	
-					_name = "[Normal] " + _name;
+					_markerName = "[Normal] " + _markerName;
 					_size = 200;
 				};
 
 			if (_difficulty == "hard") exitWith 
 				{
 					_markerColor = "ColorOrange";	
-					_name = "[Hard] " + _name;
+					_markerName = "[Hard] " + _markerName;
 					_size = 250;
 				};
 			if (_difficulty == "extreme") exitWith 
 				{
 					_markerColor = "ColorRed";	
-					_name = "[Hard] " + _name;
+					_markerName = "[Hard] " + _markerName;
 					_size = 300;
 				};
 
@@ -41,11 +48,11 @@ if(isServer) then {
 		_Minor1 		setMarkerShape "ELLIPSE";
 		_Minor1 		setMarkerBrush "Solid";
 		_Minor1 		setMarkerSize [_size,_size];
-		_Minor1 		setMarkerText _name;
-		_Minor2 			= createMarker ["Minordot", _position];
-		_Minor2 			setMarkerColor "ColorBlack";
-		_Minor2 			setMarkerType "mil_dot";
-		_Minor2 			setMarkerText _name;
+		_Minor1 		setMarkerText _markerName;
+		_Minor2 		= createMarker ["Minordot", _position];
+		_Minor2 		setMarkerColor "ColorBlack";
+		_Minor2 		setMarkerType "mil_dot";
+		_Minor2 		setMarkerText _markerName;
 
 		sleep 30;
 

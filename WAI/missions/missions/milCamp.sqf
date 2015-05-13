@@ -24,6 +24,8 @@ clearMagazineCargoGlobal _veh;
 _veh setVariable ["ObjectID","1",true];
 PVDZE_serverObjectMonitor set [count PVDZE_serverObjectMonitor,_veh];
 diag_log format["WAI: Mission MilCamp spawned a %1",_vehname];
+_veh setVehicleLock "LOCKED";
+_veh setVariable ["R3F_LOG_disabled",true,true];
 
 
 //Buildings 
@@ -91,6 +93,9 @@ while {_missiontimeout} do {
 };
 if (_playerPresent) then {
 	[_position,"WAImajorArray"] call missionComplete;
+
+	_veh setVehicleLock "UNLOCKED";
+	_veh setVariable ["R3F_LOG_disabled",false,true];
 	
 	// wait for mission complete before spawning crates	
 	 _box = createVehicle ["RUVehicleBox",[(_position select 0) -15,(_position select 1),0], [], 0, "CAN_COLLIDE"];

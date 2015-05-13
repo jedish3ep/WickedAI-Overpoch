@@ -32,3 +32,9 @@ _box addWeaponCargoGlobal ["ItemEtool", 1];
 _box addWeaponCargoGlobal ["ItemCrowbar", 1];
 _box addWeaponCargoGlobal ["ItemKnife", 1];
 _box addWeaponCargoGlobal ["ItemSledge", 1];
+
+BoxRandomizer=floor(random 100);
+if (BoxRandomizer == 58) then
+	{
+			_box addMagazineCargoGlobal ["ItemHotwireKit", 1];
+	};

@@ -14,5 +14,11 @@ _box addMagazineCargoGlobal ["200Rnd_762x51_M240", 4];
 _box addMagazineCargoGlobal ["100Rnd_127x99_M2", 3];
 _box addMagazineCargoGlobal ["150Rnd_127x107_DSHKM", 4];
 
+BoxRandomizer=floor(random 100);
+if (BoxRandomizer == 37) then
+	{
+			_box addMagazineCargoGlobal ["ItemHotwireKit", 2];
+	};
+
 // BACKPACKS
 _box addBackpackCargoGlobal ["DZ_LargeGunBag_EP1", 1];

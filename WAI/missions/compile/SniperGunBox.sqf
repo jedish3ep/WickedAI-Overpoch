@@ -47,3 +47,9 @@ BoxRandomizer=floor(random 100);
 		_box addWeaponCargoGlobal ["USSR_cheytacM200_sd",1];
 		_box addmagazineCargoGlobal ["USSR_5Rnd_408", 25];
 		};
+		
+BoxRandomizer2=floor(random 100);
+	if (BoxRandomizer2 == 69) then
+		{
+				_box addMagazineCargoGlobal ["ItemHotwireKit", 2];
+		};

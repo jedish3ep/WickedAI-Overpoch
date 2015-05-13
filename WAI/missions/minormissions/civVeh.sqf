@@ -20,6 +20,8 @@ _veh setDir _vehdir;
 clearWeaponCargoGlobal _veh;
 clearMagazineCargoGlobal _veh;
 _veh setVariable ["ObjectID","1",true];
+_veh setVehicleLock "LOCKED";
+_veh setVariable ["R3F_LOG_disabled",true,true];
 PVDZE_serverObjectMonitor set [count PVDZE_serverObjectMonitor,_veh];
 diag_log format["WAI: Mission civVeh spawned a %1",_vehname];
 
@@ -95,6 +97,8 @@ while {_missiontimeout} do {
 };
 if (_playerPresent) then {
 	[_position,"WAIminorArray"] call missionComplete;
+	_veh setVehicleLock "UNLOCKED";
+	_veh setVariable ["R3F_LOG_disabled",false,true];
 	// wait for mission complete before publishing vehicle to hive
 	[_veh,[_vehdir,_objPosition],_vehclass,true,"0"] call custom_publish;
 	

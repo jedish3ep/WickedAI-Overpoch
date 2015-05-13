@@ -21,6 +21,7 @@ if(isServer) then {
 		_pos 		= [_a,_b];
 		_angle 		= _angle + _step;
 		_trap 		= createVehicle ["Hedgehog", _pos, [], 0, "CAN_COLLIDE"];
+		majorBldList = majorBldList + [_trap];
 		_alltraps 	set [(count _alltraps), _trap];
 
 	};

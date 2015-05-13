@@ -1,6 +1,6 @@
 //City Under Siege - by jakehekesfists
  
-private ["_position","_box","_missiontimeout","_cleanmission","_playerPresent","_starttime","_currenttime","_cleanunits","_rndnum","_box2","_hint","_missionName","_difficulty","_base"];
+private ["_positionarray", "_position", "_missionName", "_difficulty", "_baserunover", "_baserunover1", "_base", "_rndnum", "_hint", "_missiontimeout", "_cleanmission", "_playerPresent", "_starttime", "_currenttime", "_box", "_box2"];
  
 _positionarray = [[7546.7695,5144.9907,0],[5981.9287,10345.304,0],[12045.273,9092.3789,0],[11200.665,6572.3813,0],[4485.8018,6414.3247,0]];
 _position = _positionarray call BIS_fnc_selectRandom;

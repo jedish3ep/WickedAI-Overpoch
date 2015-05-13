@@ -19,13 +19,15 @@ majorBldList = majorBldList + [_tent];
 //MV22
 _veh = createVehicle [_vehclass,_position, [], 0, "CAN_COLLIDE"];
 [_veh,0,0.75] call spawnTempVehicle;
+_veh setVehicleLock "LOCKED";
+_veh setVariable ["R3F_LOG_disabled",true,true];
 //[_veh,damage,fuel] call spawnTempVehicle;
 
 //Troops
 _rndnum = round (random 3) + 4;
 [[_position select 0, _position select 1, 0],                  //position
 _rndnum,				  //Number Of units
-"extreme",					      //Skill level
+"extreme",				  //Skill level
 "Random",			      //Primary gun set number. "Random" for random weapon set.
 4,						  //Number of magazines
 "",						  //Backpack "" for random or classname here.
@@ -113,6 +115,8 @@ while {_missiontimeout} do {
 };
 if (_playerPresent) then {
 	[_position,"WAImajorArray"] call missionComplete;
+	_veh setVehicleLock "UNLOCKED";
+	_veh setVariable ["R3F_LOG_disabled",false,true];
 	// wait for mission complete then spawn crate
 	_box = createVehicle ["LocalBasicWeaponsBox",[(_position select 0) - 20,(_position select 1) - 20,0], [], 0, "CAN_COLLIDE"];
 	[_box] call Medical_Supply_Box;//Medical Supply Box
