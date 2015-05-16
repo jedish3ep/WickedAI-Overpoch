@@ -3,31 +3,34 @@
 	Author: JakeHekesFists[DMD]
 	Description: Minor Mission for WAI
 	An APC has run out of fuel. AI are waiting for reinforcements to arrive
-
-	APC - No Damage
-	No Fuel
-
-	Large Box of Weapons
-	3 Small Groups of hard AI
-	1 Small Group of Normal AI
-	1 Small Paradrop Reinforcement Group (x5)
 */
 
 private ["_playerPresent","_cleanmission","_currenttime","_starttime","_missiontimeout","_vehname","_veh","_position","_vehclass","_picture","_hint","_missionName","_difficulty","_worldName","_vehArray"];
 
-_vehArray = ["AAV","BMP2_UN_EP1","BAF_FV510_W","M1128_MGS_EP1"];
-_vehclass = _vehArray call BIS_fnc_selectRandom;
-
-_vehname	= getText (configFile >> "CfgVehicles" >> _vehclass >> "displayName");
-_worldName = toLower format ["%1", worldName];
-
+_fileName = "strandedAPC";
 _missionName = "Stranded APC";
 _difficulty = "hard";
+_missionType = "Minor Mission";
 
 _position = [getMarkerPos "center",0,5500,10,0,2000,0] call BIS_fnc_findSafePos;
-diag_log format["WAI: Mission strandedAPC Started At %1",_position];
 
+_vehArray = ["AAV","BMP2_UN_EP1","BAF_FV510_W","M1128_MGS_EP1"];
+_vehclass = _vehArray call BIS_fnc_selectRandom;
 _picture = getText (configFile >> "cfgVehicles" >> _vehclass >> "picture");
+_vehname	= getText (configFile >> "CfgVehicles" >> _vehclass >> "displayName");
+
+_missionDesc = format["An %1 has ran out of fuel. The soldiers are stranded and waiting for reinforcements! Kill Them and secure the vehicle and weapons for yourselves. Remember to bring some petrol.",_vehname];
+_winMessage = format["The Stranded %1 Weapons Truck has been Secured",_vehname];
+_failMessage = format["The %1 has been refuelled and has left the area MISSION FAILED",_vehname];
+
+
+/* create marker and display messages */
+diag_log format["WAI: Mission %1 Started At %2",_fileName,_position];
+[_position,_missionName,_difficulty] execVM wai_minor_marker;
+[_missionName,_missionType,_difficulty,_picture,_missionDesc] call fn_parseHint;
+[nil,nil,rTitleText,format["%1",_missionDesc], "PLAIN",10] call RE;
+sleep 0.1;
+
 
 
 // apc with no fuel
@@ -37,43 +40,28 @@ _veh = createVehicle [_vehclass,[(_position select 0) - 10.6206, (_position sele
 _veh setVehicleLock "LOCKED";
 _veh setVariable ["R3F_LOG_disabled",true,true];
 
-diag_log format["WAI: Mission strandedAPC spawned a %1",_vehname];
+diag_log format["WAI: Mission %1 spawned a %2",_fileName,_vehname];
 
 
 //Troops
 _rndnum = round (random 3) + 4;
-[[_position select 0, _position select 1, 0],5,"hard","Random",4,"","RU_Soldier_HAT","Random","minor","WAIminorArray"] call spawn_group;
-[[_position select 0, _position select 1, 0],5,"hard","Random",4,"","RU_Soldier_Pilot","Random","minor","WAIminorArray"] call spawn_group;
-[[_position select 0, _position select 1, 0],1,"hard","Random",4,"","RU_Commander","Random","minor","WAIminorArray"] call spawn_group;
-[[_position select 0, _position select 1, 0],5,"normal","Random",4,"","RU_Soldier_HAT","Random","minor","WAIminorArray"] call spawn_group;
-
+[[_position select 0, _position select 1, 0],5,_difficulty,"Random",4,"","RU_Soldier_HAT","Random","minor","WAIminorArray"] call spawn_group;
+sleep 0.1;
+[[_position select 0, _position select 1, 0],5,_difficulty,"Random",4,"","RU_Soldier_Pilot","Random","minor","WAIminorArray"] call spawn_group;
+sleep 0.1;
+[[_position select 0, _position select 1, 0],1,_difficulty,"Random",4,"","RU_Commander","Random","minor","WAIminorArray"] call spawn_group;
+sleep 0.1;
+[[_position select 0, _position select 1, 0],5,_difficulty,"Random",4,"","RU_Soldier_HAT","Random","minor","WAIminorArray"] call spawn_group;
+sleep 0.1;
 //Heli Paradrop
-[[(_position select 0), (_position select 1), 0],[7743.41, 7040.93, 0],400,"UH60M_EP1_DZE",5,"hard","Random",4,"","RU_Soldier_Pilot","Random",False,"minor","WAIminorArray"] spawn heli_para;
+[[(_position select 0), (_position select 1), 0],[7743.41, 7040.93, 0],400,"UH60M_EP1_DZE",5,_difficulty,"Random",4,"","RU_Soldier_Pilot","Random",False,"minor","WAIminorArray"] spawn heli_para;
 
-
-//CREATE MARKER
-[_position,_missionName,_difficulty] execVM wai_minor_marker;
-
-[nil,nil,rTitleText,"An APC has run out of Fuel, The soldiers are waiting for reinforcements\nGo and claim the APC for yourselves", "PLAIN",10] call RE;
-
-_hint = parseText format ["
-	<t align='center' color='#1E90FF' shadow='2' size='1.75'>Priority Transmission</t><br/>
-	<t align='center' color='#FFFFFF'>------------------------------</t><br/>
-	<t align='center' color='#1E90FF' size='1.25'>Side Mission</t><br/>
-	<t align='center' color='#FFFFFF' size='1.15'>Difficulty: <t color='#1E90FF'> NORMAL</t><br/>
-	<t align='center'><img size='5' image='%1'/></t><br/>
-	<t align='center' color='#FFFFFF'>%2 : An %4 has ran out of fuel. The soldiers are stranded and waiting for reinforcements! Kill Them and secure the vehicle and weapons for yourselves. Remember to bring some petrol.</t>",
-	_picture, 
-	_missionName, 
-	_worldName,
-	_vehname
-];
-[nil,nil,rHINT,_hint] call RE;
 
 _missiontimeout = true;
 _cleanmission = false;
 _playerPresent = false;
 _starttime = floor(time);
+
 while {_missiontimeout} do {
 	sleep 5;
 	_currenttime = floor(time);
@@ -83,6 +71,10 @@ while {_missiontimeout} do {
 };
 if (_playerPresent) then {
 	[_position,"WAIminorArray"] call missionComplete;
+	
+	diag_log format["WAI: Mission %1 Ended At %2",_fileName,_position];
+	[nil,nil,rTitleText,format["%1",_winMessage], "PLAIN",10] call RE;
+	
 	_veh setVehicleLock "UNLOCKED";
 	_veh setVariable ["R3F_LOG_disabled",false,true];
 	// wait for mission complete then spawn box
@@ -92,17 +84,15 @@ if (_playerPresent) then {
 	// mark crates with smoke/flares
 	[_box] call markCrates;
 
-	diag_log format["WAI: Mission strandedAPC Ended At %1",_position];
-	[nil,nil,rTitleText,"The Crashed Weapons Truck has been Secured", "PLAIN",10] call RE;
-	uiSleep 300;
+	uiSleep 5*60;
 	["minorclean"] call WAIcleanup;
 } else {
 	clean_running_minor_mission = True;
 	deleteVehicle _veh;
 	["minorclean"] call WAIcleanup;
 	
-	diag_log format["WAI: Mission strandedAPC Timed Out At %1",_position];
-	[nil,nil,rTitleText,"You Failed to Clear the Mission in Time", "PLAIN",10] call RE;
+	diag_log format["WAI: Mission %1 Timed Out At %2",_fileName,_position];
+	[nil,nil,rTitleText,format["%1",_failMessage], "PLAIN",10] call RE;
 };
 
 minor_missionrunning = false;

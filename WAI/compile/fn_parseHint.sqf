@@ -21,11 +21,11 @@ _misDesc = _this select 4;
 _hint = parseText format [
 	"<t align='center' color='#1E90FF' shadow='2' size='1.75'>Priority Transmission</t><br/>" +
 	"<t align='center' color='#FFFFFF'>------------------------------</t><br/>" +
-	"<t align='center' color='#1E90FF' size='1.25'>%1</t><br/>" +
-	"<t align='center' color='#FFFFFF' size='1.25'>%2</t><br/>" +
-	"<t align='center' color='#FFFFFF' size='0.9'>Difficulty: <t color='#1E90FF'> %3</t><br/>" +
-	"<t align='center'><img size='5' image='%4'/></t><br/>" +
-	"<t align='center' color='#FFFFFF'>%5</t>"
+	"<t align='center' color='#1E90FF' size='1.5'>%1</t><br/>" +
+	"<t align='center' color='#FFFFFF' size='1.5'>%2</t><br/>" +
+	"<t align='center' color='#FFFFFF' size='1'>Difficulty: <t size='1.1' color='#1E90FF'> %3</t><br/>" +
+	"<t align='center'><img size='4' image='%4'/></t><br/>" +
+	"<t align='center' size='1.1' color='#FFFFFF'>%5</t>"
 	,
 	_misName,
 	_misType,

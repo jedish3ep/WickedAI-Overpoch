@@ -1,16 +1,16 @@
-private ["_fileName", "_missionType", "_position", "_missionName", "_difficulty", "_worldName", "_picture", "_missionDesc", "_winMessage", "_failMessage", "_baserunover", "_rndnum", "_missiontimeout", "_cleanmission", "_playerPresent", "_starttime", "_currenttime", "_box"];
-  
-_fileName = "osamaCompound";
+// generate Private array from http://killzonekid.com/arma-simple-private-variable-extractor/
+
+_fileName = "fileName";
 _missionType = "Major Mission";
 _position = [getMarkerPos "center",0,5500,10,0,2000,0] call BIS_fnc_findSafePos;
 
-_missionName = "Operation Neptune Spear";
+_missionName = "";
 _difficulty = "hard";
 _worldName = toLower format ["%1", worldName];
-_picture = getText (configFile >> "cfgWeapons" >> "Cobalt_File" >> "picture");
-_missionDesc = format["Osama Bin Laden has been spotted in %1, Kill the HVT and secure the stolen loot",_worldName];
-_winMessage = format["The HVT is Down. Secure the loot and RTB",_fileName];
-_failMessage = format["The HVT has fled %1. Time's up",_worldName];
+_picture = getText (configFile >> "cfgMagazines" >> "Moscow_Bombing_File" >> "picture");
+_missionDesc = format["%1",_worldName];
+_winMessage = format["%1",_fileName];
+_failMessage = format["%1",_worldName];
 
 /* create marker and display messages */
 diag_log format["WAI: Mission %1 Started At %2",_fileName,_position];
@@ -20,19 +20,34 @@ diag_log format["WAI: Mission %1 Started At %2",_fileName,_position];
 sleep 0.1;
 
 /* create the compound */
-_baserunover = createVehicle ["Land_A_Villa_EP1",[(_position select 0), (_position select 1),0],[], 0, "CAN_COLLIDE"];
-majorBldList = majorBldList + [_baserunover];
+_baseItem = createVehicle ["TK_GUE_WarfareBAntiAirRadar_EP1",[(_position select 0), (_position select 1)],[], 0, "CAN_COLLIDE"];
+_baseItem1 = createVehicle ["TK_GUE_WarfareBAntiAirRadar_EP1",[(_position select 0), (_position select 1)],[], 0, "CAN_COLLIDE"];
+_baseItem2 = createVehicle ["TK_GUE_WarfareBAntiAirRadar_EP1",[(_position select 0), (_position select 1)],[], 0, "CAN_COLLIDE"];
+_baseItem3 = createVehicle ["TK_GUE_WarfareBAntiAirRadar_EP1",[(_position select 0), (_position select 1)],[], 0, "CAN_COLLIDE"];
+_baseItem4 = createVehicle ["TK_GUE_WarfareBAntiAirRadar_EP1",[(_position select 0), (_position select 1)],[], 0, "CAN_COLLIDE"];
+_baseItem5 = createVehicle ["TK_GUE_WarfareBAntiAirRadar_EP1",[(_position select 0), (_position select 1)],[], 0, "CAN_COLLIDE"];
+
+_base = [_baseItem,_baseItem1,_baseItem2,_baseItem3,_baseItem4,_baseItem5];
+{ majorBldList = majorBldList + [_x]; } forEach _base;
+{ _x setVectorUp surfaceNormal position _x; } count _base;
+
+
+/* spawn AI squads */
 
 _rndnum = round (random 3) + 4;
-[[_position select 0, _position select 1, 0],4,_difficulty,"Random",4,"","TK_INS_Soldier_EP1_DZ","Random","major","WAImajorArray"] call spawn_group;
-[[_position select 0, _position select 1, 0],4,_difficulty,"Random",4,"","TK_GUE_Soldier_Sniper_EP1","Random","major","WAImajorArray"] call spawn_group;
-[[_position select 0, _position select 1, 0],4,_difficulty,"Random",4,"","TK_GUE_Warlord_EP1","Random","major","WAImajorArray"] call spawn_group;
-[[_position select 0, _position select 1, 0],4,_difficulty,"Random",4,"","TK_GUE_Soldier_HAT_EP1","Random","major","WAImajorArray"] call spawn_group;
+[[(_position select 0) - 23,(_position select 1) - 1.32, 0],                  //position
+_rndnum,					  //Number Of units
+_difficulty,			      //Skill level
+"Random",			      //Primary gun set number. "Random" for random weapon set.
+4,						  //Number of magazines
+"",						  //Backpack "" for random or classname here.
+"",						  //Skin "" for random or classname here.
+"Random",				  //Gearset number. "Random" for random gear set.
+"major",
+"WAImajorArray"
+] call spawn_group;
 
-//The HVT Himself
-[[_position select 0, _position select 1, 0],1,"extreme","Random",4,"","TK_GUE_Soldier_TL_EP1","Random","major","WAImajorArray"] call spawn_group;
-
-[[[(_position select 0) - 15, (_position select 1) + 15, 8]],"KORD_high_TK_EP1",0.8,"TK_INS_Soldier_AT_EP1",1,2,"","Random","major"] call spawn_static;
+/* spawn emplaced gunners */
 [[[(_position select 0) + 15, (_position select 1) - 15, 8]],"KORD_high_UN_EP1",0.8,"TK_Special_Forces_EP1",1,2,"","Random","major"] call spawn_static;
 
 _missiontimeout = true;

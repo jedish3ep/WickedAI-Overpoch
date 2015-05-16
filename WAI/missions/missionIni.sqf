@@ -6,7 +6,7 @@ spawn_ammo_box =			compile preprocessFileLineNumbers "\z\addons\dayz_server\WAI\
 Construction_Supply_Box =	compile preprocessFileLineNumbers "\z\addons\dayz_server\WAI\missions\compile\ConstructionSupplyBox.sqf";
 Medical_Supply_Box =		compile preprocessFileLineNumbers "\z\addons\dayz_server\WAI\missions\compile\MedicalSupplyBox.sqf";
 Sniper_Gun_Box =			compile preprocessFileLineNumbers "\z\addons\dayz_server\WAI\missions\compile\SniperGunBox.sqf";
-Chain_Bullet_Box =			compile preprocessFileLineNumbers "\z\addons\dayz_server\WAI\missions\compile\ChainBulletBox.sqf";
+Chain_Bullet_Box =		compile preprocessFileLineNumbers "\z\addons\dayz_server\WAI\missions\compile\ChainBulletBox.sqf";
 
 Extra_Large_Gun_Box =		compile preprocessFileLineNumbers "\z\addons\dayz_server\WAI\missions\compile\ExtraLargeGunBox.sqf";
 Extra_Large_Gun_Box1 =		compile preprocessFileLineNumbers "\z\addons\dayz_server\WAI\missions\compile\ExtraLargeGunBox1.sqf";

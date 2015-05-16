@@ -1,25 +1,36 @@
-private ["_playerPresent","_cleanmission","_currenttime","_starttime","_missiontimeout","_vehname","_veh","_position","_vehclass","_vehdir","_objPosition","_picture","_hint","_missionName","_difficulty"];
+private ["_fileName", "_missionType", "_position", "_vehclass", "_vehname", "_picture", "_worldName", "_missionName", "_difficultyArray", "_difficulty", "_missionDesc", "_winMessage", "_failMessage", "_tent", "_tent2", "_base", "_veh", "_vehdir", "_objPosition", "_rndnum", "_missiontimeout", "_cleanmission", "_playerPresent", "_starttime", "_currenttime", "_box", "_box1"];
 
-_vehclass = "KamazReammo";
-
-_vehname	= getText (configFile >> "CfgVehicles" >> _vehclass >> "displayName");
-_missionName = _vehname;
-_difficulty = "hard";
-
+_fileName = "vehAmmo";
+_missionType = "Minor Mission";
 _position = [getMarkerPos "center",0,5500,10,0,2000,0] call BIS_fnc_findSafePos;
-diag_log format["WAI: Mission vehAmmo Started At %1",_position];
-
+_vehclass = "KamazReammo";
+_vehname	= getText (configFile >> "CfgVehicles" >> _vehclass >> "displayName");
 _picture = getText (configFile >> "cfgVehicles" >> _vehclass >> "picture");
+_worldName = toLower format ["%1", worldName];
+_missionName = _vehname;
+_difficultyArray = ["normal","hard"];
+_difficulty = _difficultyArray call BIS_fnc_selectRandom;
+_missionDesc = format["A %1 carrying weapons across %2 has crashed. Kill Them and secure the Vehicle Ammo for yourself!",_vehname,_worldName];
+_winMessage = format["The Crashed %1 and the Vehicle Ammo have been Secured",_vehname];
+_failMessage = format["Mission Failed: The bandits have repaired the %1 and fled %2",_vehname,_worldName];
 
-//Medical Tent
+/* create marker and display messages */
+diag_log format["WAI: Mission %1 Started At %2",_fileName,_position];
+[_position,_missionName,_difficulty] execVM wai_minor_marker;
+[_missionName,_missionType,_difficulty,_picture,_missionDesc] call fn_parseHint;
+[nil,nil,rTitleText,format["%1",_missionDesc], "PLAIN",10] call RE;
+sleep 0.1;
+
+/* Scenery */
 _tent = createVehicle ["MAP_HBarrier5_round15",[(_position select 0) - 21,(_position select 1) - 21,0], [], 0, "CAN_COLLIDE"];
 _tent setDir 270;
-minorBldList = minorBldList + [_tent];
 _tent2 = createVehicle ["MAP_HBarrier5_round15",[(_position select 0) + 16,(_position select 1) + 16,0], [], 0, "CAN_COLLIDE"];
 _tent2 setDir 90;
-minorBldList = minorBldList + [_tent2];
+_base = [_tent,_tent2];
+{ minorBldList = minorBldList + [_x]; } forEach _base;
+{ _x setVectorUp surfaceNormal position _x; } count _base;
 
-//Truck
+/* Truck */
 _veh = createVehicle [_vehclass,_position, [], 0, "CAN_COLLIDE"];
 _vehdir = round(random 360);
 _veh setDir _vehdir;
@@ -30,112 +41,66 @@ PVDZE_serverObjectMonitor set [count PVDZE_serverObjectMonitor,_veh];
 _veh setVehicleLock "LOCKED";
 _veh setVariable ["R3F_LOG_disabled",true,true];
 diag_log format["WAI: Mission vehAmmo spawned a %1",_vehname];
-
 _objPosition = getPosATL _veh;
-//[_veh,[_vehdir,_objPosition],_vehclass,true,"0"] call custom_publish;
 
-//Troops
+/* Troops */
 _rndnum = round (random 3) + 4;
-[[_position select 0, _position select 1, 0],                  //position
-_rndnum,				  //Number Of units
-"normal",					      //Skill level 0-1. Has no effect if using custom skills
-"Random",			      //Primary gun set number. "Random" for random weapon set.
-4,						  //Number of magazines
-"",						  //Backpack "" for random or classname here.
-"TK_Soldier_B_EP1",						  //Skin "" for random or classname here.
-"Random",				  //Gearset number. "Random" for random gear set.
-"minor",
-"WAIminorArray"
-] call spawn_group;
+[[_position select 0, _position select 1, 0],_rndnum,_difficulty,"Random",4,"","TK_Soldier_B_EP1","Random","minor","WAIminorArray"] call spawn_group;
+sleep 0.1;
+[[_position select 0, _position select 1, 0],4,_difficulty,"Random",4,"","TK_Aziz_EP1","Random","minor","WAIminorArray"] call spawn_group;
+sleep 0.1;
+[[_position select 0, _position select 1, 0],4,_difficulty,"Random",4,"","TK_Commander_EP1","Random","minor","WAIminorArray"] call spawn_group;
+sleep 0.1;
 
-[[_position select 0, _position select 1, 0],                  //position
-4,						  //Number Of units
-"hard",					      //Skill level 0-1. Has no effect if using custom skills
-"Random",			      //Primary gun set number. "Random" for random weapon set.
-4,						  //Number of magazines
-"",						  //Backpack "" for random or classname here.
-"TK_Aziz_EP1",						  //Skin "" for random or classname here.
-"Random",				  //Gearset number. "Random" for random gear set.
-"minor",
-"WAIminorArray"
-] call spawn_group;
-
-[[_position select 0, _position select 1, 0],                  //position
-4,						  //Number Of units
-"hard",					      //Skill level 0-1. Has no effect if using custom skills
-"Random",			      //Primary gun set number. "Random" for random weapon set.
-4,						  //Number of magazines
-"",						  //Backpack "" for random or classname here.
-"TK_Commander_EP1",	  //Skin "" for random or classname here.
-"Random",				  //Gearset number. "Random" for random gear set.
-"minor",
-"WAIminorArray"
-] call spawn_group;
-
-//Turrets
-[[[(_position select 0) + 10, (_position select 1) + 10, 0],[(_position select 0) + 10, (_position select 1) - 10, 0]], //position(s) (can be multiple).
-"M2StaticMG",             //Classname of turret
-0.8,					  //Skill level 0-1. Has no effect if using custom skills
-"TK_Soldier_Pilot_EP1",	  //Skin "" for random or classname here.
-0,						  //Primary gun set number. "Random" for random weapon set. (not needed if ai_static_useweapon = False)
-2,						  //Number of magazines. (not needed if ai_static_useweapon = False)
-"",						  //Backpack "" for random or classname here. (not needed if ai_static_useweapon = False)
-"Random",				  //Gearset number. "Random" for random gear set. (not needed if ai_static_useweapon = False)
-"minor"
-] call spawn_static;
-
-
-//CREATE MARKER
-[_position,_missionName,_difficulty] execVM wai_minor_marker;
-
-[nil,nil,rTitleText,"A Truck carrying vehicle ammo has been spotted, Kill the militia and claim the ammo", "PLAIN",10] call RE;
-
-_hint = parseText format ["
-	<t align='center' color='#1E90FF' shadow='2' size='1.75'>Priority Transmission</t><br/>
-	<t align='center' color='#FFFFFF'>------------------------------</t><br/>
-	<t align='center' color='#1E90FF' size='1.25'>Side Mission</t><br/>
-	<t align='center' color='#FFFFFF' size='1.15'>Difficulty: <t color='#1E90FF'> HARD</t><br/>
-	<t align='center'><img size='5' image='%1'/></t><br/>
-	<t align='center' color='#FFFFFF'>A<t color='#1E90FF'> %2</t> carrying Vehicle ammo has been spotted, Kill the militia and claim the ammo for yourself</t>", _picture, _vehname];
-[nil,nil,rHINT,_hint] call RE;
+/* Turrets */
+[[[(_position select 0) + 10, (_position select 1) + 10, 0],[(_position select 0) + 10, (_position select 1) - 10, 0]],"M2StaticMG",0.8,"TK_Soldier_Pilot_EP1",0,2,"","Random","minor"] call spawn_static;
 
 _missiontimeout = true;
 _cleanmission = false;
 _playerPresent = false;
 _starttime = floor(time);
-while {_missiontimeout} do {
-	sleep 5;
-	_currenttime = floor(time);
-	{if((isPlayer _x) AND (_x distance _position <= 150)) then {_playerPresent = true};}forEach playableUnits;
-	if (_currenttime - _starttime >= wai_mission_timeout) then {_cleanmission = true;};
-	if ((_playerPresent) OR (_cleanmission)) then {_missiontimeout = false;};
-};
-if (_playerPresent) then {
-	[_position,"WAIminorArray"] call missionComplete;
-	// wait for mission complete. then spawn boxes and publish vehicle to hive
-	[_veh,[_vehdir,_objPosition],_vehclass,true,"0"] call custom_publish;
-	_veh setVehicleLock "UNLOCKED";
-	_veh setVariable ["R3F_LOG_disabled",false,true];
 
-	_box = createVehicle ["LocalBasicWeaponsBox",[(_position select 0) - 20,(_position select 1) - 20,0], [], 0, "CAN_COLLIDE"];
-	[_box] call Chain_Bullet_Box;
-	_box1 = createVehicle ["LocalBasicWeaponsBox",[(_position select 0) + 15,(_position select 1) + 15,0], [], 0, "CAN_COLLIDE"];
-	[_box1] call Chain_Bullet_Box;
+while {_missiontimeout} do 
+	{
+		sleep 5;
+		_currenttime = floor(time);
+		{if((isPlayer _x) AND (_x distance _position <= 150)) then {_playerPresent = true};}forEach playableUnits;
+		if (_currenttime - _starttime >= wai_mission_timeout) then {_cleanmission = true;};
+		if ((_playerPresent) OR (_cleanmission)) then {_missiontimeout = false;};
+	};
 
-	// mark crates with smoke/flares
-	[_box] call markCrates;
-	[_box1] call markCrates;
-
-	diag_log format["WAI: Mission vehAmmo Ended At %1",_position];
-	[nil,nil,rTitleText,"Mission Complete - Job well done boys!", "PLAIN",10] call RE;
-	uiSleep 300;
-	["minorclean"] call WAIcleanup;
-} else {
-	clean_running_minor_mission = True;
-	deleteVehicle _veh;
-	["minorclean"] call WAIcleanup;
+if (_playerPresent) then
+	{
+		[_position,"WAIminorArray"] call missionComplete;
+		
+		diag_log format["WAI: Mission %1 Ended At %2",_fileName,_position];
+		[nil,nil,rTitleText,format["%1",_winMessage], "PLAIN",10] call RE;
+		
+		// wait for mission complete. then spawn boxes and publish vehicle to hive
+		[_veh,[_vehdir,_objPosition],_vehclass,true,"0"] call custom_publish;
+		_veh setVehicleLock "UNLOCKED";
+		_veh setVariable ["R3F_LOG_disabled",false,true];
+		_box = createVehicle ["LocalBasicWeaponsBox",[(_position select 0) - 20,(_position select 1) - 20,0], [], 0, "CAN_COLLIDE"];
+		[_box] call Chain_Bullet_Box;
+		[_box] call markCrates;
+		
+		if (_difficulty == "hard") then 
+			{
+				_box1 = createVehicle ["LocalBasicWeaponsBox",[(_position select 0) + 15,(_position select 1) + 15,0], [], 0, "CAN_COLLIDE"];
+				[_box1] call Chain_Bullet_Box;
+				[_box1] call markCrates;
+			};		
+		uiSleep 5*60;
+		["minorclean"] call WAIcleanup;
+	} 
+		else
+	{
+		clean_running_minor_mission = True;
+		deleteVehicle _veh;
+		["minorclean"] call WAIcleanup;
+		
+		diag_log format["WAI: Mission %1 Timed Out At %2",_fileName,_position];
+		[nil,nil,rTitleText,format["%1",_failMessage], "PLAIN",10] call RE;
+	};
 	
-	diag_log format["WAI: Mission vehAmmo Timed Out At %1",_position];
-	[nil,nil,rTitleText,"The militia escaped! Mission Failed", "PLAIN",10] call RE;
-};
 minor_missionrunning = false;
