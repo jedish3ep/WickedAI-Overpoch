@@ -2,7 +2,7 @@ private ["_fileName", "_missionType", "_position", "_vehclass", "_vehname", "_pi
 
 _fileName = "vehAmmo";
 _missionType = "Minor Mission";
-_position = call WAI_findPos;
+_position = [getMarkerPos "center",0,5500,10,0,2000,0] call BIS_fnc_findSafePos;
 _vehclass = "KamazReammo";
 _vehname	= getText (configFile >> "CfgVehicles" >> _vehclass >> "displayName");
 _picture = getText (configFile >> "cfgVehicles" >> _vehclass >> "picture");

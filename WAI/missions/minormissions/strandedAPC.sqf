@@ -12,7 +12,7 @@ _missionName = "Stranded APC";
 _difficulty = "hard";
 _missionType = "Minor Mission";
 
-_position = call WAI_findPos;
+_position = [getMarkerPos "center",0,5500,10,0,2000,0] call BIS_fnc_findSafePos;
 
 _vehArray = ["AAV","BMP2_UN_EP1","BAF_FV510_W","M1128_MGS_EP1"];
 _vehclass = _vehArray call BIS_fnc_selectRandom;

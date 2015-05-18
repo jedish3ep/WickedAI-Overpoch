@@ -5,7 +5,7 @@ _missionName = "Stash House";
 _difficulty = "normal";
 _missionType = "Minor Mission";
 
-_position = call WAI_findPos;
+_position = [getMarkerPos "center",0,5500,10,0,2000,0] call BIS_fnc_findSafePos;
 
 _picture = getText (configFile >> "cfgWeapons" >> "Cobalt_File" >> "picture");
 _missionDesc = format["Bandits have set up a Weapon %1! Go Empty it Out!",_missionName];

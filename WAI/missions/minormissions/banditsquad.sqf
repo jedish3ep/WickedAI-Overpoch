@@ -5,7 +5,7 @@ _missionName = "Bandit Squad";
 _difficulty = "easy";
 _missionType = "Minor Mission";
 
-_position = call WAI_findPos;
+_position = [getMarkerPos "center",0,5500,10,0,2000,0] call BIS_fnc_findSafePos;
 
 _picture = getText (configFile >> "cfgWeapons" >> "Cobalt_File" >> "picture");
 _missionDesc = format["A %1 has been spotted! Stop them from completing their patrol!",_missionName];
