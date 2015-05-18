@@ -35,10 +35,11 @@ _hint = parseText format [
 ];
 [nil,nil,rHINT,_hint] call RE;
 
+
 /* You need to have a broadcaster in your mission file for this bit below to work! */
-_compoundMSG = format ["<t align='left' size='0.7'>%1</t>",_misType];
-_compoundMSG = _compoundMSG + format ["<img size='0.8' align='left' image='%1'/>",_misPict];
-_compoundMSG = _compoundMSG + format ["<t align='left' size='0.7'>%1</t>",_misName];
+_compoundMSG + format ["<img size='1.1' align='left' image='%1'/>",_misPict];
+_compoundMSG = _compoundMSG + format ["<t align='left' size='0.7'> %1 | </t>",_misType];
+_compoundMSG = _compoundMSG + format ["<t align='left' size='0.7' color='#1E90FF'> %1 </t>",_misName];
 
 compoundMessage = [_compoundMSG];
 publicVariable "compoundMessage";
