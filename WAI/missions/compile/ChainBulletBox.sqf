@@ -9,10 +9,10 @@ clearWeaponCargoGlobal _box;
 clearMagazineCargoGlobal _box;
 
 // AMMUNITION
-_box addMagazineCargoGlobal ["2000Rnd_762x51_M134", 3];
-_box addMagazineCargoGlobal ["200Rnd_762x51_M240", 4];
-_box addMagazineCargoGlobal ["100Rnd_127x99_M2", 3];
-_box addMagazineCargoGlobal ["150Rnd_127x107_DSHKM", 4];
+_box addMagazineCargoGlobal ["2000Rnd_762x51_M134", 10];
+_box addMagazineCargoGlobal ["200Rnd_762x51_M240", 10];
+_box addMagazineCargoGlobal ["100Rnd_127x99_M2", 10];
+_box addMagazineCargoGlobal ["150Rnd_127x107_DSHKM", 10];
 
 BoxRandomizer=floor(random 100);
 if (BoxRandomizer == 37) then

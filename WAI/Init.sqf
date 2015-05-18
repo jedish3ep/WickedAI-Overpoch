@@ -40,6 +40,74 @@ WAIcompoundArray = [];
 minorBldList = [];
 majorBldList = [];
 
+WAIBlackList = [
+	[[6710.0474, 2571.0735, 0],500],
+	[[10340.616, 2068.4207, 0],500],
+	[[12100.296, 9311.5938, 0],500],
+	[[6612.915, 14183.943, 0],1500],
+	[[6325.6772, 7807.7412, 0],800],
+	[[7220.1836, 3005.275, 0],500],
+	[[12116.242, 9726.7061, 0],500],
+	[[12060.471, 12638.533, 0],500],
+	[[4985.93, 9704.6885, 0],500],
+	[[12944.227, 12766.889, 0],500],
+	[[1606.6443, 7803.5156, 0],500],
+	[[2242.6792, 10761.169, 0],500],
+	[[4361.4937, 2259.9526, 0],300],
+	[[13441.16, 5429.3013, 0],150]
+];
+
+/* Define marker pos to prevent missions spawning too close to each other */
+if (isNil "WAIMajorPos")then{WAIMajorPos = [0,0,0];};
+if (isNil "WAIMinorPos")then{WAIMinorPos = [0,0,0];};
+
+WAI_findPos = 
+	{
+		/* DZMS FindPos Converted to work with WAI */
+		private["_mapHardCenter","_mapRadii","_centerPos","_pos","_disCorner","_hardX","_hardY","_findRun","_posX","_posY","_feel1","_feel2","_feel3","_feel4","_noWater","_disMaj","_disMin","_okDis","_isBlack"];
+		_mapHardCenter = true;
+		_mapRadii = 5500;
+		
+		_centerPos = [7100, 7750, 0];
+		_mapRadii = 5500;
+
+		if (_mapHardCenter) then {
+	   
+			_hardX = _centerPos select 0;
+			_hardY = _centerPos select 1;
+			_findRun = true;
+			while {_findRun} do
+			{
+				_pos = [_centerPos,0,_mapRadii,60,0,20,0] call BIS_fnc_findSafePos;
+			   	_posX = _pos select 0;
+				_posY = _pos select 1;
+
+				_feel1 = [_posX, _posY+50, 0];
+				_feel2 = [_posX+50, _posY, 0];
+				_feel3 = [_posX, _posY-50, 0];
+				_feel4 = [_posX-50, _posY, 0];
+			   
+				_noWater = (!surfaceIsWater _pos && !surfaceIsWater _feel1 && !surfaceIsWater _feel2 && !surfaceIsWater _feel3 && !surfaceIsWater _feel4);
+				
+				_disMaj = (_pos distance WAIMajorPos);
+				_disMin = (_pos distance WAIMinorPos);
+				_okDis = ((_disMaj > 850) AND (_disMin > 850));
+			   
+				_isBlack = false;
+				{
+					if ((_pos distance (_x select 0)) <= (_x select 1)) then {_isBlack = true;};
+				} forEach WAIBlackList;
+				
+				if ((_posX != _hardX) AND (_posY != _hardY) AND _noWater AND _okDis AND !_isBlack) then {
+					_findRun = false;
+				};
+				sleep 2;
+			}; 
+		};
+		_fin = [(_pos select 0), (_pos select 1), 0];
+		_fin
+	};
+	
 //Load config
 [] ExecVM "\z\addons\dayz_server\WAI\AIconfig.sqf";
 

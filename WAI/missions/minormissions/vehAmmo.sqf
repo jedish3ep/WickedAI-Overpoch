@@ -2,7 +2,7 @@ private ["_fileName", "_missionType", "_position", "_vehclass", "_vehname", "_pi
 
 _fileName = "vehAmmo";
 _missionType = "Minor Mission";
-_position = [getMarkerPos "center",0,5500,10,0,2000,0] call BIS_fnc_findSafePos;
+_position = call WAI_findPos;
 _vehclass = "KamazReammo";
 _vehname	= getText (configFile >> "CfgVehicles" >> _vehclass >> "displayName");
 _picture = getText (configFile >> "cfgVehicles" >> _vehclass >> "picture");
@@ -64,8 +64,8 @@ while {_missiontimeout} do
 	{
 		sleep 5;
 		_currenttime = floor(time);
-		{if((isPlayer _x) AND (_x distance _position <= 150)) then {_playerPresent = true};}forEach playableUnits;
-		if (_currenttime - _starttime >= wai_mission_timeout) then {_cleanmission = true;};
+		{if((isPlayer _x) AND (_x distance _position <= 300)) then {_playerPresent = true};}forEach playableUnits;
+		if (_currenttime - _starttime >= wai_minor_mission_timeout) then {_cleanmission = true;};
 		if ((_playerPresent) OR (_cleanmission)) then {_missiontimeout = false;};
 	};
 
@@ -80,7 +80,7 @@ if (_playerPresent) then
 		[_veh,[_vehdir,_objPosition],_vehclass,true,"0"] call custom_publish;
 		_veh setVehicleLock "UNLOCKED";
 		_veh setVariable ["R3F_LOG_disabled",false,true];
-		_box = createVehicle ["LocalBasicWeaponsBox",[(_position select 0) - 20,(_position select 1) - 20,0], [], 0, "CAN_COLLIDE"];
+		_box = createVehicle ["LocalBasicWeaponsBox",[(_position select 0) - 10,(_position select 1) - 10,0], [], 0, "CAN_COLLIDE"];
 		[_box] call Chain_Bullet_Box;
 		[_box] call markCrates;
 		

@@ -5,7 +5,7 @@ _missionName = "Stash House";
 _difficulty = "normal";
 _missionType = "Minor Mission";
 
-_position = [getMarkerPos "center",0,5500,10,0,2000,0] call BIS_fnc_findSafePos;
+_position = call WAI_findPos;
 
 _picture = getText (configFile >> "cfgWeapons" >> "Cobalt_File" >> "picture");
 _missionDesc = format["Bandits have set up a Weapon %1! Go Empty it Out!",_missionName];
@@ -85,8 +85,8 @@ while {_missiontimeout} do
 	{
 		sleep 5;
 		_currenttime = floor(time);
-		{if((isPlayer _x) AND (_x distance _position <= 150)) then {_playerPresent = true};}forEach playableUnits;
-		if (_currenttime - _starttime >= wai_mission_timeout) then {_cleanmission = true;};
+		{if((isPlayer _x) AND (_x distance _position <= 300)) then {_playerPresent = true};}forEach playableUnits;
+		if (_currenttime - _starttime >= wai_minor_mission_timeout) then {_cleanmission = true;};
 		if ((_playerPresent) OR (_cleanmission)) then {_missiontimeout = false;};
 	};
 

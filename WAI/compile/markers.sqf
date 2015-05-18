@@ -4,6 +4,8 @@ if(isServer) then {
 	_position 	= _this select 0;
 	_markerName = _this select 1;
 	_difficulty = _this select 2;
+	
+	WAIMajorPos = _position;
 
 	call 
 		{
@@ -49,6 +51,7 @@ if(isServer) then {
 		_Major1 		setMarkerBrush "Solid";
 		_Major1 		setMarkerSize [_size,_size];
 		_Major1 		setMarkerText _markerName;
+		
 		_Major2 		= createMarker ["dot", _position];
 		_Major2 		setMarkerColor "ColorBlack";
 		_Major2 		setMarkerType "mil_dot";

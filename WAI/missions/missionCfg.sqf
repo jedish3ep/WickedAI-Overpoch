@@ -1,8 +1,7 @@
 // MAJOR MISSIONS //
-	wai_mission_timer = 15*60;
-	wai_mission_timeout = 45*60;
-	wai_marker = "\z\addons\dayz_server\WAI\compile\markers.sqf";
-	wai_enable_tank_traps = true;
+	wai_mission_timer = 900;
+	wai_mission_timeout = 2700;
+	wai_major_marker = "\z\addons\dayz_server\WAI\compile\markers.sqf";
 
 	wai_missions = 
 		[
@@ -20,8 +19,8 @@
 		];
 	
 // MINOR MISSIONS //
-	wai_minor_mission_timer = 10*60;
-	wai_minor_mission_timeout = 30*60;
+	wai_minor_mission_timer = 600;
+	wai_minor_mission_timeout = 1800;
 	wai_minor_marker = "\z\addons\dayz_server\WAI\compile\minorMarkers.sqf";
 
 	wai_minor_missions = 

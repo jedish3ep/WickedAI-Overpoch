@@ -2,7 +2,7 @@ private ["_fileName", "_missionType", "_position", "_vehclass", "_vehname", "_pi
 
 _fileName = "m2hummer";
 _missionType = "Minor Mission";
-_position = [getMarkerPos "center",0,5500,10,0,2000,0] call BIS_fnc_findSafePos;
+_position = call WAI_findPos;
 
 _vehclass = "HMMWV_M1151_M2_DES_EP1";
 _vehname	= getText (configFile >> "CfgVehicles" >> _vehclass >> "displayName");
@@ -86,8 +86,8 @@ while {_missiontimeout} do
 	{
 		sleep 5;
 		_currenttime = floor(time);
-		{if((isPlayer _x) AND (_x distance _position <= 150)) then {_playerPresent = true};}forEach playableUnits;
-		if (_currenttime - _starttime >= wai_mission_timeout) then {_cleanmission = true;};
+		{if((isPlayer _x) AND (_x distance _position <= 300)) then {_playerPresent = true};}forEach playableUnits;
+		if (_currenttime - _starttime >= wai_minor_mission_timeout) then {_cleanmission = true;};
 		if ((_playerPresent) OR (_cleanmission)) then {_missiontimeout = false;};
 	};
 if (_playerPresent) then {

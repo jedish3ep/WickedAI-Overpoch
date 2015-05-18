@@ -2,6 +2,7 @@ private ["_fileName", "_missionType", "_picture", "_worldName", "_missionName", 
 
 _fileName = "pervertPriest";
 _missionType = "Minor Mission";
+_position = call WAI_findPos;
 
 _picture = getText (configFile >> "cfgWeapons" >> "Cobalt_File" >> "picture");
 _worldName = toLower format ["%1", worldName];
@@ -65,8 +66,8 @@ while {_missiontimeout} do
 	{
 		sleep 5;
 		_currenttime = floor(time);
-		{if((isPlayer _x) AND (_x distance _position <= 150)) then {_playerPresent = true};}forEach playableUnits;
-		if (_currenttime - _starttime >= wai_mission_timeout) then {_cleanmission = true;};
+		{if((isPlayer _x) AND (_x distance _position <= 300)) then {_playerPresent = true};}forEach playableUnits;
+		if (_currenttime - _starttime >= wai_minor_mission_timeout) then {_cleanmission = true;};
 		if ((_playerPresent) OR (_cleanmission)) then {_missiontimeout = false;};
 	};
 
