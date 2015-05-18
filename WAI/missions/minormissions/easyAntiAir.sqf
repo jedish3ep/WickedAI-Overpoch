@@ -2,7 +2,7 @@ private ["_fileName", "_missionType", "_position", "_vehname", "_picture", "_mis
 
 _fileName = "easyAntiAir";
 _missionType = "Minor Mission";
-_position = [getMarkerPos "center",0,5500,10,0,2000,0] call BIS_fnc_findSafePos;
+_position = call WAI_findPos;
 
 _vehname	= getText (configFile >> "CfgVehicles" >> "Igla_AA_pod_East" >> "displayName");
 _picture = getText (configFile >> "cfgVehicles" >> "Igla_AA_pod_East" >> "picture");

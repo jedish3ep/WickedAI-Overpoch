@@ -1,16 +1,29 @@
-private ["_playerPresent","_cleanmission","_currenttime","_starttime","_missiontimeout","_vehname","_veh","_position","_vehclass","_vehdir","_objPosition","_picture","_hint","_missionName","_difficulty","_base"];
-_vehclass = "BRDM2_HQ_Gue";
+private ["_fileName", "_missionType", "_missionName", "_difficulty", "_position", "_veharray", "_vehclass", "_vehname", "_picture", "_missionDesc", "_winMessage", "_failMessage", "_baserunover", "_baserunover1", "_baserunover2", "_baserunover3", "_baserunover4", "_baserunover5", "_base", "_veh", "_vehdir", "_objPosition", "_rndnum", "_missiontimeout", "_cleanmission", "_playerPresent", "_starttime", "_currenttime", "_box", "_box1"];
 
-_vehname	= getText (configFile >> "CfgVehicles" >> _vehclass >> "displayName");
+_fileName = "rusBase";
+_missionType = "Major Mission";
 _missionName = "Russian Outpost";
 _difficulty = "extreme";
 
-_position = [getMarkerPos "center",0,5500,10,0,2000,0] call BIS_fnc_findSafePos;
-diag_log format["WAI: Mission rusBase Started At %1",_position];
+_position = call WAI_findPos;
 
+_veharray = ["BRDM2_HQ_Gue","BTR90_HQ","BTR60_TK_EP1"];
+_vehclass = _veharray call BIS_fnc_selectRandom; 
+_vehname	= getText (configFile >> "CfgVehicles" >> _vehclass >> "displayName");
 _picture = getText (configFile >> "cfgVehicles" >> _vehclass >> "picture");
 
-// BUILDINGS
+_missionDesc = format["The Russian Military is setting up an outpost, They have building supplies, weapons and a %1",_vehname];
+_winMessage = format["The Russian forces have been wiped out, and the %1 has been taken",_vehname];
+_failMessage = format["Mission Failed: Survivors did not secure the %1 in time!",_vehname];
+
+/* create marker and display messages */
+diag_log format["WAI: Mission %1 Started At %2",_fileName,_position];
+[_position,_missionName,_difficulty] execVM wai_major_marker;
+[_missionName,_missionType,_difficulty,_picture,_missionDesc] call fn_parseHint;
+[nil,nil,rTitleText,format["%1",_missionDesc], "PLAIN",10] call RE;
+sleep 0.1;
+
+/* Scenery */
 // center Anti Air tower
 _baserunover = createVehicle ["TK_GUE_WarfareBAntiAirRadar_EP1",[(_position select 0), (_position select 1)],[], 0, "CAN_COLLIDE"];
 _baserunover setVectorUp surfaceNormal position _baserunover;
@@ -45,14 +58,12 @@ clearWeaponCargoGlobal _veh;
 clearMagazineCargoGlobal _veh;
 _veh setVariable ["ObjectID","1",true];
 PVDZE_serverObjectMonitor set [count PVDZE_serverObjectMonitor,_veh];
-diag_log format["WAI: Mission rusBase spawned a %1",_vehname];
 _veh setVehicleLock "LOCKED";
 _veh setVariable ["R3F_LOG_disabled",true,true];
-
 _objPosition = getPosATL _veh;
-//[_veh,[_vehdir,_objPosition],_vehclass,true,"0"] call custom_publish;
+diag_log format["WAI: Mission %1 spawned a %2",_fileName,_vehname];
 
-//Troops
+/* Troops */
 _rndnum = round (random 3) + 4;
 [[(_position select 0) - 23,(_position select 1) - 1.32, 0],                  //position
 _rndnum,				  //Number Of units
@@ -114,64 +125,50 @@ _rndnum,				  //Number Of units
 "major"
 ] call spawn_static;
 
-//CREATE MARKER
-[_position,_missionName,_difficulty] execVM wai_marker;
-
-_hint = parseText format ["
-	<t align='center' color='#1E90FF' shadow='2' size='1.75'>Priority Transmission</t><br/>
-	<t align='center' color='#FFFFFF'>------------------------------</t><br/>
-	<t align='center' color='#1E90FF' size='1.25'>Main Mission</t><br/>
-	<t align='center' color='#FFFFFF' size='1.15'>Difficulty: <t color='#1E90FF'> EXTREME</t><br/>
-	<t align='center'><img size='5' image='%1'/></t><br/>
-	<t align='center' color='#FFFFFF'>The Russian Military is setting up an outpost, They have building supplies, weapons and a <t color='#1E90FF'>%2</t>", 
-	_picture, 
-	_vehname
-	];
-[nil,nil,rHINT,_hint] call RE;
-
-[nil,nil,rTitleText,"Russian Troops have been spotted building an outpost", "PLAIN",10] call RE;
-
 _missiontimeout = true;
 _cleanmission = false;
 _playerPresent = false;
 _starttime = floor(time);
-while {_missiontimeout} do {
-	sleep 5;
-	_currenttime = floor(time);
-	{if((isPlayer _x) AND (_x distance _position <= 150)) then {_playerPresent = true};}forEach playableUnits;
-	if (_currenttime - _starttime >= wai_mission_timeout) then {_cleanmission = true;};
-	if ((_playerPresent) OR (_cleanmission)) then {_missiontimeout = false;};
-};
-if (_playerPresent) then {	
-	[_position,"WAImajorArray"] call missionComplete;
-	// wait for mission complete then spawn crates and publish vehicle to hive
 
-	_veh setVehicleLock "UNLOCKED";
-	_veh setVariable ["R3F_LOG_disabled",false,true];
+while {_missiontimeout} do 
+	{
+		sleep 5;
+		_currenttime = floor(time);
+		{if((isPlayer _x) AND (_x distance _position <= 150)) then {_playerPresent = true};}forEach playableUnits;
+		if (_currenttime - _starttime >= wai_mission_timeout) then {_cleanmission = true;};
+		if ((_playerPresent) OR (_cleanmission)) then {_missiontimeout = false;};
+	};
 
-	_box = createVehicle ["USVehicleBox",[(_position select 0) + 6.6914,(_position select 1) + 1.1939,0], [], 0, "CAN_COLLIDE"];
-	[_box] call Construction_Supply_Box;// Building Supplies
+if (_playerPresent) then 
+	{	
+		[_position,"WAImajorArray"] call missionComplete;
+		diag_log format["WAI: Mission %1 Ended At %2",_fileName,_position];
+		[nil,nil,rTitleText,format["%1",_winMessage], "PLAIN",10] call RE;
+		
+		// wait for mission complete then spawn crates and publish vehicle to hive
+		_veh setVehicleLock "UNLOCKED";
+		_veh setVariable ["R3F_LOG_disabled",false,true];
+		[_veh,[_vehdir,_objPosition],_vehclass,true,"0"] call custom_publish;
+		
+		_box = createVehicle ["USVehicleBox",[(_position select 0) + 6.6914,(_position select 1) + 1.1939,0], [], 0, "CAN_COLLIDE"];
+		_box1 = createVehicle ["LocalBasicWeaponsBox",[(_position select 0) - 7.6396,(_position select 1) + 7.2813,0], [], 0, "CAN_COLLIDE"];
+		
+		[_box] call Construction_Supply_Box;
+		[_box1] call Large_Gun_Box;
 
-	_box1 = createVehicle ["LocalBasicWeaponsBox",[(_position select 0) - 7.6396,(_position select 1) + 7.2813,0], [], 0, "CAN_COLLIDE"];
-	[_box1] call Large_Gun_Box;// Weapons Crate
+		[_box] call markCrates;
+		[_box1] call markCrates;
 
-	[_veh,[_vehdir,_objPosition],_vehclass,true,"0"] call custom_publish;
-
-	// mark crates with smoke/flares
-	[_box] call markCrates;
-	[_box1] call markCrates;
-
-	diag_log format["WAI: Mission rusBase Ended At %1",_position];
-	[nil,nil,rTitleText,"The RU Forces have been killed, Great Job!", "PLAIN",10] call RE;
-	uiSleep 300;
-	["majorclean"] call WAIcleanup;
-} else {
-	clean_running_mission = True;
-	deleteVehicle _veh;
+		uiSleep 300;
+		["majorclean"] call WAIcleanup;
+	}
+		else
+	{
+		clean_running_mission = True;
+		deleteVehicle _veh;		
+		["majorclean"] call WAIcleanup;		
+		diag_log format["WAI: Mission %1 Timed Out At %2",_fileName,_position];
+		[nil,nil,rTitleText,format["%1",_failMessage], "PLAIN",10] call RE;
+	};
 	
-	["majorclean"] call WAIcleanup;
-	
-	diag_log format["WAI: Mission rusBase Timed Out At %1",_position];
-	[nil,nil,rTitleText,"Times Up! Mission Failed", "PLAIN",10] call RE;
-};
 missionrunning = false;

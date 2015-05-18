@@ -2,7 +2,6 @@
 	wai_mission_timer = 15*60;
 	wai_mission_timeout = 45*60;
 	wai_marker = "\z\addons\dayz_server\WAI\compile\markers.sqf";
-	wai_enable_tank_traps = true;
 
 	wai_missions = 
 		[

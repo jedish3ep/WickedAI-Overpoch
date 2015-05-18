@@ -2,7 +2,7 @@ private ["_fileName", "_missionType", "_position", "_veharray", "_vehclass", "_v
 
 _fileName = "civVeh";
 _missionType = "Minor Mission";
-_position = [getMarkerPos "center",0,5500,10,0,2000,0] call BIS_fnc_findSafePos;
+_position = call WAI_findPos;
 
 _veharray = ["BTR40_MG_TK_INS_EP1","ArmoredSUV_PMC","Pickup_PK_TERROR","EOffroad_DSHKM_TERROR"];
 _vehclass = _veharray call BIS_fnc_selectRandom; 

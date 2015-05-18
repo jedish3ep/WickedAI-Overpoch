@@ -1,7 +1,8 @@
 private ["_fileName", "_position", "_missionName", "_missionType", "_difficulty", "_picture", "_missionDesc", "_winMessage", "_failMessage", "_net", "_artNest", "_bagFence", "_scenery", "_rndnum", "_missiontimeout", "_cleanmission", "_playerPresent", "_starttime", "_currenttime", "_box", "_box1", "_box2", "_box3"];
 
 _fileName = "easyWeaponsCrate";
-_position = [getMarkerPos "center",0,5500,10,0,2000,0] call BIS_fnc_findSafePos;
+_position = call WAI_findPos;
+
 _missionName = "Weapons Crate";
 _missionType = "Minor Mission";
 _difficulty = "easy";

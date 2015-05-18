@@ -2,7 +2,7 @@ private ["_fileName", "_missionType", "_position", "_vehclass", "_vehname", "_pi
 
 _fileName = "m2hummer";
 _missionType = "Minor Mission";
-_position = [getMarkerPos "center",0,5500,10,0,2000,0] call BIS_fnc_findSafePos;
+_position = call WAI_findPos;
 
 _vehclass = "HMMWV_M1151_M2_DES_EP1";
 _vehname	= getText (configFile >> "CfgVehicles" >> _vehclass >> "displayName");

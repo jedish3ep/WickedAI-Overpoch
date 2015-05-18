@@ -2,6 +2,7 @@ private ["_fileName", "_missionType", "_picture", "_worldName", "_missionName", 
 
 _fileName = "pervertPriest";
 _missionType = "Minor Mission";
+_position = call WAI_findPos;
 
 _picture = getText (configFile >> "cfgWeapons" >> "Cobalt_File" >> "picture");
 _worldName = toLower format ["%1", worldName];
