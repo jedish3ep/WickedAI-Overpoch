@@ -61,13 +61,13 @@ if (_playerPresent) then
 		
 		diag_log format["WAI: Mission %1 Ended At %2",_fileName,_position];
 		[nil,nil,rTitleText,format["%1",_winMessage], "PLAIN",10] call RE;
-		uiSleep 5*60;
+		uiSleep 300;
 		["majorclean"] call WAIcleanup;
 	}
 		else 
 	{
 		clean_running_mission = True;
-		uiSleep 5*60;
+		uiSleep 300;
 		["majorclean"] call WAIcleanup;
 		diag_log format["WAI: Mission %1 Timed Out At %2",_fileName,_position];
 		[nil,nil,rTitleText,format["%1",_failMessage], "PLAIN",10] call RE;

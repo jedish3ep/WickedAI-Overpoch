@@ -84,7 +84,7 @@ if (_playerPresent) then {
 	// mark crates with smoke/flares
 	[_box] call markCrates;
 
-	uiSleep 5*60;
+	uiSleep 300;
 	["minorclean"] call WAIcleanup;
 } else {
 	clean_running_minor_mission = True;

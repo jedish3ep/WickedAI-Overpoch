@@ -9,7 +9,7 @@
 // [_missionName,_missionType,_difficulty,_picture,_missionDesc] call fn_parseHint;
 
 
-private ["_missionName", "_missionType", "_difficulty", "_picture", "_missionDesc", "_misName", "_misType", "_misDiff", "_misPict", "_misDesc", "_hint"];
+private ["_missionName", "_missionType", "_difficulty", "_picture", "_missionDesc", "_misName", "_misType", "_misDiff", "_misPict", "_misDesc", "_hint", "_compoundMSG"];
 
 _misName = _this select 0;
 _misType = _this select 1;
@@ -33,5 +33,31 @@ _hint = parseText format [
 	_misPict,
 	_misDesc	
 ];
-
 [nil,nil,rHINT,_hint] call RE;
+
+/* You need to have a broadcaster in your mission file for this bit below to work! */
+_compoundMSG = format ["<t align='left' size='0.7'>%1</t>",_misType];
+_compoundMSG = _compoundMSG + format ["<img size='0.8' align='left' image='%1'/>",_misPict];
+_compoundMSG = _compoundMSG + format ["<t align='left' size='0.7'>%1</t>",_misName];
+
+compoundMessage = [_compoundMSG];
+publicVariable "compoundMessage";
+
+/* Copy below into your mission files init.sqf and uncomment it! */
+/*
+ if (!isDedicated) then
+	{
+		fnc_compound_message = {
+		private ["_finaltxt"];
+			_finaltxt = _this select 0;
+			[
+				_finaltxt,
+				safeZoneX+0.05,
+				safeZoneY+0.1,
+				30,
+				0.5
+			] spawn BIS_fnc_dynamicText;
+		};
+		"compoundMessage" addPublicVariableEventHandler {(_this select 1) call fnc_compound_message;};
+	};
+*/

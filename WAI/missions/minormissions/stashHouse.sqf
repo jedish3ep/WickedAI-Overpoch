@@ -113,7 +113,7 @@ if (_playerPresent) then
 		[_box] call markCrates;
 		[_box1] call markCrates;
 
-		uiSleep 5*60;
+		uiSleep 300;
 		["minorclean"] call WAIcleanup;
 	}
 		else

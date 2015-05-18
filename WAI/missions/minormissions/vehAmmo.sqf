@@ -90,7 +90,7 @@ if (_playerPresent) then
 				[_box1] call Chain_Bullet_Box;
 				[_box1] call markCrates;
 			};		
-		uiSleep 5*60;
+		uiSleep 300;
 		["minorclean"] call WAIcleanup;
 	} 
 		else
