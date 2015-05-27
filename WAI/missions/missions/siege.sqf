@@ -1,4 +1,4 @@
-private ["_fileName", "_missionType", "_positionarray", "_position", "_missionName", "_difficulty", "_picture", "_missionDesc", "_winMessage", "_failMessage", "_baserunover", "_baserunover1", "_baserunover2", "_baserunover3", "_base", "_tanktraps", "_rndnum", "_missiontimeout", "_cleanmission", "_playerPresent", "_starttime", "_currenttime", "_box", "_box2"];
+private ["_fileName", "_missionType", "_positionarray", "_position", "_missionName", "_difficulty", "_picture", "_missionDesc", "_winMessage", "_failMessage", "_objArray", "_baseHQ", "_tanktraps", "_rndnum", "_missiontimeout", "_cleanmission", "_playerPresent", "_starttime", "_currenttime", "_box", "_box2"];
 
 _fileName = "siege";
 _missionType = "Major Mission";
@@ -22,36 +22,38 @@ diag_log format["WAI: Mission %1 Started At %2",_fileName,_position];
 sleep 0.1;
 
 /* Scenery */
-_baserunover = createVehicle [(_position select 0) + 7, (_position select 1) + 5,-0.2],[], 0, "CAN_COLLIDE"];
-_baserunover1 = createVehicle [(_position select 0) - 6, (_position select 1) + 2,-0.2],[], 0, "CAN_COLLIDE"];
-_baserunover2 = createVehicle [(_position select 0) + 3, (_position select 1) - 15,-0.2],[], 0, "CAN_COLLIDE"];
+for "_i" from 1 to 8 do
+	{
+		private ["_scenery","_sceneryPos","_objType"];
+		_objArray = ["HMMWVWreck","BRDMWreck","LADAWreck","SKODAWreck","datsun02Wreck","hiluxWreck","UralWreck","UH1Wreck"];
+		_objType = _objArray call BIS_fnc_selectRandom;
+		
+		_sceneryPos = _position findEmptyPosition [10,150,_objType];
+		_scenery = _objType createVehicle _sceneryPos;
+		majorBldList = majorBldList + [_scenery];
+	};
 
-_baserunover setDir round(random 360);
-_baserunover1 setDir round(random 360);
-_baserunover2 setDir round(random 360);
+_baseHQ = createVehicle ["M1130_HQ_unfolded_EP1",_position,[], 0, "CAN_COLLIDE"];
+_baseHQ setVectorUp surfaceNormal position _baseHQ;
+majorBldList = majorBldList + [_baseHQ];
 
-_baserunover3 = createVehicle ["M1130_HQ_unfolded_EP1",[(_position select 0), (_position select 1),-0.2],[], 0, "CAN_COLLIDE"];
-_baserunover3 setDir 270;
-
-_base = [_baserunover,_baserunover1,_baserunover2,_baserunover3];
-
-{ majorBldList = majorBldList + [_x]; } forEach _base;
-{ _x setVectorUp surfaceNormal position _x; } count _base;
 
 /* Tank Traps */
 _tanktraps = [_position] call tank_traps;
 
-/* Troops */
-_rndnum = round (random 3) + 4;
-[[_position select 0, _position select 1, 0],_rndnum,_difficulty,"Random",4,"","FR_OHara_DZ","Random","major","WAImajorArray"] call spawn_group;sleep 0.1;
-[[_position select 0, _position select 1, 0],4,_difficulty,"Random",4,"","GUE_Soldier_Sniper_DZ","Random","major","WAImajorArray"] call spawn_group;sleep 0.1;
-[[_position select 0, _position select 1, 0],4,_difficulty,"Random",4,"","GUE_Soldier_MG_DZ","Random","major","WAImajorArray"] call spawn_group;sleep 0.1;
-[[_position select 0, _position select 1, 0],4,_difficulty,"Random",4,"","GUE_Soldier_Crew_DZ","Random","major","WAImajorArray"] call spawn_group;sleep 0.1;
-[[_position select 0, _position select 1, 0],4,_difficulty,"Random",4,"","GUE_Soldier_MG_DZ","Random","major","WAImajorArray"] call spawn_group;sleep 0.1;
- 
-/* Static Weapons */
-[[[(_position select 0) + 5, (_position select 1) + 5, 0]],"M2StaticMG",0.8,"",1,2,"","Random","major"] call spawn_static;
-[[[(_position select 0) - 10, (_position select 1) + 10, 0]],"M2StaticMG",0.8,"",1,2,"","Random","major"] call spawn_static;
+/* Troops and Turrets */
+for "_i" from 1 to 4 do
+{
+	private ["_skinArray","_selSkin","_rndnum","_staticPos"];
+	_skinArray = ["FR_OHara_DZ","GUE_Soldier_Sniper_DZ","GUE_Soldier_MG_DZ","GUE_Soldier_Crew_DZ"];
+	_selSkin = _skinArray call BIS_fnc_selectRandom;
+	_rndnum = round (random 3) + 4;
+	[_position,_rndnum,_difficulty,"Random",4,"",_selSkin,"Random","major","WAImajorArray"] call spawn_group;
+	sleep 0.1;
+	_staticPos = _position findEmptyPosition [5,25,"M2StaticMG"];
+	[[_staticPos],"M2StaticMG",0.8,"",1,2,"","Random","major"] call spawn_static;	
+};
+
 
 _missiontimeout = true;
 _cleanmission = false;
@@ -75,10 +77,13 @@ if (_playerPresent) then
 		[nil,nil,rTitleText,format["%1",_winMessage], "PLAIN",10] call RE;
 		
 		// wait for mission complete then spawn crates
-
-		_box = createVehicle ["RUVehicleBox",[(_position select 0) + 5,(_position select 1),0], [], 0, "CAN_COLLIDE"];
+		
+		_boxPos = _position findEmptyPosition [1,10,"RUVehicleBox"];
+		_box = createVehicle ["RUVehicleBox",_boxPos, [], 0, "CAN_COLLIDE"];
 		[_box] call Extra_Large_Gun_Box1;//Extra Large Gun Box
-		_box2 = createVehicle ["BAF_VehicleBox",[(_position select 0) - 10,(_position select 1) - 10,0], [], 0, "CAN_COLLIDE"];
+		
+		_box2Pos = _position findEmptyPosition [1,10,"BAF_VehicleBox"];
+		_box2 = createVehicle ["BAF_VehicleBox",_box2Pos, [], 0, "CAN_COLLIDE"];
 		[_box2] call Sniper_Gun_Box;//Sniper Box
 
 		// mark crates with smoke/flares

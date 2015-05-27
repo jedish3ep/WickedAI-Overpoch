@@ -6,16 +6,18 @@
 	wai_missions = 
 		[
 			"bandit_base",
+			"barracksTakeover",
 			"convoy",
 			"disabled_milchopper",
+			"fobAardvark",
 			"jewelheist",
 			"mayors_mansion",
 			"milCamp",
 			"milVeh",
 			"MV22",
-			"siege",
 			"bosMilVeh",
-			"rusBase"
+			"rusBase",
+			"siege"
 		];
 	
 // MINOR MISSIONS //
@@ -25,20 +27,20 @@
 
 	wai_minor_missions = 
 		[
-			"easyCivilianVehicle","easyCivilianVehicle","easyCivilianVehicle","easyCivilianVehicle",
-			"easyWeaponsCrate","easyWeaponsCrate","easyWeaponsCrate",
-			"easyAntiAir","easyAntiAir","easyAntiAir",
-			"easyDickMove","easyDickMove",
-			"sniperSquad","sniperSquad","sniperSquad",
-			"civVeh","civVeh","civVeh",
-			"vehAmmo","vehAmmo","vehAmmo",
-			"m2hummer","m2hummer",
-			"banditsquad","banditsquad","banditsquad",
-			"stashHouse","stashHouse","stashHouse",
-			"pervertPriest","pervertPriest",
-			"humveeCrash","humveeCrash","humveeCrash",
-			"wepsTruck","wepsTruck","wepsTruck",
-			"strandedAPC"
+			"easyCivilianVehicle",
+			"easyWeaponsCrate",
+			"uralAmbush",
+			"easyAntiAir",
+			"easyDickMove",
+			"sniperSquad",
+			"civVeh",
+			"vehAmmo",
+			"m2hummer",
+			"banditsquad",
+			"stashHouse",
+			"pervertPriest",
+			"humveeCrash",
+			"wepsTruck"
 		];
 
 

@@ -1,4 +1,4 @@
-private ["_fileName", "_missionType", "_position", "_veharray", "_vehclass", "_vehname", "_picture", "_missionName", "_difficulty", "_missionDesc", "_winMessage", "_failMessage", "_destroyedMessage", "_skinArray", "_skin", "_veh", "_vehdir",  "_missiontimeout", "_cleanmission", "_playerPresent", "_endMissionFail", "_starttime", "_currenttime"];
+private ["_fileName", "_missionType", "_position", "_veharray", "_vehclass", "_vehname", "_picture", "_missionName", "_difficulty", "_missionDesc", "_winMessage", "_failMessage", "_destroyedMessage", "_skinArray", "_skin", "_skin2", "_veh", "_vehdir",  "_missiontimeout", "_cleanmission", "_playerPresent", "_endMissionFail", "_starttime", "_currenttime"];
 
 _fileName = "easyDickMove";
 _missionType = "Minor Mission";
@@ -17,6 +17,7 @@ _destroyedMessage = format["Oh wow! you truly are a cunt. You blew up their Star
 
 _skinArray = ["Survivor2_DZ","Rocker2_DZ","Rocker1_DZ","Rocker4_DZ","Graves_Light_DZ","CZ_Soldier_Sniper_EP1_DZ","Soldier_Sniper_PMC_DZ","Pilot_EP1_DZ"];
 _skin = _skinArray call BIS_fnc_selectRandom; 
+_skin2 = _skinArray call BIS_fnc_selectRandom; 
 
 /* create marker and display messages */
 diag_log format["WAI: Mission %1 Started At %2",_fileName,_position];
@@ -37,12 +38,24 @@ sleep 0.1;
 
 //Troops
 [	[_position select 0, _position select 1, 0],
-	4,				//Number Of units
-	"easy",			//Skill level 0-1. Has no effect if using custom skills
+	2,				//Number Of units
+	_difficulty,			//Skill level 0-1. Has no effect if using custom skills
 	"Random",		//Primary gun set number. "Random" for random weapon set.
 	3,				//Number of magazines
 	"",				//Backpack "" for random or classname here.
 	_skin,			//Skin "" for random or classname here.
+	"Random",		//Gearset number. "Random" for random gear set.
+	"minor",			
+	"WAIminorArray"
+] call spawn_group;
+
+[	[_position select 0, _position select 1, 0],
+	3,				//Number Of units
+	_difficulty,		//Skill level 0-1. Has no effect if using custom skills
+	"Random",		//Primary gun set number. "Random" for random weapon set.
+	3,				//Number of magazines
+	"",				//Backpack "" for random or classname here.
+	_skin2,			//Skin "" for random or classname here.
 	"Random",		//Gearset number. "Random" for random gear set.
 	"minor",			
 	"WAIminorArray"
@@ -93,7 +106,7 @@ if (_playerPresent && !_endMissionFail) then {
 	clean_running_minor_mission = True;
 	deleteVehicle _veh;
 	["minorclean"] call WAIcleanup;
-		diag_log format["WAI: Mission %1 Timed Out At %2",_fileName,_position];
+	diag_log format["WAI: Mission %1 Timed Out At %2",_fileName,_position];
 	[nil,nil,rTitleText,format["%1",_failMessage], "PLAIN",10] call RE;
 };
 minor_missionrunning = false;

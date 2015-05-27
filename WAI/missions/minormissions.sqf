@@ -36,9 +36,13 @@ _result = 0;
 				} forEach allUnits;
 				// empty the existing array
 				WAIminorArray = [];
-
+				
 				clean_running_minor_mission = False;
 				_minormission = wai_minor_missions call BIS_fnc_selectRandom;
+				
+				_randNum=floor(random 100);
+				if (_randNum == 39) then {_minormission = "strandedAPC";};
+				
 				execVM format ["\z\addons\dayz_server\WAI\missions\minormissions\%1.sqf",_minormission];
 				minor_missionrunning = true;
 				diag_log format["WAI: Starting Minor Mission %1",_minormission];
