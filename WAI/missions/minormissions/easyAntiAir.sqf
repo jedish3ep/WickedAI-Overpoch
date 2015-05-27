@@ -25,22 +25,14 @@ _base1 = createVehicle ["TK_GUE_WarfareBAntiAirRadar_EP1",[(_position select 0),
 _base2 = createVehicle ["FlagCarrierRU",[(_position select 0) + 1.0205, (_position select 1) - 16.6372],[], 0, "CAN_COLLIDE"];
 _base3 = createVehicle ["FlagCarrierRU",[(_position select 0) - 0.7871, (_position select 1) + 9.979],[], 0, "CAN_COLLIDE"];
 
+[_position,6,25,300,"minor"] call fn_createWrecks;
 _scenery = [_base1,_base2,_base3];
+
 { minorBldList = minorBldList + [_x]; } forEach _scenery;
 { _x setVectorUp surfaceNormal position _x; } count _scenery;
 
 /* Insurgents */
-[	[_position select 0, _position select 1, 0],
-	6,			//Number Of units
-	"easy",		//Skill level 0-1. Has no effect if using custom skills
-	"Random",	//Primary gun set number. "Random" for random weapon set.
-	3,			//Number of magazines
-	"",			//Backpack "" for random or classname here.
-	"",			//Skin "" for random or classname here.
-	"Random",	//Gearset number. "Random" for random gear set.
-	"minor",			
-	"WAIminorArray"
-] call spawn_group;
+[_position,6,"easy","Random",3,"","","Random","minor","WAIminorArray"] call spawn_group;
 
 /* Anti Aircraft */
 [[[(_position select 0), (_position select 1) + 21, 0],[(_position select 0), (_position select 1) - 25, 0]], //position(s) (can be multiple).

@@ -1,4 +1,4 @@
-private ["_fileName", "_missionType", "_position", "_veharray", "_vehclass", "_vehname", "_picture", "_missionName", "_difficulty", "_missionDesc", "_winMessage", "_failMessage", "_veh", "_vehdir", "_objPosition", "_rndnum", "_missiontimeout", "_cleanmission", "_playerPresent", "_starttime", "_currenttime"];
+private ["_fileName", "_missionType", "_position", "_veharray", "_vehclass", "_vehname", "_picture", "_missionName", "_difficulty", "_missionDesc", "_winMessage", "_failMessage", "_veh", "_vehdir", "_objPosition", "_missiontimeout", "_cleanmission", "_playerPresent", "_starttime", "_currenttime", "_skinArray"];
 
 _fileName = "civVeh";
 _missionType = "Minor Mission";
@@ -38,43 +38,16 @@ diag_log format["WAI: Mission civVeh spawned a %1",_vehname];
 _objPosition = getPosATL _veh;
 
 //Troops
-_rndnum = round (random 3) + 4;
-[[_position select 0, _position select 1, 0],                  //position
-_rndnum,				  //Number Of units
-"normal",					      //Skill level 0-1. Has no effect if using custom skills
-"Random",			      //Primary gun set number. "Random" for random weapon set.
-4,						  //Number of magazines
-"",						  //Backpack "" for random or classname here.
-"Soldier_TL_PMC",						  //Skin "" for random or classname here.
-"Random",				  //Gearset number. "Random" for random gear set.
-"minor",
-"WAIminorArray"
-] call spawn_group;
-sleep 0.1;
-[[_position select 0, _position select 1, 0],
-_rndnum,
-"normal",
-"Random",
-4,
-"",
-"Soldier_MG_PKM_PMC",
-"Random",
-"minor",
-"WAIminorArray"
-] call spawn_group;
-sleep 0.1;
-[[_position select 0, _position select 1, 0],
-2,
-"hard",
-"Random",
-4,
-"",
-"Soldier_Sniper_KSVK_PMC",
-"Random",
-"minor",
-"WAIminorArray"
-] call spawn_group;
-sleep 0.1;
+_skinArray = ["Soldier_TL_PMC","Soldier_MG_PKM_PMC","Soldier_Sniper_KSVK_PMC"];
+for "_i" from 1 to 3 do
+	{
+		private ["_rndnum"."_skinSel"];
+		_rndnum = round (random 3) + 4;
+		_skinSel = _skinArray call BIS_fnc_selectRandom;
+
+		[_position,_rndnum,"normal","Random",4,"",_skinSel,"Random","minor","WAIminorArray"] call spawn_group;
+		sleep 0.1;
+	};
 
 
 _missiontimeout = true;
