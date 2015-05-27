@@ -22,20 +22,9 @@ diag_log format["WAI: Mission %1 Started At %2",_fileName,_position];
 [nil,nil,rTitleText,format["%1",_missionDesc], "PLAIN",10] call RE;
 sleep 0.1;
 
-/* Tank Traps */
-_tanktraps = [_position] call tank_traps;
 /* Scenery */
-for "_i" from 1 to 6 do
-	{
-		private ["_scenery","_sceneryPos","_objType"];
-		_objArray = ["HMMWVWreck","BRDMWreck","LADAWreck","SKODAWreck","datsun02Wreck","hiluxWreck","UralWreck","UH1Wreck"];
-		_objType = _objArray call BIS_fnc_selectRandom;
-		
-		_sceneryPos = _position findEmptyPosition [25,200,_objType];
-		_scenery = _objType createVehicle _sceneryPos;
-		majorBldList = majorBldList + [_scenery];
-	};
-
+[_position,6,25,200,"major"] call fn_createWrecks;
+_tanktraps = [_position] call tank_traps;
 
 /* Troops */
 for "_i" from 1 to 3 do
@@ -59,15 +48,6 @@ while {_missiontimeout} do
 	{
 		sleep 5;
 		_currenttime = floor(time);
-		{if((isPlayer _x) AND (_x distance _position <= 150)) then {_playerPresent = true};}forEach playableUnits;
-		if (_currenttime - _starttime >= wai_mission_timeout) then {_cleanmission = true;};
-		if ((_playerPresent) OR (_cleanmission)) then {_missiontimeout = false;};
-	};
-	
-while {_missiontimeout} do
-	{
-		sleep 5;
-		_currenttime = floor(time);
 		{if((isPlayer _x) AND (_x distance _position <= 300)) then {_playerPresent = true};}forEach playableUnits;
 		if (_currenttime - _starttime >= wai_mission_timeout) then {_cleanmission = true;};
 		if ((_playerPresent) OR (_cleanmission)) then {_missiontimeout = false;};
@@ -81,11 +61,12 @@ if (_playerPresent) then
 		// wait for mission complete. then spawn box and save vehicle to hive
 
 		_box0Pos = _position findEmptyPosition [0,10,"BAF_VehicleBox"];
-		_box1Pos = _position findEmptyPosition [0,10,"BAF_VehicleBox"];
-		_box2Pos = _position findEmptyPosition [0,20,"USBasicWeaponsBox"];
-		
 		_box0 = createVehicle ["BAF_VehicleBox",_box0Pos, [], 0, "CAN_COLLIDE"];
+		
+		_box1Pos = _position findEmptyPosition [0,10,"BAF_VehicleBox"];
 		_box1 = createVehicle ["BAF_VehicleBox",_box1Pos, [], 0, "CAN_COLLIDE"];
+		
+		_box2Pos = _position findEmptyPosition [0,20,"USBasicWeaponsBox"];
 		_box2 = createVehicle ["USBasicWeaponsBox",_box2Pos, [], 0, "CAN_COLLIDE"];
 		
 		[_box0] call Extra_Large_Gun_Box1;
@@ -107,15 +88,7 @@ if (_playerPresent) then
 		[nil,nil,rTitleText,format["%1",_failMessage], "PLAIN",10] call RE;
 		uiSleep 30;
 		/* Mission Failed - Obliterate the Area */
-		_bomb = "Bo_GBU12_LGB" createVehicle [(_position select 0) - 10,(_position select 1), 50]; 
-		sleep 1;
-		_bomb = "Bo_GBU12_LGB" createVehicle [(_position select 0) + 10,(_position select 1), 50];
-		sleep 1;
-		_bomb = "Bo_GBU12_LGB" createVehicle [(_position select 0),(_position select 1) + 25, 50];
-		sleep 1;
-		_bomb = "Bo_GBU12_LGB" createVehicle [(_position select 0),(_position select 1) - 25, 50];	
-		sleep 1;
-		_bomb = "Bo_GBU12_LGB" createVehicle [(_position select 0) - 5,(_position select 1) - 15, 50];	
+		[_position,6] call fn_bombArea;
 		uiSleep 150;
 		["majorclean"] call WAIcleanup;
 	};

@@ -1,4 +1,4 @@
-private ["_fileName", "_missionType", "_position", "_vehclass", "_vehname", "_picture", "_missionName", "_difficulty", "_missionDesc", "_winMessage", "_failMessage", "_tent", "_veh", "_rndnum", "_missiontimeout", "_cleanmission", "_playerPresent", "_starttime", "_currenttime", "_box"];
+private ["_fileName", "_missionType", "_position", "_vehclass", "_vehname", "_picture", "_missionName", "_difficulty", "_missionDesc", "_winMessage", "_failMessage", "_tent", "_veh", "_missiontimeout", "_cleanmission", "_playerPresent", "_starttime", "_currenttime", "_box"];
 
 _fileName = "MV22";
 _missionType = "Major Mission";
@@ -26,6 +26,8 @@ sleep 0.1;
 _tent = createVehicle ["USMC_WarfareBFieldHospital",[(_position select 0) - 20,(_position select 1) - 20,0], [], 0, "CAN_COLLIDE"];
 majorBldList = majorBldList + [_tent];
 
+[_position,6,10,500,"major"] call fn_createWrecks;
+
 /* Osprey */
 _veh = createVehicle [_vehclass,_position, [], 0, "CAN_COLLIDE"];
 [_veh,0,0.75] call spawnTempVehicle;
@@ -33,64 +35,14 @@ _veh setVehicleLock "LOCKED";
 _veh setVariable ["R3F_LOG_disabled",true,true];
 
 /* Troops */
-_rndnum = round (random 3) + 4;
-
-[
-	[_position select 0, _position select 1, 0],                  //position
-	_rndnum,				  //Number Of units
-	_difficulty,			  //Skill level
-	"Random",			      //Primary gun set number. "Random" for random weapon set.
-	4,						  //Number of magazines
-	"",						  //Backpack "" for random or classname here.
-	"",						  //Skin "" for random or classname here.
-	"Random",				  //Gearset number. "Random" for random gear set.
-	"major",
-	"WAImajorArray"
-] call spawn_group;
-sleep 0.1;
-
-[
-	[_position select 0, _position select 1, 0],                  //position
-	4,						  //Number Of units
-	_difficulty,					      //Skill level
-	"Random",			      //Primary gun set number. "Random" for random weapon set.
-	4,						  //Number of magazines
-	"",						  //Backpack "" for random or classname here.
-	"",						  //Skin "" for random or classname here.
-	"Random",				  //Gearset number. "Random" for random gear set.
-	"major",
-	"WAImajorArray"
-] call spawn_group;
-sleep 0.1;
-
-[
-	[_position select 0, _position select 1, 0],                  //position
-	4,						  //Number Of units
-	_difficulty,					      //Skill level
-	"Random",			      //Primary gun set number. "Random" for random weapon set.
-	4,						  //Number of magazines
-	"",						  //Backpack "" for random or classname here.
-	"",						  //Skin "" for random or classname here.
-	"Random",				  //Gearset number. "Random" for random gear set.
-	"major",
-	"WAImajorArray"
-] call spawn_group;
-sleep 0.1;
-
-[
-	[_position select 0, _position select 1, 0],                  //position
-	4,						  //Number Of units
-	_difficulty,					      //Skill level
-	"Random",			      //Primary gun set number. "Random" for random weapon set.
-	4,						  //Number of magazines
-	"",						  //Backpack "" for random or classname here.
-	"",						  //Skin "" for random or classname here.
-	"Random",				  //Gearset number. "Random" for random gear set.
-	"major",
-	"WAImajorArray"
-] call spawn_group;
-sleep 0.1;
-
+for "_i" from 1 to 3 do 
+	{
+		private ["_rndnum"];
+		_rndnum = round (random 3) + 4;
+		[_position,4,_difficulty,"Random",_rndnum,"","","Random","major","WAImajorArray"] call spawn_group;
+		sleep 0.1;
+	};
+	
 //Turrets
 [
 	[

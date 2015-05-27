@@ -22,16 +22,7 @@ diag_log format["WAI: Mission %1 Started At %2",_fileName,_position];
 sleep 0.1;
 
 /* Scenery */
-for "_i" from 1 to 8 do
-	{
-		private ["_scenery","_sceneryPos","_objType"];
-		_objArray = ["HMMWVWreck","BRDMWreck","LADAWreck","SKODAWreck","datsun02Wreck","hiluxWreck","UralWreck","UH1Wreck"];
-		_objType = _objArray call BIS_fnc_selectRandom;
-		
-		_sceneryPos = _position findEmptyPosition [10,150,_objType];
-		_scenery = _objType createVehicle _sceneryPos;
-		majorBldList = majorBldList + [_scenery];
-	};
+[_position,8,10,150,"major"] call fn_createWrecks;
 
 _baseHQ = createVehicle ["M1130_HQ_unfolded_EP1",_position,[], 0, "CAN_COLLIDE"];
 _baseHQ setVectorUp surfaceNormal position _baseHQ;
@@ -50,7 +41,7 @@ for "_i" from 1 to 4 do
 	_rndnum = round (random 3) + 4;
 	[_position,_rndnum,_difficulty,"Random",4,"",_selSkin,"Random","major","WAImajorArray"] call spawn_group;
 	sleep 0.1;
-	_staticPos = _position findEmptyPosition [5,25,"M2StaticMG"];
+	_staticPos = _position findEmptyPosition [5,50,"M2StaticMG"];
 	[[_staticPos],"M2StaticMG",0.8,"",1,2,"","Random","major"] call spawn_static;	
 };
 

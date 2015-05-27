@@ -1,4 +1,4 @@
-private ["_fileName", "_missionType", "_position", "_missionName", "_difficulty", "_worldName", "_picture", "_missionDesc", "_winMessage", "_failMessage", "_base1", "_base2", "_base3", "_base4", "_base5", "_base6", "_base7", "_base8", "_base9", "_base10", "_base11", "_base12", "_base", "_rndnum", "_missiontimeout", "_cleanmission", "_playerPresent", "_starttime", "_currenttime", "_box0", "_box1", "_bomb"];
+private ["_fileName", "_missionType", "_position", "_missionName", "_difficulty", "_worldName", "_picture", "_missionDesc", "_winMessage", "_failMessage", "_base1", "_base2", "_base3", "_base4", "_base5", "_base6", "_base7", "_base8", "_base9", "_base10", "_base11", "_base12", "_base", "_missiontimeout", "_cleanmission", "_playerPresent", "_starttime", "_currenttime", "_box0", "_box1", "_bomb"];
 
 _fileName = "fobAardvark";
 _missionType = "Major Mission";
@@ -47,15 +47,14 @@ _base = [_base1,_base2,_base3,_base4,_base5,_base6,_base7,_base8,_base9,_base10,
 { majorBldList = majorBldList + [_x]; } forEach _base;
 
 /* Troops */
-_rndnum = round (random 3) + 4;
-[[_position select 0, _position select 1, 0],_rndnum,_difficulty,"Random",4,"","","Random","major","WAImajorArray"] call spawn_group;
-sleep 0.1;
-[[_position select 0, _position select 1, 0],4,_difficulty,"Random",4,"","","Random","major","WAImajorArray"] call spawn_group;
-sleep 0.1;
-[[_position select 0, _position select 1, 0],4,_difficulty,"Random",4,"","","Random","major","WAImajorArray"] call spawn_group;
-sleep 0.1;
-[[_position select 0, _position select 1, 0],4,_difficulty,"Random",4,"","","Random","major","WAImajorArray"] call spawn_group;
-sleep 0.1;
+for "_i" from 1 to 4 do
+	{
+		private ["_rndnum"];
+		_rndnum = round (random 3) + 4;
+		[_position,_rndnum,_difficulty,"Random",4,"","","Random","major","WAImajorArray"] call spawn_group;
+		sleep 0.1;
+	};
+
 /* Static Weapons */
 [[[(_position select 0) + 0.916504, (_position select 1) -2.87305, 0.01]],"KORD_high_TK_EP1",0.8,"",1,2,"","Random","major"] call spawn_static;
 [[[(_position select 0) - 1.63867, (_position select 1) + 2.79004, 0.01]],"KORD_high_UN_EP1",0.8,"",1,2,"","Random","major"] call spawn_static;
@@ -106,15 +105,8 @@ if (_playerPresent) then
 		[nil,nil,rTitleText,"Bombs have been launched at FOB Aardvark you have 30 seconds. GTFO of there!!!!", "PLAIN",10] call RE;
 		uiSleep 30;
 		/* Mission Failed - Obliterate the Area */
-		_bomb = "Bo_GBU12_LGB" createVehicle [(_position select 0),(_position select 1), 50]; 
-		sleep 1;
-		_bomb = "Bo_GBU12_LGB" createVehicle [(_position select 0) + 5,(_position select 1) - 5, 50];
-		sleep 1;
-		_bomb = "Bo_GBU12_LGB" createVehicle [(_position select 0),(_position select 1) + 10, 50];
-		sleep 1;
-		_bomb = "Bo_GBU12_LGB" createVehicle [(_position select 0) -25,(_position select 1) + 50, 50];	
-		sleep 1;
-		_bomb = "Bo_GBU12_LGB" createVehicle [(_position select 0) + 200,(_position select 1) + 10, 50];	
+		[_position,10] call fn_bombArea;
+		
 		uiSleep 150;
 		["majorclean"] call WAIcleanup;
 		diag_log format["WAI: Mission %1 Timed Out At %2",_fileName,_position];
