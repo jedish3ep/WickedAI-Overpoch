@@ -19,22 +19,8 @@ diag_log format["WAI: Mission %1 Started At %2",_fileName,_position];
 [nil,nil,rTitleText,format["%1",_missionDesc], "PLAIN",10] call RE;
 sleep 0.1;
 
-sleep 1;
 _rndnum = round (random 3) + 5;
-
-[[_position select 0, _position select 1, 0],
-	_rndnum,			//Number Of units
-	_difficulty,		//Skill level "normal" "hard" "extreme" or "random"
-	"Random",		//Primary gun set number. "Random" for random weapon set.
-	4,				//Number of magazines
-	"",				//Backpack "" for random or classname here.
-	"",				//Skin "" for random or classname here.
-	"Random",		//Gearset number. "Random" for random gear set.
-	"minor",			//mission type
-	"WAIminorArray"
-] call spawn_group;
-
-sleep 1;
+[_position,_rndnum,_difficulty,"Random",4,"","","Random","minor","WAIminorArray"] call spawn_group;
 
 _missiontimeout = true;
 _cleanmission = false;
@@ -56,16 +42,13 @@ if (_playerPresent) then
 		
 		diag_log format["WAI: Mission %1 Ended At %2",_fileName,_position];
 		[nil,nil,rTitleText,format["%1",_winMessage], "PLAIN",10] call RE;
-		
-		uiSleep 300;
 		["minorclean"] call WAIcleanup;
 	} 
 		else 
 	{
 		clean_running_minor_mission = True;
-		["minorclean"] call WAIcleanup;
-		
 		diag_log format["WAI: Mission %1 Timed Out At %2",_fileName,_position];
 		[nil,nil,rTitleText,format["%1",_failMessage], "PLAIN",10] call RE;
+		["minorclean"] call WAIcleanup;
 	};
 minor_missionrunning = false;

@@ -8,8 +8,8 @@ clearMagazineCargoGlobal _box;
 clearBackpackCargoGlobal _box;
 _box addBackpackCargoGlobal ["DZ_LargeGunBag_EP1", 1];
 
-BoxRandomizer=floor(random 3);
-	if (BoxRandomizer == 0) then {
+_boxRand=floor(random 3);
+	if (_boxRand == 0) then {
 		_box addWeaponCargoGlobal ["DMR_DZ", 1];
 		_box addWeaponCargoGlobal ["BAF_LRR_scoped_W", 1];
 		_box addWeaponCargoGlobal ["M4A3_RCO_GL_EP1", 1];
@@ -40,7 +40,7 @@ BoxRandomizer=floor(random 3);
 		_box addMagazineCargoGlobal ["20Rnd_B_AA12_HE", 4];
 		_box addMagazineCargoGlobal ["MAAWS_HEAT", 2];
 	};
-	if (BoxRandomizer == 1) then {
+	if (_boxRand == 1) then {
 		_box addWeaponCargoGlobal ["DMR_DZ", 1];
 		_box addWeaponCargoGlobal ["BAF_LRR_scoped_W", 1];
 		_box addWeaponCargoGlobal ["M4A3_RCO_GL_EP1", 1];
@@ -90,7 +90,7 @@ BoxRandomizer=floor(random 3);
 		_box addWeaponCargoGlobal ["NVGoggles", 2];
 		_box addWeaponCargoGlobal ["ItemGPS", 1];
 	};
-if (BoxRandomizer == 2) then {
+if (_boxRand == 2) then {
 		// RIFLES
 		_box addWeaponCargoGlobal ["DMR_DZ", 1];
 		_box addWeaponCargoGlobal ["M40A3", 1];

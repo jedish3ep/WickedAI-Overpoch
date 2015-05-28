@@ -1,4 +1,4 @@
-private ["_fileName", "_missionType", "_position", "_difficulty", "_vehclass", "_vehname", "_missionName", "_picture", "_missionDesc", "_winMessage", "_failMessage", "_tent", "_veh", "_vehdir", "_objPosition", "_rndnum", "_missiontimeout", "_cleanmission", "_playerPresent", "_starttime", "_currenttime", "_box", "_box1"];
+private ["_fileName", "_missionType", "_position", "_difficulty", "_vehclass", "_vehname", "_missionName", "_picture", "_missionDesc", "_winMessage", "_failMessage", "_tent", "_veh", "_vehdir", "_objPosition", "_missiontimeout", "_cleanmission", "_playerPresent", "_starttime", "_currenttime", "_box", "_box1", "_skinArray"];
 
 _fileName = "milVeh";
 _missionType = "Major Mission";
@@ -43,17 +43,21 @@ diag_log format["WAI: Mission milVeh spawned a %1",_vehname];
 _objPosition = getPosATL _veh;
 
 /* Troops */
-_rndnum = round (random 3) + 4;
-[[_position select 0, _position select 1, 0],_rndnum,_difficulty,"Random",4,"","RU_Commander","Random","major","WAImajorArray"] call spawn_group;sleep 0.1;
-[[_position select 0, _position select 1, 0],4,_difficulty,"Random",4,"","RU_Soldier_HAT","Random","major","WAImajorArray"] call spawn_group;sleep 0.1;
-[[_position select 0, _position select 1, 0],4,_difficulty,"Random",4,"","MVD_Soldier_Marksman","Random","major","WAImajorArray"] call spawn_group;sleep 0.1;
-[[_position select 0, _position select 1, 0],4,_difficulty,"Random",4,"","RUS_Soldier3","Random","major","WAImajorArray"] call spawn_group;sleep 0.1;
+_skinArray = ["RU_Commander","RU_Soldier_HAT","MVD_Soldier_Marksman","RUS_Soldier3","RU_Soldier_Pilot"];
+for "_i" from 1 to 4 do 
+	{
+		private ["_rndnum","_skinSel"];
+		_rndnum = round (random 3) + 4;
+		_skinSel = _skinArray call BIS_fnc_selectRandom;
+		[_position,_rndnum,_difficulty,"Random",4,"",_skinSel,"Random","major","WAImajorArray"] call spawn_group;
+		sleep 0.1;		
+	};
 
 /* Static Guns */
 [[[(_position select 0) + 10, (_position select 1) + 10, 0],[(_position select 0) + 10, (_position select 1) - 10, 0]],"M2StaticMG",0.8,"RU_Soldier_Pilot",0,2,"","Random","major"] call spawn_static;
 
 /* Paradrop */
-[[(_position select 0),(_position select 1),0],[(_position select 0) + 1500,(_position select 1),0],400,"BAF_Merlin_HC3_D",6,_difficulty,"Random",4,"","USMC_LHD_Crew_Blue","Random",False,"major","WAImajorArray"] spawn heli_para;
+[[(_position select 0),(_position select 1),0],[(_position select 0) + 1500,(_position select 1),0],400,"BAF_Merlin_HC3_D",6,_difficulty,"Random",4,"","RU_Soldier_Pilot","Random",False,"major","WAImajorArray"] spawn heli_para;
 
 _missiontimeout = true;
 _cleanmission = false;
@@ -96,10 +100,11 @@ if (_playerPresent) then
 		else
 	{
 		clean_running_mission = True;
-		deleteVehicle _veh;
-		["majorclean"] call WAIcleanup;
-		
 		diag_log format["WAI: Mission %1 Timed Out At %2",_fileName,_position];
 		[nil,nil,rTitleText,format["%1",_failMessage], "PLAIN",10] call RE;
+		sleep 30;
+		deleteVehicle _veh;
+		["majorclean"] call WAIcleanup;		
 	};
+	
 missionrunning = false;

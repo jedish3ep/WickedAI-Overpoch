@@ -49,44 +49,12 @@ _base = [_crash,_body,_body1,_body2,_body3];
 	_objPosition = getPosATL _veh;
 
 /* Troops */
-[	[(_position select 0) - 6.9458,(_position select 1) - 3.5352, 0],
-	4,			//Number Of units
-	_difficulty,		//Skill level 0-1. Has no effect if using custom skills
-	"Random",		//Primary gun set number. "Random" for random weapon set.
-	3,				//Number of magazines
-	"",				//Backpack "" for random or classname here.
-	"",				//Skin "" for random or classname here.
-	"Random",		//Gearset number. "Random" for random gear set.
-	"minor",			
-	"WAIminorArray"
-] call spawn_group;
-sleep 0.1;
+for "_i" from 1 to 3 do
+	{
+		[_position,4,_difficulty,"Random",3,"","","Random","minor","WAIminorArray"] call spawn_group;
+		sleep 0.1;
+	};
 
-[	[(_position select 0) + 4.4614,(_position select 1) + 2.5898, 0],
-	4,			//Number Of units
-	_difficulty,		//Skill level 0-1. Has no effect if using custom skills
-	"Random",		//Primary gun set number. "Random" for random weapon set.
-	3,				//Number of magazines
-	"",				//Backpack "" for random or classname here.
-	"",				//Skin "" for random or classname here.
-	"Random",		//Gearset number. "Random" for random gear set.
-	"minor",			
-	"WAIminorArray"
-] call spawn_group;
-sleep 0.1;
-
-[	[(_position select 0) + 4.4614,(_position select 1) + 2.5898, 0],
-	4,			//Number Of units
-	_difficulty,		//Skill level 0-1. Has no effect if using custom skills
-	"Random",		//Primary gun set number. "Random" for random weapon set.
-	3,				//Number of magazines
-	"",				//Backpack "" for random or classname here.
-	"",				//Skin "" for random or classname here.
-	"Random",		//Gearset number. "Random" for random gear set.
-	"minor",			
-	"WAIminorArray"
-] call spawn_group;
-sleep 0.1;
 
 _missiontimeout = true;
 _cleanmission = false;

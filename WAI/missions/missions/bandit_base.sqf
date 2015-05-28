@@ -1,4 +1,4 @@
-private ["_fileName", "_missionType", "_position", "_missionName", "_difficulty", "_picture", "_missionDesc", "_winMessage", "_failMessage", "_tanktraps", "_baserunover", "_baserunover1", "_baserunover2", "_baserunover3", "_baserunover4", "_baserunover5", "_baserunover6", "_baserunover7", "_base", "_rndnum", "_missiontimeout", "_cleanmission", "_playerPresent", "_starttime", "_currenttime", "_box", "_box2"];
+private ["_fileName", "_missionType", "_position", "_missionName", "_difficulty", "_picture", "_missionDesc", "_winMessage", "_failMessage", "_tanktraps", "_baserunover", "_baserunover1", "_baserunover2", "_baserunover3", "_baserunover4", "_baserunover5", "_baserunover6", "_baserunover7", "_base", "_rndnum", "_missiontimeout", "_cleanmission", "_playerPresent", "_starttime", "_currenttime", "_box", "_box2", "_skinArray", "_turretArray"];
  
 _fileName = "bandit_base";
 _missionType = "Major Mission";
@@ -46,23 +46,25 @@ _base = [_baserunover,_baserunover1,_baserunover2,_baserunover3,_baserunover4,_b
 { _x setVectorUp surfaceNormal position _x; } count _base;
 
 
-//Group Spawning
-_rndnum = round (random 3) + 4;
-[[_position select 0, _position select 1, 0],_rndnum,_difficulty,"Random",4,"","FR_OHara_DZ","Random","major","WAImajorArray"] call spawn_group;sleep 0.1;
-[[_position select 0, _position select 1, 0],4,_difficulty,"Random",4,"","GUE_Soldier_Sniper_DZ","Random","major","WAImajorArray"] call spawn_group;sleep 0.1;
-[[_position select 0, _position select 1, 0],4,_difficulty,"Random",4,"","GUE_Soldier_MG_DZ","Random","major","WAImajorArray"] call spawn_group;sleep 0.1;
-[[_position select 0, _position select 1, 0],4,_difficulty,"Random",4,"","GUE_Soldier_Crew_DZ","Random","major","WAImajorArray"] call spawn_group;sleep 0.1;
-[[_position select 0, _position select 1, 0],4,_difficulty,"Random",4,"","Ins_Soldier_GL_DZ","Random","major","WAImajorArray"] call spawn_group;sleep 0.1;
- 
-//Turrets
-[[[(_position select 0) - 10, (_position select 1) + 10, 0]],"KORD_high",0.8,"Ins_Soldier_GL_DZ",1,2,"","Random","major"] call spawn_static;sleep 0.1;
-[[[(_position select 0) + 10, (_position select 1) - 10, 0]],"M2StaticMG",0.8,"GUE_Soldier_MG_DZ",1,2,"","Random","major"] call spawn_static;sleep 0.1;
-[[[(_position select 0) + 15, (_position select 1) + 15, 0]],"SPG9_TK_GUE_EP1",0.8,"FR_OHara_DZ",1,2,"","Random","major"] call spawn_static;sleep 0.1;
-[[[(_position select 0) - 10, (_position select 1) - 10, 0]],"DSHKM_Gue",0.8,"GUE_Soldier_MG_DZ",1,2,"","Random","major"] call spawn_static;sleep 0.1;
-[[[(_position select 0) - 15, (_position select 1) - 15, 0]],"SPG9_TK_GUE_EP1",0.8,"FR_OHara_DZ",1,2,"","Random","major"] call spawn_static;sleep 0.1;
+/* Troops and Turrets */
+_skinArray = ["FR_OHara_DZ","GUE_Soldier_Sniper_DZ","GUE_Soldier_MG_DZ","GUE_Soldier_Crew_DZ","Ins_Soldier_GL_DZ"];
+_turretArray = ["KORD_high","M2StaticMG","SPG9_TK_GUE_EP1","DSHKM_Gue"];
+
+for "_i" from 1 to 5 do 
+	{
+		private ["_rndnum","_skinSel","_turrSel","_staticPos"];
+		_rndnum = round (random 3) + 4;
+		_skinSel = _skinArray call BIS_fnc_selectRandom;
+		_turrSel = _turretArray call BIS_fnc_selectRandom;	
+		_staticPos = _position findEmptyPosition [5,50,_turrSel];
+		sleep 0.1;
+		[_position,_rndnum,_difficulty,"Random",4,"",_skinSel,"Random","major","WAImajorArray"] call spawn_group;
+		[[_staticPos],_turrSel,0.8,"",1,2,"","Random","major"] call spawn_static;
+		sleep 0.1;
+	};
 
 //Heli Paradrop
-[[(_position select 0), (_position select 1), 0],[7743.41, 7040.93, 0],400,"Mi17_TK_EP1",10,"extreme","Random",4,"","Ins_Soldier_GL_DZ","Random",False,"major","WAImajorArray"] spawn heli_para;
+[[(_position select 0), (_position select 1), 0],[(_position select 0) + 1500, (_position select 1) - 1500, 0],400,"Mi17_TK_EP1",10,"extreme","Random",4,"","Ins_Soldier_GL_DZ","Random",False,"major","WAImajorArray"] spawn heli_para;
 
 _missiontimeout = true;
 _cleanmission = false;
@@ -101,10 +103,12 @@ if (_playerPresent) then
 		else
 	{
 		clean_running_mission = True;
-		["majorclean"] call WAIcleanup;
 	 
 		diag_log format["WAI: Mission %1 Timed Out At %2",_fileName,_position];
 		[nil,nil,rTitleText,format["%1",_failMessage], "PLAIN",10] call RE;
+		
+		sleep 150;
+		["majorclean"] call WAIcleanup;
 	};
  
 missionrunning = false;

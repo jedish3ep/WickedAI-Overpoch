@@ -49,14 +49,15 @@ _veh setVariable ["R3F_LOG_disabled",true,true];
 
 diag_log format["WAI: Mission wepsTruck spawned a %1",_vehname];
 
-//Troops
-_rndnum = round (random 3) + 4;
-[[_position select 0, _position select 1, 0],_rndnum,_difficulty,"Random",4,"","","Random","minor","WAIminorArray"] call spawn_group;
-sleep 0.1;
-[[_position select 0, _position select 1, 0],2,_difficulty,"Random",4,"","","Random","minor","WAIminorArray"] call spawn_group;
-sleep 0.1;
-[[_position select 0, _position select 1, 0],4,_difficulty,"Random",4,"","","Random","minor","WAIminorArray"] call spawn_group;
-sleep 0.1;
+/* Troops */
+for "_i" from 1 to 3 do 
+	{
+		private ["_rndnum","_skinSel"];
+		_rndnum = round (random 3) + 4;
+		_skinSel = _skinArray call BIS_fnc_selectRandom;
+		[_position,_rndnum,_difficulty,"Random",4,"","","Random","minor","WAIminorArray"] call spawn_group;
+		sleep 0.1;		
+	};
 
 _missiontimeout = true;
 _cleanmission = false;
@@ -89,19 +90,16 @@ if (_playerPresent) then
 		_box1 = createVehicle ["RULaunchersBox",[(_position select 0) - 0.2387, (_position select 1) + 1.043, 0.10033049], [], 0, "CAN_COLLIDE"];
 		_box2 = createVehicle ["RULaunchersBox",[(_position select 0) + 2, (_position select 1) - 3, 0.10033049], [], 0, "CAN_COLLIDE"];
 		
-		
+		[_box2] call Sniper_Gun_Box;
 		
 		if (_difficulty == "normal") then 
 			{
 				[_box1] call Extra_Large_Gun_Box;
-				[_box2] call Sniper_Gun_Box;
 			}
 				else
 			{
 				[_box1] call easyGunCrate;
-				[_box2] call Sniper_Gun_Box;
 			};
-				
 		
 
 		// mark crates with smoke/flares
@@ -115,11 +113,11 @@ if (_playerPresent) then
 		else
 	{
 		clean_running_minor_mission = True;
-		deleteVehicle _veh;
-		["minorclean"] call WAIcleanup;
-		
 		diag_log format["WAI: Mission %1 Timed Out At %2",_fileName,_position];
 		[nil,nil,rTitleText,format["%1",_failMessage], "PLAIN",10] call RE;
+		
+		deleteVehicle _veh;
+		["minorclean"] call WAIcleanup;
 	};
 
 minor_missionrunning = false;

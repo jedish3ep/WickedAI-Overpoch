@@ -33,23 +33,23 @@ _box addMagazineCargoGlobal ["Skin_Sniper1_DZ", 3];
 // BACKPACKS
 _box addBackpackCargoGlobal ["DZ_LargeGunBag_EP1", 1];
 
-BoxRandomizer=floor(random 100);
-	if (BoxRandomizer == 99) then {
+_boxRand=floor(random 100);
+	if (_boxRand == 99) then {
 		_box addWeaponCargoGlobal ["BAF_AS50_scoped",1];
 		_box addmagazineCargoGlobal ["5Rnd_127x99_AS50", 10];
 		};
-	if (BoxRandomizer == 66) then {
+	if (_boxRand == 66) then {
 		_box addWeaponCargoGlobal ["BAF_AS50_TWS",1];
 		_box addmagazineCargoGlobal ["5Rnd_127x99_AS50", 5];
 		};
-	if (BoxRandomizer == 33) then {
+	if (_boxRand == 33) then {
 		_box addWeaponCargoGlobal ["USSR_cheytacM200",1];
 		_box addWeaponCargoGlobal ["USSR_cheytacM200_sd",1];
 		_box addmagazineCargoGlobal ["USSR_5Rnd_408", 25];
 		};
 		
-BoxRandomizer2=floor(random 100);
-	if (BoxRandomizer2 == 69) then
+_boxRand2=floor(random 100);
+	if (_boxRand2 == 69) then
 		{
-				_box addMagazineCargoGlobal ["ItemHotwireKit", 2];
+			_box addMagazineCargoGlobal ["ItemHotwireKit", 2];
 		};

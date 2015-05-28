@@ -1,4 +1,4 @@
-private ["_fileName", "_missionName", "_difficulty", "_missionType", "_position", "_picture", "_missionDesc", "_winMessage", "_failMessage", "_vehclass", "_vehname", "_base", "_base1", "_veh", "_vehdir", "_objPosition", "_rndnum", "_missiontimeout", "_cleanmission", "_playerPresent", "_starttime", "_currenttime", "_box", "_box1"];
+private ["_fileName", "_missionName", "_difficulty", "_missionType", "_position", "_picture", "_missionDesc", "_winMessage", "_failMessage", "_vehclass", "_vehname", "_base", "_base1", "_veh", "_vehdir", "_objPosition", "_missiontimeout", "_cleanmission", "_playerPresent", "_starttime", "_currenttime", "_box", "_box1"];
 
 _fileName = "stashHouse";
 _missionName = "Stash House";
@@ -31,7 +31,7 @@ _base1 setDir -28.282881;
 minorBldList = minorBldList + [_base];
 minorBldList = minorBldList + [_base1];
 
-// civ car
+/* Vehicle */
 _veh = createVehicle [_vehclass,[(_position select 0) - 10.6206, (_position select 1) - 0.49,0], [], 0, "CAN_COLLIDE"];
 _vehdir = round(random 360);
 _veh setDir _vehdir;
@@ -41,40 +41,17 @@ _veh setVariable ["ObjectID","1",true];
 PVDZE_serverObjectMonitor set [count PVDZE_serverObjectMonitor,_veh];
 _veh setVehicleLock "LOCKED";
 _veh setVariable ["R3F_LOG_disabled",true,true];
-diag_log format["WAI: Mission stashHouse spawned a %1",_vehname];
-
 _objPosition = getPosATL _veh;
-//[_veh,[_vehdir,_objPosition],_vehclass,true,"0"] call custom_publish;
 
-//Troops
-_rndnum = round (random 3) + 4;
-[
-	[_position select 0, _position select 1, 0],                  //position
-	_rndnum,				  //Number Of units
-	_difficulty,					      //Skill level 0-1. Has no effect if using custom skills
-	"Random",			      //Primary gun set number. "Random" for random weapon set.
-	4,						  //Number of magazines
-	"",						  //Backpack "" for random or classname here.
-	"",						  //Skin "" for random or classname here.
-	"Random",				  //Gearset number. "Random" for random gear set.
-	"minor",
-	"WAIminorArray"
-] call spawn_group;
 
-sleep 0.1;
-
-[
-	[_position select 0, _position select 1, 0],                  //position
-	4,						  //Number Of units
-	_difficulty,					      //Skill level 0-1. Has no effect if using custom skills
-	"Random",			      //Primary gun set number. "Random" for random weapon set.
-	4,						  //Number of magazines
-	"",						  //Backpack "" for random or classname here.
-	"",						  //Skin "" for random or classname here.
-	"Random",				  //Gearset number. "Random" for random gear set.
-	"minor",
-	"WAIminorArray"
-] call spawn_group;
+/* Troops */
+for "_i" from 1 to 2 do 
+{
+	private ["_rndnum"];
+	_rndnum = round (random 3) + 4;
+	[_position,_rndnum,_difficulty,"Random",4,"","","Random","minor","WAIminorArray"] call spawn_group;
+	sleep 0.1;
+};
 
 _missiontimeout = true;
 _cleanmission = false;
@@ -89,7 +66,7 @@ while {_missiontimeout} do
 		if (_currenttime - _starttime >= wai_minor_mission_timeout) then {_cleanmission = true;};
 		if ((_playerPresent) OR (_cleanmission)) then {_missiontimeout = false;};
 	};
-
+	
 if (_playerPresent) then 
 	{
 		

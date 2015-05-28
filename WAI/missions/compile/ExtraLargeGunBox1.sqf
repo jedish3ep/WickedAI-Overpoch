@@ -66,8 +66,8 @@ _box addWeaponCargoGlobal ["ItemGPS", 1];
 //BACKPACKS
 _box addBackpackCargoGlobal ["DZ_LargeGunBag_EP1", 1];
 
-BoxRandomizer=floor(random 3);
-	if (BoxRandomizer == 0) then {
+_boxRand=floor(random 3);
+	if (_boxRand == 0) then {
 		// taser 
 		_box addWeaponCargoGlobal ["DDOPP_X3_b",2];
 		_box addmagazineCargoGlobal ["DDOPP_3Rnd_X3",8];
@@ -77,7 +77,7 @@ BoxRandomizer=floor(random 3);
 		_box addWeaponCargoGlobal ["vil_SR25",1];
 		_box addmagazineCargoGlobal ["20Rnd_762x51_DMR", 5]; // 5 extra DMR mags		
 	};
-	if (BoxRandomizer == 1) then {
+	if (_boxRand == 1) then {
 		// m32 gren launcher + sd cheytac
 		_box addWeaponCargoGlobal ["USSR_cheytacM200_sd",1];
 		_box addmagazineCargoGlobal ["USSR_5Rnd_408",5];
@@ -87,7 +87,7 @@ BoxRandomizer=floor(random 3);
 		_box addMagazineCargoGlobal ["6Rnd_SmokeGreen_M203",1];
 		_box addMagazineCargoGlobal ["6Rnd_SmokeYellow_M203",1];
 	};
-	if (BoxRandomizer == 2) then {
+	if (_boxRand == 2) then {
 		// add an extra rocket launcher
 		_box addWeaponCargoGlobal ["SMAW", 1];
 		_box addmagazineCargoGlobal ["SMAW_HEAA", 2];

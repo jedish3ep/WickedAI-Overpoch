@@ -1,4 +1,4 @@
-private ["_fileName", "_missionType", "_position", "_vehname", "_picture", "_missionName", "_difficulty", "_missionDesc", "_winMessage", "_failMessage", "_base1", "_base2", "_base3", "_scenery", "_missiontimeout", "_cleanmission", "_playerPresent", "_starttime", "_currenttime", "_box", "_box1", "_box2", "_box3", "_box4", "_veh"];
+private ["_fileName", "_missionType", "_position", "_vehname", "_picture", "_missionName", "_difficulty", "_missionDesc", "_winMessage", "_failMessage", "_base1", "_base2", "_base3", "_scenery", "_missiontimeout", "_cleanmission", "_playerPresent", "_starttime", "_currenttime", "_box"];
 
 _fileName = "easyAntiAir";
 _missionType = "Minor Mission";
@@ -35,21 +35,20 @@ _scenery = [_base1,_base2,_base3];
 [_position,6,"easy","Random",3,"","","Random","minor","WAIminorArray"] call spawn_group;
 
 /* Anti Aircraft */
-[[[(_position select 0), (_position select 1) + 21, 0],[(_position select 0), (_position select 1) - 25, 0]], //position(s) (can be multiple).
-"Igla_AA_pod_East",	//Classname of turret
-0.8,					//Skill level 0-1. Has no effect if using custom skills
-"",					//Skin "" for random or classname here.
-0,					//Primary gun set number. "Random" for random weapon set. (not needed if ai_static_useweapon = False)
-2,					//Number of magazines. (not needed if ai_static_useweapon = False)
-"",					//Backpack "" for random or classname here. (not needed if ai_static_useweapon = False)
-"Random",			//Gearset number. "Random" for random gear set. (not needed if ai_static_useweapon = False)
-"minor"
-] call spawn_static;
+for "_i" from 1 to 4 do
+	{
+		private ["_staticPos"];		
+		_staticPos = _position findEmptyPosition [5,75,"Igla_AA_pod_East"];
+		sleep 0.1;
+		[[_staticPos],"Igla_AA_pod_East",0.8,"",1,2,"","Random","minor"] call spawn_static;
+		sleep 0.1;
+	};
 
 _missiontimeout = true;
 _cleanmission = false;
 _playerPresent = false;
 _starttime = floor(time);
+
 while {_missiontimeout} do {
 	sleep 5;
 	_currenttime = floor(time);
@@ -64,11 +63,17 @@ if (_playerPresent) then {
 	[_box] call easyMissionBox;		// Crate with Basic Loot
 	[_box] call markCrates;		// mark crates with smoke/flares
 	
-	_box1 = createVehicle ["AmmoBoxSmall_762",[(_position select 0) - 7.6396,(_position select 1) + 7.2813,0], [], 0, "CAN_COLLIDE"];
-	_box2 = createVehicle ["AmmoBoxSmall_556",[(_position select 0) - 3.4346, 0, 0],[], 0, "CAN_COLLIDE"];
-	_box3 = createVehicle ["AmmoBoxSmall_556",[(_position select 0) + 4.0996,(_position select 1) + 3.9072, 0],[], 0, "CAN_COLLIDE"];
-	_box4 = createVehicle ["AmmoBoxSmall_762",[(_position select 0) - 3.7251,(_position select 1) - 2.3614, 0],[], 0, "CAN_COLLIDE"];
-	
+	for "_i" from 1 to 4 do 
+		{
+			private ["_a1Box","_a2Box","_a1Pos","_a2Pos"];
+			
+			_a1Pos = _position findEmptyPosition [5,50,"AmmoBoxSmall_762"];
+			_a1Box = createVehicle ["AmmoBoxSmall_762",_a1Pos, [], 0, "CAN_COLLIDE"];
+			_a2Pos = _position findEmptyPosition [5,50,"AmmoBoxSmall_556"];
+			_a2Box = createVehicle ["AmmoBoxSmall_556",_a2Pos, [], 0, "CAN_COLLIDE"];
+			sleep 0.1;
+		};
+
 	diag_log format["WAI: Mission %1 Ended At %2",_fileName,_position];
 	[nil,nil,rTitleText,format["%1",_winMessage], "PLAIN",10] call RE;
 
@@ -76,9 +81,10 @@ if (_playerPresent) then {
 	["minorclean"] call WAIcleanup;
 } else {
 	clean_running_minor_mission = True;
-	deleteVehicle _veh;
-	["minorclean"] call WAIcleanup;
-		diag_log format["WAI: Mission %1 Timed Out At %2",_fileName,_position];
+	diag_log format["WAI: Mission %1 Timed Out At %2",_fileName,_position];
 	[nil,nil,rTitleText,format["%1",_failMessage], "PLAIN",10] call RE;
+
+	["minorclean"] call WAIcleanup;	
 };
+
 minor_missionrunning = false;

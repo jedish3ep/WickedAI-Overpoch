@@ -75,10 +75,10 @@ if (_playerPresent) then {
 	["minorclean"] call WAIcleanup;
 } else {
 	clean_running_minor_mission = True;
-	deleteVehicle _veh;
-	["minorclean"] call WAIcleanup;
-	
 	diag_log format["WAI: Mission %1 Timed Out At %2",_fileName,_position];
 	[nil,nil,rTitleText,format["%1",_failMessage], "PLAIN",10] call RE;
+	
+	deleteVehicle _veh;
+	["minorclean"] call WAIcleanup;
 };
 minor_missionrunning = false;

@@ -1,4 +1,4 @@
-private ["_fileName", "_missionType", "_missionName", "_difficulty", "_position", "_veharray", "_vehclass", "_vehname", "_picture", "_missionDesc", "_winMessage", "_failMessage", "_baserunover", "_baserunover1", "_baserunover2", "_baserunover3", "_baserunover4", "_baserunover5", "_base", "_veh", "_vehdir", "_objPosition", "_rndnum", "_missiontimeout", "_cleanmission", "_playerPresent", "_starttime", "_currenttime", "_box", "_box1"];
+private ["_fileName", "_missionType", "_missionName", "_difficulty", "_position", "_veharray", "_vehclass", "_vehname", "_picture", "_missionDesc", "_winMessage", "_failMessage", "_baserunover", "_baserunover1", "_baserunover2", "_baserunover3", "_baserunover4", "_baserunover5", "_base", "_veh", "_vehdir", "_objPosition", "_missiontimeout", "_cleanmission", "_playerPresent", "_starttime", "_currenttime", "_box", "_box1"];
 
 _fileName = "rusBase";
 _missionType = "Major Mission";
@@ -64,54 +64,15 @@ _objPosition = getPosATL _veh;
 diag_log format["WAI: Mission %1 spawned a %2",_fileName,_vehname];
 
 /* Troops */
-_rndnum = round (random 3) + 4;
-[[(_position select 0) - 23,(_position select 1) - 1.32, 0],                  //position
-_rndnum,				  //Number Of units
-"extreme",					      //Skill level
-"Random",			      //Primary gun set number. "Random" for random weapon set.
-4,						  //Number of magazines
-"",						  //Backpack "" for random or classname here.
-"RU_Commander",						  //Skin "" for random or classname here.
-"Random",				  //Gearset number. "Random" for random gear set.
-"major",
-"WAImajorArray"
-] call spawn_group;
-
-[[(_position select 0) + 28,(_position select 1) + 1, 0],                  //position
-4,						  //Number Of units
-"extreme",					      //Skill level
-"Random",			      //Primary gun set number. "Random" for random weapon set.
-4,						  //Number of magazines
-"",						  //Backpack "" for random or classname here.
-"RU_Soldier_HAT",						  //Skin "" for random or classname here.
-"Random",				  //Gearset number. "Random" for random gear set.
-"major",
-"WAImajorArray"
-] call spawn_group;
-
-[[(_position select 0) + 3.75,(_position select 1) - 11, 0],                  //position
-4,						  //Number Of units
-"extreme",					      //Skill level
-"Random",			      //Primary gun set number. "Random" for random weapon set.
-4,						  //Number of magazines
-"",						  //Backpack "" for random or classname here.
-"MVD_Soldier_Marksman",	  //Skin "" for random or classname here.
-"Random",				  //Gearset number. "Random" for random gear set.
-"major",
-"WAImajorArray"
-] call spawn_group;
-
-[[(_position select 0) + 11.1,(_position select 1) + 12.1, 0],                  //position
-4,						  //Number Of units
-"extreme",					      //Skill level
-"Random",			      //Primary gun set number. "Random" for random weapon set.
-4,						  //Number of magazines
-"",						  //Backpack "" for random or classname here.
-"RUS_Soldier3",						  //Skin "" for random or classname here.
-"Random",				  //Gearset number. "Random" for random gear set.
-"major",
-"WAImajorArray"
-] call spawn_group;
+_skinArray = ["RU_Commander","RU_Soldier_HAT","MVD_Soldier_Marksman","RUS_Soldier3","RU_Soldier_Pilot"];
+for "_i" from 1 to 4 do 
+	{
+		private ["_rndnum","_skinSel"];
+		_rndnum = round (random 3) + 4;
+		_skinSel = _skinArray call BIS_fnc_selectRandom;
+		[_position,_rndnum,_difficulty,"Random",4,"",_skinSel,"Random","major","WAImajorArray"] call spawn_group;
+		sleep 0.1;		
+	};
 
 //Turrets
 [[[(_position select 0), (_position select 1) + 21, 0],[(_position select 0), (_position select 1) - 25, 0]], //position(s) (can be multiple).
@@ -165,10 +126,11 @@ if (_playerPresent) then
 		else
 	{
 		clean_running_mission = True;
-		deleteVehicle _veh;		
-		["majorclean"] call WAIcleanup;		
 		diag_log format["WAI: Mission %1 Timed Out At %2",_fileName,_position];
 		[nil,nil,rTitleText,format["%1",_failMessage], "PLAIN",10] call RE;
+		sleep 30;
+		deleteVehicle _veh;		
+		["majorclean"] call WAIcleanup;		
 	};
 	
 missionrunning = false;

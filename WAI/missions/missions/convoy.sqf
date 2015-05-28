@@ -25,45 +25,45 @@ sleep 0.1;
 
 
 _veh = createVehicle [_vehclass,[(_position select 0) - 15,(_position select 1),0], [], 0, "CAN_COLLIDE"];
-_vehdir = round(random 360);
-_veh setDir _vehdir;
 clearWeaponCargoGlobal _veh;
 clearMagazineCargoGlobal _veh;
 _veh setVariable ["ObjectID","1",true];
 PVDZE_serverObjectMonitor set [count PVDZE_serverObjectMonitor,_veh];
-diag_log format["WAI: Mission Convoy spawned a %1",_vehclass];
-_veh setVehicleLock "LOCKED";
-_veh setVariable ["R3F_LOG_disabled",true,true];
-
 _objPosition = getPosATL _veh;
 // CARGO TRUCK WILL SAVE! 
 
-_veh2 = createVehicle [_vehclass2,[(_position select 0) + 15,(_position select 1),0], [], 0, "CAN_COLLIDE"];
-[_veh2,0.25,0.75] call spawnTempVehicle;
-_veh2 setVehicleLock "LOCKED";
-_veh2 setVariable ["R3F_LOG_disabled",true,true];
-//[_veh,damage,fuel] call spawnTempVehicle;
 
-_veh3 = createVehicle [_vehclass3,[(_position select 0) + 30,(_position select 1),0], [], 0, "CAN_COLLIDE"];
-[_veh3,0.75,0.67] call spawnTempVehicle;
-_veh3 setVehicleLock "LOCKED";
-_veh3 setVariable ["R3F_LOG_disabled",true,true];
 //[_veh,damage,fuel] call spawnTempVehicle;
+_veh2 = createVehicle [_vehclass2,[(_position select 0) + 15,(_position select 1),0], [], 0, "CAN_COLLIDE"];
+_veh3 = createVehicle [_vehclass3,[(_position select 0) + 30,(_position select 1),0], [], 0, "CAN_COLLIDE"];
+
+[_veh2,0.25,0.75] call spawnTempVehicle;
+[_veh3,0.75,0.67] call spawnTempVehicle;
 
 _vehList = [_veh,_veh2,_veh3];
 
+{	
+	private ["_vehDir"];
+	_vehdir = round(random 360);
+	_x setDir _vehdir;
+	_x setVehicleLock "LOCKED";
+	_x setVariable ["R3F_LOG_disabled",true,true];
+} count _vehList;
+
 //Troops
-_rndnum = round (random 3) + 5;
-[[_position select 0, _position select 1, 0],_rndnum,"extreme","Random",4,"","USMC_LHD_Crew_Yellow","Random","major","WAImajorArray"] call spawn_group;sleep 0.1;
-[[_position select 0, _position select 1, 0],5,"extreme","Random",4,"","USMC_LHD_Crew_Blue","Random","major","WAImajorArray"] call spawn_group;sleep 0.1;
-[[_position select 0, _position select 1, 0],5,"extreme","Random",4,"","USMC_LHD_Crew_Blue","Random","major","WAImajorArray"] call spawn_group;sleep 0.1;
-[[_position select 0, _position select 1, 0],5,"extreme","Random",4,"","USMC_LHD_Crew_Blue","Random","major","WAImajorArray"] call spawn_group;sleep 0.1;
+for "_i" from 1 to 4 do
+	{
+		private ["_rndnum"];
+		_rndnum = round (random 3) + 4;
+		[_position,_rndnum,_difficulty,"Random",4,"","USMC_LHD_Crew_Blue","Random","major","WAImajorArray"] call spawn_group;
+		sleep 0.1;
+	};
 
 //Turrets
 [[[(_position select 0) + 5, (_position select 1) + 10, 0]],"M2StaticMG",0.7,"USMC_LHD_Crew_Yellow",1,2,"","Random","major"] call spawn_static;
-[[[(_position select 0) - 5, (_position select 1) - 10, 0]],"M2StaticMG",0.7,"USMC_LHD_Crew_Blue",1,2,"","Random","major"] call spawn_static;
+[[[(_position select 0) - 5, (_position select 1) - 10, 0]],"M2StaticMG",0.7,"USMC_LHD_Crew_Yellow",1,2,"","Random","major"] call spawn_static;
 
-[[(_position select 0),(_position select 1),0],[(_position select 0) + 1500,(_position select 1),0],400,"BAF_Merlin_HC3_D",6,_difficulty,"Random",4,"","USMC_LHD_Crew_Blue","Random",False,"major","WAImajorArray"] spawn heli_para;
+[_position,[(_position select 0) + 1500,(_position select 1) - 200,0],400,"BAF_Merlin_HC3_D",6,_difficulty,"Random",4,"","USMC_LHD_Crew_Blue","Random",False,"major","WAImajorArray"] spawn heli_para;
 
 _missiontimeout = true;
 _cleanmission = false;
@@ -100,11 +100,11 @@ if (_playerPresent) then
 		else
 	{
 		clean_running_mission = True;
-		{deleteVehicle _x;} forEach _vehList;
-		["majorclean"] call WAIcleanup;
-		
 		diag_log format["WAI: Mission %1 Timed Out At %2",_fileName,_position];
 		[nil,nil,rTitleText,format["%1",_failMessage], "PLAIN",10] call RE;
+		
+		{deleteVehicle _x;} forEach _vehList;
+		["majorclean"] call WAIcleanup;
 	};
 	
 missionrunning = false;

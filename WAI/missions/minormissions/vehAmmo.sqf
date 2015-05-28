@@ -1,4 +1,4 @@
-private ["_fileName", "_missionType", "_position", "_vehclass", "_vehname", "_picture", "_worldName", "_missionName", "_difficultyArray", "_difficulty", "_missionDesc", "_winMessage", "_failMessage", "_tent", "_tent2", "_base", "_veh", "_vehdir", "_objPosition", "_rndnum", "_missiontimeout", "_cleanmission", "_playerPresent", "_starttime", "_currenttime", "_box", "_box1"];
+private ["_fileName", "_missionType", "_position", "_vehclass", "_vehname", "_picture", "_worldName", "_missionName", "_difficultyArray", "_difficulty", "_missionDesc", "_winMessage", "_failMessage", "_tent", "_tent2", "_base", "_veh", "_vehdir", "_objPosition", "_skinArray", "_missiontimeout", "_cleanmission", "_playerPresent", "_starttime", "_currenttime", "_box", "_box1"];
 
 _fileName = "vehAmmo";
 _missionType = "Minor Mission";
@@ -43,14 +43,17 @@ _veh setVariable ["R3F_LOG_disabled",true,true];
 diag_log format["WAI: Mission vehAmmo spawned a %1",_vehname];
 _objPosition = getPosATL _veh;
 
+
 /* Troops */
-_rndnum = round (random 3) + 4;
-[[_position select 0, _position select 1, 0],_rndnum,_difficulty,"Random",4,"","TK_Soldier_B_EP1","Random","minor","WAIminorArray"] call spawn_group;
-sleep 0.1;
-[[_position select 0, _position select 1, 0],4,_difficulty,"Random",4,"","TK_Aziz_EP1","Random","minor","WAIminorArray"] call spawn_group;
-sleep 0.1;
-[[_position select 0, _position select 1, 0],4,_difficulty,"Random",4,"","TK_Commander_EP1","Random","minor","WAIminorArray"] call spawn_group;
-sleep 0.1;
+_skinArray = ["TK_Soldier_B_EP1","TK_Aziz_EP1","TK_Commander_EP1"];
+for "_i" from 1 to 3 do 
+	{
+		private ["_rndnum","_skinSel"];
+		_rndnum = round (random 3) + 4;
+		_skinSel = _skinArray call BIS_fnc_selectRandom;
+		[_position,_rndnum,_difficulty,"Random",4,"",_skinSel,"Random","minor","WAIminorArray"] call spawn_group;
+		sleep 0.1;		
+	};
 
 /* Turrets */
 [[[(_position select 0) + 10, (_position select 1) + 10, 0],[(_position select 0) + 10, (_position select 1) - 10, 0]],"M2StaticMG",0.8,"TK_Soldier_Pilot_EP1",0,2,"","Random","minor"] call spawn_static;
@@ -89,7 +92,18 @@ if (_playerPresent) then
 				_box1 = createVehicle ["LocalBasicWeaponsBox",[(_position select 0) + 15,(_position select 1) + 15,0], [], 0, "CAN_COLLIDE"];
 				[_box1] call Chain_Bullet_Box;
 				[_box1] call markCrates;
-			};		
+			};
+		
+		for "_i" from 1 to 4 do 
+			{
+				private ["_a1Box","_a1Pos"];
+				
+				_a1Pos = _position findEmptyPosition [5,50,"AmmoBoxSmall_762"];
+				_a1Box = createVehicle ["AmmoBoxSmall_762",_a1Pos, [], 0, "CAN_COLLIDE"];
+				[_a1Box] call markCrates;
+				sleep 0.1;
+			};
+			
 		uiSleep 300;
 		["minorclean"] call WAIcleanup;
 	} 

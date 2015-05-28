@@ -66,7 +66,7 @@ if (_playerPresent) then
 		_box1Pos = _position findEmptyPosition [0,10,"BAF_VehicleBox"];
 		_box1 = createVehicle ["BAF_VehicleBox",_box1Pos, [], 0, "CAN_COLLIDE"];
 		
-		_box2Pos = _position findEmptyPosition [0,20,"USBasicWeaponsBox"];
+		_box2Pos = _position findEmptyPosition [0,10,"USBasicWeaponsBox"];
 		_box2 = createVehicle ["USBasicWeaponsBox",_box2Pos, [], 0, "CAN_COLLIDE"];
 		
 		[_box0] call Extra_Large_Gun_Box1;

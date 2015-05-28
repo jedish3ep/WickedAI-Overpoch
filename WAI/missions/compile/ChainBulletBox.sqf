@@ -14,8 +14,8 @@ _box addMagazineCargoGlobal ["200Rnd_762x51_M240", 10];
 _box addMagazineCargoGlobal ["100Rnd_127x99_M2", 10];
 _box addMagazineCargoGlobal ["150Rnd_127x107_DSHKM", 10];
 
-BoxRandomizer=floor(random 100);
-if (BoxRandomizer == 37) then
+_BoxRandomizer=floor(random 100);
+if (_BoxRandomizer == 37) then
 	{
 			_box addMagazineCargoGlobal ["ItemHotwireKit", 2];
 	};

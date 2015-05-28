@@ -103,13 +103,14 @@ if (_playerPresent) then
 	{
 		clean_running_mission = True;
 		[nil,nil,rTitleText,"Bombs have been launched at FOB Aardvark you have 30 seconds. GTFO of there!!!!", "PLAIN",10] call RE;
-		uiSleep 30;
+		sleep 30;
 		/* Mission Failed - Obliterate the Area */
 		[_position,10] call fn_bombArea;
-		
-		uiSleep 150;
-		["majorclean"] call WAIcleanup;
 		diag_log format["WAI: Mission %1 Timed Out At %2",_fileName,_position];
 		[nil,nil,rTitleText,format["%1",_failMessage], "PLAIN",10] call RE;
+		
+		sleep 300;
+		["majorclean"] call WAIcleanup;
 	};
+	
  missionrunning = false;

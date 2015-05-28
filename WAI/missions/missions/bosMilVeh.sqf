@@ -1,4 +1,4 @@
-private ["_fileName", "_missionType", "_position", "_missionName", "_difficulty", "_veharray", "_vehclass", "_vehname", "_picture", "_missionDesc", "_winMessage", "_failMessage", "_base", "_veh", "_vehdir", "_objPosition", "_rndnum", "_missiontimeout", "_cleanmission", "_playerPresent", "_starttime", "_currenttime", "_box"];
+private ["_fileName", "_missionType", "_position", "_missionName", "_difficulty", "_veharray", "_vehclass", "_vehname", "_picture", "_missionDesc", "_winMessage", "_failMessage", "_base", "_veh", "_vehdir", "_objPosition", "_missiontimeout", "_cleanmission", "_playerPresent", "_starttime", "_currenttime", "_box"];
 
 _fileName = "bosMilVeh";
 _missionType = "Major Mission";
@@ -46,78 +46,21 @@ _veh setVariable ["R3F_LOG_disabled",true,true];
 
 _objPosition = getPosATL _veh;
 
-//Troops
-_rndnum = round (random 3) + 4;
+/* Troops */
+_skinArray = ["gsc_military_helmet_wdl","gsc_military_helmet_wdlSNP","gsc_military_head_wdl_AT"];
+for "_i" from 1 to 4 do
+	{
+		private ["_rndnum","_skinSel"];		
+		_rndnum = round (random 3) + 4;
+		_skinSel = _skinArray call BIS_fnc_selectRandom;
+		
+		[_position,_rndnum,_difficulty,"Random",4,"",_skinSel,"Random","major","WAImajorArray"] call spawn_group;
+		sleep 0.1;
+	};
 
-[
-	[_position select 0, _position select 1, 0],                  //position
-	_rndnum,				  //Number Of units
-	_difficulty,					  //Skill level
-	"Random",			      //Primary gun set number. "Random" for random weapon set.
-	4,						  //Number of magazines
-	"",						  //Backpack "" for random or classname here.
-	"gsc_military_helmet_wdl",						  //Skin "" for random or classname here.
-	"Random",				  //Gearset number. "Random" for random gear set.
-	"major",
-	"WAImajorArray"
-] call spawn_group;
-sleep 0.1;
+/* Turrets */
+[[[(_position select 0) + 10, (_position select 1) + 10, 0]],"M2StaticMG",0.8,"gsc_scientist1",0,2,"","Random","major"] call spawn_static;
 
-[
-	[_position select 0, _position select 1, 0],                  //position
-	_rndnum,					//Number Of units
-	_difficulty,					    //Skill level
-	"Random",					//Primary gun set number. "Random" for random weapon set.
-	4,							//Number of magazines
-	"",							//Backpack "" for random or classname here.
-	"gsc_military_helmet_wdlSNP",  //Skin "" for random or classname here.
-	"Random",				  //Gearset number. "Random" for random gear set.
-	"major",
-	"WAImajorArray"
-] call spawn_group;
-sleep 0.1;
-
-[
-	[_position select 0, _position select 1, 0],                  //position
-	4,						  //Number Of units
-	_difficulty,					  //Skill level
-	"Random",			      //Primary gun set number. "Random" for random weapon set.
-	4,						  //Number of magazines
-	"",						  //Backpack "" for random or classname here.
-	"gsc_military_head_wdl_AT",	  //Skin "" for random or classname here.
-	"Random",				  //Gearset number. "Random" for random gear set.
-	"major",
-	"WAImajorArray"
-] call spawn_group;
-sleep 0.1;
-
-[
-	[_position select 0, _position select 1, 0],                  //position
-	4,						  //Number Of units
-	_difficulty,					  //Skill level
-	"Random",			      //Primary gun set number. "Random" for random weapon set.
-	4,						  //Number of magazines
-	"",						  //Backpack "" for random or classname here.
-	"gsc_military_helmet_wdlSNP",						  //Skin "" for random or classname here.
-	"Random",				  //Gearset number. "Random" for random gear set.
-	"major",
-	"WAImajorArray"
-] call spawn_group;
-sleep 0.1;
-
-// STATIC WEAPONS
-[
-	[[(_position select 0) + 10, (_position select 1) + 10, 0]], //position(s) (can be multiple).
-	"M2StaticMG",             //Classname of turret
-	0.8,					  //Skill level 0-1. Has no effect if using custom skills
-	"gsc_scientist1",		  //Skin "" for random or classname here.
-	0,						  //Primary gun set number. "Random" for random weapon set. (not needed if ai_static_useweapon = False)
-	2,						  //Number of magazines. (not needed if ai_static_useweapon = False)
-	"",						  //Backpack "" for random or classname here. (not needed if ai_static_useweapon = False)
-	"Random",				  //Gearset number. "Random" for random gear set. (not needed if ai_static_useweapon = False)
-	"major"
-] call spawn_static;
-sleep 0.1;
 
 _missiontimeout = true;
 _cleanmission = false;
@@ -145,7 +88,7 @@ if (_playerPresent) then
 		_veh setVariable ["R3F_LOG_disabled",false,true];
 		
 		// wait for mission complete. then spawn crates
-		_box = createVehicle ["LocalBasicWeaponsBox",[(_position select 0) + 15,(_position select 1) + 15,0], [], 0, "CAN_COLLIDE"];
+		_box = createVehicle ["LocalBasicWeaponsBox",[(_position select 0) + 5,(_position select 1) - 5,0], [], 0, "CAN_COLLIDE"];
 		[_box] call Large_Gun_Box;// Gun Crate
 
 		// mark crates with smoke/flares
@@ -155,11 +98,11 @@ if (_playerPresent) then
 		["majorclean"] call WAIcleanup;
 	} else {
 		clean_running_mission = True;
-		deleteVehicle _veh;
-		["majorclean"] call WAIcleanup;
-			
 		diag_log format["WAI: Mission %1 Timed Out At %2",_fileName,_position];
 		[nil,nil,rTitleText,format["%1",_failMessage], "PLAIN",10] call RE;
+		deleteVehicle _veh;
+		sleep 30;
+		["majorclean"] call WAIcleanup;
 	};
 	
 missionrunning = false;

@@ -1,4 +1,4 @@
-private ["_fileName", "_missionType", "_missionName", "_difficulty", "_position", "_vehclass", "_vehname", "_picture", "_missionDesc", "_winMessage", "_failMessage", "_veh", "_vehdir", "_tanktraps", "_baserunover", "_baserunover1", "_baserunover4", "_baserunover5", "_baserunover6", "_baserunover7", "_base", "_rndnum", "_missiontimeout", "_cleanmission", "_playerPresent", "_starttime", "_currenttime", "_box", "_box2"];
+private ["_fileName", "_missionType", "_missionName", "_difficulty", "_position", "_vehclass", "_vehname", "_picture", "_missionDesc", "_winMessage", "_failMessage", "_veh", "_vehdir", "_tanktraps", "_baserunover", "_baserunover1", "_baserunover4", "_baserunover5", "_baserunover6", "_baserunover7", "_base", "_missiontimeout", "_cleanmission", "_playerPresent", "_starttime", "_currenttime", "_box", "_box2", "_skinArray", "_turretArray"];
 
 _fileName = "milCamp";
 _missionType = "Major Mission";
@@ -56,21 +56,23 @@ _base = [_baserunover,_baserunover1,_baserunover4,_baserunover5,_baserunover6,_b
 { majorBldList = majorBldList + [_x]; } forEach _base;
 { _x setVectorUp surfaceNormal position _x; } count _base;
 
-/* Troops */
-_rndnum = round (random 3) + 4;
-[[_position select 0, _position select 1, 0],_rndnum,"extreme","Random",4,"","UKSF_wdl_demo_l","Random","major","WAImajorArray"] call spawn_group;sleep 0.1;
-[[_position select 0, _position select 1, 0],4,"extreme","Random",4,"","Graves_Light_DZ","Random","major","WAImajorArray"] call spawn_group;sleep 0.1;
-[[_position select 0, _position select 1, 0],4,"extreme","Random",4,"","UKSF_wdl_mrk_l","Random","major","WAImajorArray"] call spawn_group;sleep 0.1;
-[[_position select 0, _position select 1, 0],4,"extreme","Random",4,"","UKSF_wdl_tl_l","Random","major","WAImajorArray"] call spawn_group;sleep 0.1;
-[[_position select 0, _position select 1, 0],4,"extreme","Random",4,"","Sniper1_DZ","Random","major","WAImajorArray"] call spawn_group;sleep 0.1;
- 
-/* Static Weapons */
-[[[(_position select 0) - 10, (_position select 1) + 10, 0]],"KORD_high",0.8,"UKSF_wdl_demo_l",1,2,"","Random","major"] call spawn_static;
-[[[(_position select 0) + 10, (_position select 1) - 10, 0]],"M2StaticMG",0.8,"Soldier_Sniper_PMC_DZ",1,2,"","Random","major"] call spawn_static;
-[[[(_position select 0) - 10, (_position select 1) - 10, 0]],"DSHKM_Gue",0.8,"UKSF_wdl_tl_l",1,2,"","Random","major"] call spawn_static;
-[[[(_position select 0) - 15, (_position select 1) - 15, 0]],"SPG9_TK_GUE_EP1",0.8,"Soldier_Sniper_PMC_DZ",1,2,"","Random","major"] call spawn_static;
-
-[[(_position select 0),(_position select 1),0],[(_position select 0) + 1500,(_position select 1),0],400,"BAF_Merlin_HC3_D",6,_difficulty,"Random",4,"","USMC_LHD_Crew_Blue","Random",False,"major","WAImajorArray"] spawn heli_para;
+/* Troops and Turrets */
+_skinArray = ["UKSF_wdl_demo_l","Graves_Light_DZ","UKSF_wdl_mrk_l","UKSF_wdl_tl_l","Sniper1_DZ","Soldier_Sniper_PMC_DZ"];
+_turretArray = ["KORD_high","M2StaticMG","DSHKM_Gue","SPG9_TK_GUE_EP1"];
+for "_i" from 1 to 4 do 
+	{
+		private ["_rndnum","_skinSel","_turrSel","_staticPos"];
+		_rndnum = round (random 3) + 4;
+		_skinSel = _skinArray call BIS_fnc_selectRandom;
+		_turrSel = _turretArray call BIS_fnc_selectRandom;	
+		_staticPos = _position findEmptyPosition [15,25,_turrSel];
+		
+		[_position,_rndnum,_difficulty,"Random",4,"",_skinSel,"Random","major","WAImajorArray"] call spawn_group;
+		[[_staticPos],_turrSel,0.8,_skinSel,1,2,"","Random","major"] call spawn_static;
+		sleep 0.1;
+	};
+	
+[[(_position select 0),(_position select 1),0],[(_position select 0) + 1500,(_position select 1),0],400,"BAF_Merlin_HC3_D",6,_difficulty,"Random",4,"","UKSF_wdl_demo_l","Random",False,"major","WAImajorArray"] spawn heli_para;
 
 _missiontimeout = true;
 _cleanmission = false;
@@ -97,12 +99,12 @@ if (_playerPresent) then
 		_veh setVariable ["R3F_LOG_disabled",false,true];
 		
 		// wait for mission complete before spawning crates	
-		 _box = createVehicle ["RUVehicleBox",[(_position select 0) -15,(_position select 1),0], [], 0, "CAN_COLLIDE"];
-		[_box] call Extra_Large_Gun_Box1;//Extra Large Gun Box
+		_box = createVehicle ["RUVehicleBox",[(_position select 0) -15,(_position select 1),0], [], 0, "CAN_COLLIDE"];
 		_box2 = createVehicle ["BAF_VehicleBox",[(_position select 0) +15,(_position select 1),0], [], 0, "CAN_COLLIDE"];
-		[_box2] call Construction_Supply_Box;//Construction Supply Box
+		
+		[_box] call Extra_Large_Gun_Box1;
+		[_box2] call Construction_Supply_Box;
 
-		// mark crates with smoke/flares
 		[_box] call markCrates;
 		[_box2] call markCrates;
 

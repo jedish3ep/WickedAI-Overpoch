@@ -8,22 +8,10 @@ clearMagazineCargoGlobal _box;
 clearBackpackCargoGlobal _box;
 _box addBackpackCargoGlobal ["DZ_LargeGunBag_EP1", 1];
 
-BoxRandomizer=floor(random 3);
-	if (BoxRandomizer == 0) then {
-		_box addmagazineCargoGlobal ["ItemBriefcase100oz", 15];
-		_box addMagazineCargoGlobal ["ItemEmerald", 1];
-		};
-	if (BoxRandomizer == 1) then {
-		_box addMagazineCargoGlobal ["ItemBriefcase100oz", 8];
-		_box addmagazineCargoGlobal ["ItemSapphire", 2];
-		_box addmagazineCargoGlobal ["ItemRuby", 1];
-		_box addMagazineCargoGlobal ["ItemEmerald", 1];
-		};
-	if (BoxRandomizer == 2) then {
-		_box addMagazineCargoGlobal ["ItemBriefcase100oz", 4];
-		_box addmagazineCargoGlobal ["ItemRuby", 1];
-		_box addMagazineCargoGlobal ["ItemSapphire", 2];
-		_box addMagazineCargoGlobal ["ItemEmerald", 1];
-		_box addMagazineCargoGlobal ["ItemTopaz", 2];
-		_box addMagazineCargoGlobal ["ItemAmethyst", 2];
-		};
+_gemArray = ["ItemBriefcase100oz","ItemEmerald","ItemSapphire","ItemRuby","ItemEmerald","ItemTopaz","ItemAmethyst"];
+for "_i" from 1 to 16 do
+	{
+		private ["_gemSelected"];
+		_gemSelected = _gemArray call BIS_fnc_selectRandom;
+		_box addMagazineCargoGlobal [_gemSelected, 1];
+	};

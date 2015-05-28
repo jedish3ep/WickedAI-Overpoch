@@ -21,8 +21,8 @@ _box addMagazineCargoGlobal ["PartVRotor", 2];
 _box addMagazineCargoGlobal ["PartWheel", 16];
 
 
-BoxRandomizer=floor(random 1000);
-if (BoxRandomizer == 963) then
+_boxRand=floor(random 100);
+if (_boxRand == 33) then
 	{
 			_box addMagazineCargoGlobal ["ItemHotwireKit", 5];
 	};

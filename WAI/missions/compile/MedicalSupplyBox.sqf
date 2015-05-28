@@ -18,8 +18,8 @@ _box addMagazineCargoGlobal ["FoodCanBakedBeans", 10];
 _box addMagazineCargoGlobal ["ItemAntibiotic", 6];
 _box addMagazineCargoGlobal ["ItemBloodbag", 15];
 
-BoxRandomizer=floor(random 100);
-if (BoxRandomizer == 6) then
+_boxRand=floor(random 100);
+if (_boxRand == 6) then
 	{
 			_box addMagazineCargoGlobal ["ItemHotwireKit", 1];
 	};

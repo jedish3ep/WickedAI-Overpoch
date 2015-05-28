@@ -1,4 +1,4 @@
-private ["_fileName", "_missionType", "_positionarray", "_position", "_missionName", "_difficulty", "_picture", "_missionDesc", "_winMessage", "_failMessage", "_objArray", "_baseHQ", "_tanktraps", "_rndnum", "_missiontimeout", "_cleanmission", "_playerPresent", "_starttime", "_currenttime", "_box", "_box2"];
+private ["_fileName", "_missionType", "_positionarray", "_position", "_missionName", "_difficulty", "_picture", "_missionDesc", "_winMessage", "_failMessage", "_objArray", "_baseHQ", "_tanktraps", "_missiontimeout", "_cleanmission", "_playerPresent", "_starttime", "_currenttime", "_box", "_box2", "_skinArray"];
 
 _fileName = "siege";
 _missionType = "Major Mission";
@@ -33,17 +33,19 @@ majorBldList = majorBldList + [_baseHQ];
 _tanktraps = [_position] call tank_traps;
 
 /* Troops and Turrets */
+_skinArray = ["FR_OHara_DZ","GUE_Soldier_Sniper_DZ","GUE_Soldier_MG_DZ","GUE_Soldier_Crew_DZ"];
 for "_i" from 1 to 4 do
-{
-	private ["_skinArray","_selSkin","_rndnum","_staticPos"];
-	_skinArray = ["FR_OHara_DZ","GUE_Soldier_Sniper_DZ","GUE_Soldier_MG_DZ","GUE_Soldier_Crew_DZ"];
-	_selSkin = _skinArray call BIS_fnc_selectRandom;
-	_rndnum = round (random 3) + 4;
-	[_position,_rndnum,_difficulty,"Random",4,"",_selSkin,"Random","major","WAImajorArray"] call spawn_group;
-	sleep 0.1;
-	_staticPos = _position findEmptyPosition [5,50,"M2StaticMG"];
-	[[_staticPos],"M2StaticMG",0.8,"",1,2,"","Random","major"] call spawn_static;	
-};
+	{
+		private ["_selSkin","_rndnum","_staticPos"];		
+		_selSkin = _skinArray call BIS_fnc_selectRandom;
+		_rndnum = round (random 3) + 4;
+		
+		[_position,_rndnum,_difficulty,"Random",4,"",_selSkin,"Random","major","WAImajorArray"] call spawn_group;
+		sleep 0.1;
+		_staticPos = _position findEmptyPosition [5,50,"M2StaticMG"];
+		sleep 0.1;
+		[[_staticPos],"M2StaticMG",0.8,"",1,2,"","Random","major"] call spawn_static;
+	};
 
 
 _missiontimeout = true;

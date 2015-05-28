@@ -1,4 +1,4 @@
-private ["_fileName", "_missionType", "_missionName", "_difficulty", "_positionarray", "_position", "_vehclass", "_vehname", "_picture", "_missionDesc", "_winMessage", "_failMessage", "_tanktraps", "_veh", "_vehdir", "_objPosition", "_rndnum", "_missiontimeout", "_cleanmission", "_playerPresent", "_starttime", "_currenttime", "_box"];
+private ["_fileName", "_missionType", "_missionName", "_difficulty", "_positionarray", "_position", "_vehclass", "_vehname", "_picture", "_missionDesc", "_winMessage", "_failMessage", "_tanktraps", "_veh", "_vehdir", "_objPosition", "_missiontimeout", "_cleanmission", "_playerPresent", "_starttime", "_currenttime", "_box"];
 
 _fileName = "jewelHeist";
 _missionType = "Major Mission";
@@ -26,6 +26,7 @@ sleep 0.1;
 
 /* Tank Traps */
 _tanktraps = [_position] call tank_traps;
+[_position,10,50,800,"major"] call fn_createWrecks;
 
 /* Armed Vehicle */
 _veh = createVehicle [_vehclass,_position, [], 0, "CAN_COLLIDE"];
@@ -37,18 +38,21 @@ _veh setVariable ["ObjectID","1",true];
 PVDZE_serverObjectMonitor set [count PVDZE_serverObjectMonitor,_veh];
 _veh setVehicleLock "LOCKED";
 _veh setVariable ["R3F_LOG_disabled",true,true];
-diag_log format["WAI: Mission Jewel Heist spawned a %1",_vehname];
 _objPosition = getPosATL _veh;
 
 /* Troops */
-_rndnum = round (random 3) + 3;
-[[_position select 0, _position select 1, 0],_rndnum,_difficulty,"Random",4,"","","Random","major","WAImajorArray"] call spawn_group;sleep 0.1;
-[[_position select 0, _position select 1, 0],4,_difficulty,"Random",4,"","","Random","major","WAImajorArray"] call spawn_group;sleep 0.1;
-[[_position select 0, _position select 1, 0],4,_difficulty,"Random",4,"","","Random","major","WAImajorArray"] call spawn_group;sleep 0.1;
-[[_position select 0, _position select 1, 0],4,_difficulty,"Random",4,"","","Random","major","WAImajorArray"] call spawn_group;sleep 0.1;
 
-/* Static Weapons */
-[[[(_position select 0) + 5, (_position select 1) + 7, 0],[(_position select 0) + 3.33, (_position select 1) - 9.45, 0]],"M2StaticMG",0.8,"",0,2,"","Random","major"] call spawn_static;
+for "_i" from 1 to 3 do 
+	{
+		private ["_rndnum","_staticPos"];
+		
+		_rndnum = round (random 3) + 4;
+		_staticPos = _position findEmptyPosition [5,50,"M2StaticMG"];
+		
+		[_position,_rndnum,_difficulty,"Random",4,"","","Random","major","WAImajorArray"] call spawn_group;
+		[[_staticPos],"M2StaticMG",0.8,"",1,2,"","Random","major"] call spawn_static;
+		sleep 0.1;
+	};
 
 _missiontimeout = true;
 _cleanmission = false;
@@ -85,11 +89,12 @@ if (_playerPresent) then
 		else
 	{
 		clean_running_mission = True;
-		deleteVehicle _veh;
-		["majorclean"] call WAIcleanup;
-		
 		diag_log format["WAI: Mission %1 Timed Out At %2",_fileName,_position];
 		[nil,nil,rTitleText,format["%1",_failMessage], "PLAIN",10] call RE;
+		sleep 30;
+		
+		deleteVehicle _veh;
+		["majorclean"] call WAIcleanup;
 	};
 
 missionrunning = false;

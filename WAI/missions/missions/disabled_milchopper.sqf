@@ -1,4 +1,4 @@
-private ["_fileName", "_missionType", "_position", "_vehclass", "_vehname", "_picture", "_missionName", "_difficulty", "_missionDesc", "_winMessage", "_failMessage", "_tanktraps", "_veh", "_vehdir", "_objPosition", "_rndnum", "_missiontimeout", "_cleanmission", "_playerPresent", "_starttime", "_currenttime", "_box"];
+private ["_fileName", "_missionType", "_position", "_vehclass", "_vehname", "_picture", "_missionName", "_difficulty", "_missionDesc", "_winMessage", "_failMessage", "_tanktraps", "_veh", "_vehdir", "_objPosition", "_missiontimeout", "_cleanmission", "_playerPresent", "_starttime", "_currenttime", "_box"];
 
 _fileName = "disabled_milchopper";
 _missionType = "Major Mission";
@@ -39,11 +39,13 @@ diag_log format["WAI: Mission %1 spawned a %2",_fileName,_vehname];
 _objPosition = getPosATL _veh;
 
 /* Troops */
-_rndnum = round (random 3) + 3;
-[[_position select 0, _position select 1, 0],_rndnum,_difficulty,"Random",4,"","","Random","major","WAImajorArray"] call spawn_group;sleep 0.1;
-[[_position select 0, _position select 1, 0],4,_difficulty,"Random",4,"","","Random","major","WAImajorArray"] call spawn_group;sleep 0.1;
-[[_position select 0, _position select 1, 0],4,_difficulty,"Random",4,"","","Random","major","WAImajorArray"] call spawn_group;sleep 0.1;
-[[_position select 0, _position select 1, 0],4,_difficulty,"Random",4,"","","Random","major","WAImajorArray"] call spawn_group;sleep 0.1;
+for "_i" from 1 to 3 do
+	{
+		private ["_rndnum"];
+		_rndnum = round (random 3) + 4;
+		[_position,_rndnum,_difficulty,"Random",4,"","","Random","major","WAImajorArray"] call spawn_group;
+		sleep 0.1;
+	};
 
 /* Static Weapons */
 [[[(_position select 0), (_position select 1) + 10, 0]],"M2StaticMG",0.8,"",1,2,"","Random","major"] call spawn_static;
@@ -84,11 +86,11 @@ if (_playerPresent) then
 		else
 	{
 		clean_running_mission = True;
-		deleteVehicle _veh;
-		["majorclean"] call WAIcleanup;
-		
 		diag_log format["WAI: Mission %1 Timed Out At %2",_fileName,_position];
 		[nil,nil,rTitleText,format["%1",_failMessage], "PLAIN",10] call RE;
+		sleep 30;
+		deleteVehicle _veh;
+		["majorclean"] call WAIcleanup;
 	};
-
+	
 missionrunning = false;

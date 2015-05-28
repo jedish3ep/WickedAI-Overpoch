@@ -43,21 +43,8 @@ for "_i" from 1 to 3 do
 		sleep 0.1;
 	};
 	
-//Turrets
-[
-	[
-		[(_position select 0) + 10, (_position select 1) + 10, 0],
-		[(_position select 0) + 10, (_position select 1) - 10, 0]
-	], //position(s) (can be multiple).
-	"M2StaticMG",             //Classname of turret
-	0.8,					  //Skill level 0-1. Has no effect if using custom skills
-	"",			  //Skin "" for random or classname here.
-	0,						  //Primary gun set number. "Random" for random weapon set. (not needed if ai_static_useweapon = False)
-	2,						  //Number of magazines. (not needed if ai_static_useweapon = False)
-	"",						  //Backpack "" for random or classname here. (not needed if ai_static_useweapon = False)
-	"Random",				  //Gearset number. "Random" for random gear set. (not needed if ai_static_useweapon = False)
-	"major"
-] call spawn_static;
+/* Turrets */
+[[[(_position select 0) + 10, (_position select 1) + 10, 0],[(_position select 0) + 10, (_position select 1) - 10, 0]],"M2StaticMG",0.8,"",0,2,"","Random","major"] call spawn_static;
 
 _missiontimeout = true;
 _cleanmission = false;
@@ -94,10 +81,11 @@ if (_playerPresent) then
 		else
 	{
 		clean_running_mission = True;
-		deleteVehicle _veh;
-		["majorclean"] call WAIcleanup;
-		
 		diag_log format["WAI: Mission %1 Timed Out At %2",_fileName,_position];
 		[nil,nil,rTitleText,format["%1",_failMessage], "PLAIN",10] call RE;
+		sleep 30;
+		deleteVehicle _veh;
+		["majorclean"] call WAIcleanup;
 	};
+
 missionrunning = false;
