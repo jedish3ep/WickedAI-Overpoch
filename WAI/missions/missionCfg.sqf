@@ -11,7 +11,7 @@
 			"disabled_milchopper",
 			"fobAardvark",
 			"jewelheist",
-			"mayors_mansion",
+			"osamaCompound",
 			"milCamp",
 			"milVeh",
 			"MV22",

@@ -22,6 +22,8 @@ sleep 0.1;
 _rndnum = round (random 3) + 5;
 [_position,_rndnum,_difficulty,"Random",4,"","","Random","minor","WAIminorArray"] call spawn_group;
 
+[_position,4,100,false,"minor"] call fn_ammoboxes;
+
 _missiontimeout = true;
 _cleanmission = false;
 _playerPresent = false;

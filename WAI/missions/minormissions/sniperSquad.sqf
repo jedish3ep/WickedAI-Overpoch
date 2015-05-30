@@ -39,16 +39,8 @@ if (_playerPresent) then
 	{
 		[_position,"WAIminorArray"] call missionComplete;	
 
-		for "_i" from 1 to 3 do 
-			{
-				private ["_a1Box","_a1Pos"];
-				
-				_a1Pos = _position findEmptyPosition [5,50,"AmmoBoxSmall_762"];
-				_a1Box = createVehicle ["AmmoBoxSmall_762",_a1Pos, [], 0, "CAN_COLLIDE"];
-				[_a1Box] call markCrates;
-				sleep 0.1;
-			};
-
+		[_position,5,100,true,"minor"] call fn_ammoboxes;
+		
 		diag_log format["WAI: Mission %1 Ended At %2",_missionName,_position];
 		[nil,nil,rTitleText,format["%1",_winMessage], "PLAIN",10] call RE;
 

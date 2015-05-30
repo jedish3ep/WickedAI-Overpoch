@@ -22,6 +22,7 @@ sleep 0.1;
 /* create the compound */
 _baserunover = createVehicle ["Land_A_Villa_EP1",[(_position select 0), (_position select 1),0],[], 0, "CAN_COLLIDE"];
 majorBldList = majorBldList + [_baserunover];
+[_position,4,300,false,"major"] call fn_ammoboxes;
 
 /* Troops */
 _skinArray = ["TK_INS_Soldier_EP1_DZ","TK_GUE_Soldier_Sniper_EP1","TK_GUE_Warlord_EP1","TK_GUE_Soldier_HAT_EP1","TK_Special_Forces_EP1","TK_INS_Soldier_AT_EP1"];

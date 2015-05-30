@@ -1,8 +1,10 @@
-// fn_missionComplete.sqf
-// used to ensure 75% of AI are killed before allowing mission to complete
-// adapted from DZMS function by JakeHekesFists[DMD]
-// https://github.com/SMVampire/DZMS-DayZMissionSystem/blob/master/DZMS/DZMSFunctions.sqf
-// credits to Vampire
+/* 
+	fn_missionComplete.sqf
+	used to ensure 75% of AI are killed before allowing mission to complete
+	adapted from DZMS function by JakeHekesFists[DMD]
+	https://github.com/SMVampire/DZMS-DayZMissionSystem/blob/master/DZMS/DZMSFunctions.sqf
+	credits to Vampire
+*/
 
 private["_position","_unitArray","_numSpawned","_numKillReq"];
 

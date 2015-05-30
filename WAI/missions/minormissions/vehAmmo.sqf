@@ -94,15 +94,7 @@ if (_playerPresent) then
 				[_box1] call markCrates;
 			};
 		
-		for "_i" from 1 to 4 do 
-			{
-				private ["_a1Box","_a1Pos"];
-				
-				_a1Pos = _position findEmptyPosition [5,50,"AmmoBoxSmall_762"];
-				_a1Box = createVehicle ["AmmoBoxSmall_762",_a1Pos, [], 0, "CAN_COLLIDE"];
-				[_a1Box] call markCrates;
-				sleep 0.1;
-			};
+		[_position,3,100,false,"minor"] call fn_ammoboxes;
 			
 		uiSleep 300;
 		["minorclean"] call WAIcleanup;

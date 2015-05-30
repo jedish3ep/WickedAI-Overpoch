@@ -26,7 +26,7 @@ sleep 0.1;
 
 /* Tank Traps */
 _tanktraps = [_position] call tank_traps;
-[_position,10,50,800,"major"] call fn_createWrecks;
+[_position,10,15,800,"major"] call fn_createWrecks;
 
 /* Armed Vehicle */
 _veh = createVehicle [_vehclass,_position, [], 0, "CAN_COLLIDE"];

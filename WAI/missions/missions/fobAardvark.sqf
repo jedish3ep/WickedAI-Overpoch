@@ -46,6 +46,8 @@ _base12 setDir 90;
 _base = [_base1,_base2,_base3,_base4,_base5,_base6,_base7,_base8,_base9,_base10,_base11,_base12];
 { majorBldList = majorBldList + [_x]; } forEach _base;
 
+[_position,4,50,false,"major"] call fn_ammoboxes;
+
 /* Troops */
 for "_i" from 1 to 4 do
 	{

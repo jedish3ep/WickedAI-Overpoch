@@ -49,6 +49,8 @@ _base = [_baserunover,_baserunover1,_baserunover2,_baserunover3,_baserunover4,_b
 { majorBldList = majorBldList + [_x]; } forEach _base;
 { _x setVectorUp surfaceNormal position _x; } count _base;
 
+[_position,4,150,false,"major"] call fn_ammoboxes;
+
 
 // ARMOURED VEHICLE
 _veh = createVehicle [_vehclass,[(_position select 0) + 6.8516,(_position select 1) + 14.3345,0], [], 0, "CAN_COLLIDE"];

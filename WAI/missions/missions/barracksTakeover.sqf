@@ -25,6 +25,7 @@ sleep 0.1;
 /* Scenery */
 [_position,6,25,200,"major"] call fn_createWrecks;
 _tanktraps = [_position] call tank_traps;
+[_position,4,125,false,"major"] call fn_ammoboxes;
 
 /* Troops */
 for "_i" from 1 to 3 do

@@ -25,7 +25,7 @@ sleep 0.1;
 /* Scenery */
 _tent = createVehicle ["USMC_WarfareBFieldHospital",[(_position select 0) - 20,(_position select 1) - 20,0], [], 0, "CAN_COLLIDE"];
 majorBldList = majorBldList + [_tent];
-
+[_position,3,500,false,"major"] call fn_ammoboxes;
 [_position,6,10,500,"major"] call fn_createWrecks;
 
 /* Osprey */

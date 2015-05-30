@@ -20,6 +20,7 @@ fn_parseHint = 					compile preprocessFileLineNumbers "\z\addons\dayz_server\WAI
 fn_tempStarter = 				compile preprocessFileLineNumbers "\z\addons\dayz_server\WAI\compile\fn_tempStarter.sqf";
 fn_createWrecks = 				compile preprocessFileLineNumbers "\z\addons\dayz_server\WAI\compile\fn_createWrecks.sqf";
 fn_bombArea = 					compile preprocessFileLineNumbers "\z\addons\dayz_server\WAI\compile\fn_bombArea.sqf";
+fn_ammoboxes = 					compile preprocessFileLineNumbers "\z\addons\dayz_server\WAI\compile\fn_ammoboxes.sqf";
 
 /* 3rd Party Functions */
 //cache_units	=				compile preprocessFileLineNumbers "\z\addons\dayz_server\WAI\compile\cache_units.sqf";

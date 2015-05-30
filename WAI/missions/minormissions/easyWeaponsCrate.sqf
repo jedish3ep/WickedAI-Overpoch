@@ -56,16 +56,7 @@ if (_playerPresent) then
 		[_box] call easyGunCrate;
 		[_box] call markCrates;		// mark crates with smoke/flares
 
-		for "_i" from 1 to 2 do 
-			{
-				private ["_a1Box","_a2Box","_a1Pos","_a2Pos"];
-				
-				_a1Pos = _position findEmptyPosition [5,50,"AmmoBoxSmall_762"];
-				_a1Box = createVehicle ["AmmoBoxSmall_762",_a1Pos, [], 0, "CAN_COLLIDE"];
-				_a2Pos = _position findEmptyPosition [5,50,"AmmoBoxSmall_556"];
-				_a2Box = createVehicle ["AmmoBoxSmall_556",_a2Pos, [], 0, "CAN_COLLIDE"];
-				sleep 0.1;
-			};
+		[_position,4,100,false,"minor"] call fn_ammoboxes;		
 		
 		diag_log format["WAI: Mission %1 Ended At %2",_fileName,_position];
 		[nil,nil,rTitleText,format["%1",_winMessage], "PLAIN",10] call RE;
